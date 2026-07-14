@@ -1,23 +1,25 @@
 # VACSKILLS — One Skill, Any Agent
 
-**v1.0.0** · [Changelog](CHANGELOG.md) · Windows-first, plain markdown, zero dependencies
+**v1.0.1** · [Changelog](CHANGELOG.md) · plain markdown · zero dependencies · MIT
 
 Hit a usage limit on one AI agent → open another → say `VACSKILL SET` →
 work continues exactly where it stopped. Claude Code, OpenCode, Gemini,
 Codex, Aider — one brain, interchangeable hands.
 
-Whole system = **2 files**:
+Whole system = **2 files** (this repo, wherever you clone it):
 
 ```
-_VACSKILLS\
-  VAC\SKILL.md   the system: commands, memory, work loop, quality gates
-  VAC\UI.md      mandatory UI theme (Win95 dark golden, Verdana no-AA)
+vacskills/
+  VAC/SKILL.md   the system: commands, memory, work loop, quality gates
+  VAC/UI.md      mandatory UI theme (Win95 dark golden, Verdana no-AA)
+  README.md      you are here
 ```
 
-Plus per-project memory that VAC creates itself:
+Plus per-project memory that VAC creates itself inside each project you
+work on:
 
 ```
-<project>\.vac\
+your-project/.vac/
   STATE.md   where work stands + handoff + next action   (rewritten)
   BOARD.md   tickets: TODO / DOING / DONE                (rewritten)
   LOG.md     decisions, runs, verdicts — append-only     (never rewritten)
@@ -33,24 +35,46 @@ ever.
 
 ## Install
 
-**Claude Code** (native skill, run once):
+Get it (anywhere you like — everything below works from any location):
+```
+git clone https://github.com/vacterro/vacskills
+cd vacskills
+```
+
+**Claude Code** — link the skill once; edits to your clone apply instantly:
+
+Windows (PowerShell, from the clone dir):
 ```powershell
 $dst="$env:USERPROFILE\.claude\skills"
 New-Item -ItemType Directory -Force $dst | Out-Null
-cmd /c mklink /J "$dst\VAC" "V:\___VAC\__K\__CODE\_AI_STUFF_AGENTIC\_VACSKILLS\VAC"
+cmd /c mklink /J "$dst\VAC" "$((Resolve-Path .\VAC).Path)"
 ```
-Junction = edit source once, everything updates.
-
-**OpenCode** — reads project `AGENTS.md` natively; the block VAC writes on
-init is enough. Nothing to install.
-
-**Gemini CLI / AI Pro** — reads `GEMINI.md`; VAC creates it on init. For
-chat-only Gemini paste the fallback line below.
-
-**Anything else (OpenRouter tools: Cline, Aider, custom)** — universal
-fallback, works on any agent with file access:
+macOS / Linux (from the clone dir):
+```bash
+mkdir -p ~/.claude/skills
+ln -s "$(pwd)/VAC" ~/.claude/skills/VAC
 ```
-Read V:\___VAC\__K\__CODE\_AI_STUFF_AGENTIC\_VACSKILLS\VAC\SKILL.md and follow it.
+
+**OpenCode** — supports the same trick into `~/.config/opencode/skills/vac`,
+or skip: it reads the project `AGENTS.md` block that VAC writes on first
+init. Zero setup either way.
+
+**Codex CLI** — link into `~/.codex/skills/vac` the same way, or rely on
+the `AGENTS.md` block.
+
+**Gemini CLI / AI Pro** — reads `GEMINI.md`, which VAC creates per project
+on init. Nothing global needed.
+
+**Aider** — add to `~/.aider.conf.yml`:
+```yaml
+read:
+  - /absolute/path/to/your/clone/VAC/SKILL.md
+```
+
+**Anything else** (Cline, OpenRouter wrappers, custom agents) — universal
+fallback, works on any agent that can read files. Paste one line:
+```
+Read <path-to-your-clone>/VAC/SKILL.md and follow it.
 ```
 
 ## How to use — scenarios
@@ -92,9 +116,9 @@ Just ask normally. VAC skips ceremony for ≤2-file obvious changes — edit,
 verify, one LOG line.
 
 **Any UI work**
-Automatic: UI.md theme enforced — dark golden Win95, Verdana forced
-non-antialiased, pixel bevels, zero animation, 640×480-compact. Canonical
-ref: `_ref\vintage\SKILL.md`.
+Automatic: [VAC/UI.md](VAC/UI.md) theme enforced — dark golden Win95,
+Verdana forced non-antialiased, pixel bevels, zero animation,
+640×480-compact. Tokens + base CSS included, self-sufficient.
 
 **Chat style**
 Automatic caveman on every platform: compressed terse output, ~65% fewer

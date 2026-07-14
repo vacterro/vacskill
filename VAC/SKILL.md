@@ -108,14 +108,15 @@ Re-verify that ticket's files before continuing; finish or reset it.
 Handoff section = luxury; checkpoints = lifeline.
 
 **Init** (no `.vac/`): create the 3 files; ensure project-root `AGENTS.md`
-contains block (search `VAC:BEGIN` first, never duplicate):
+contains block (search `VAC:BEGIN` first, never duplicate). `<VAC_HOME>` =
+absolute path of the folder containing THIS SKILL.md — resolve it when
+writing the block, never leave the placeholder:
 ```md
 <!-- VAC:BEGIN -->
 ## VAC protocol (any agent)
 Memory: .vac/ here. Read .vac/STATE.md before work; update before stop.
-On "VACSKILL SET": read
-V:\___VAC\__K\__CODE\_AI_STUFF_AGENTIC\_VACSKILLS\VAC\SKILL.md and follow it.
-UI work: also obey VAC\UI.md (Win95 dark golden, Verdana, no antialiasing).
+On "VACSKILL SET": read <VAC_HOME>/SKILL.md and follow it.
+UI work: also obey <VAC_HOME>/UI.md (Win95 dark golden, Verdana, no AA).
 <!-- VAC:END -->
 ```
 `CLAUDE.md` / `GEMINI.md` missing → create each: `Read AGENTS.md and obey its

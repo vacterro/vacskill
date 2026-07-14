@@ -6,3 +6,5 @@
 - 2026-07-15 [T-004] RUN: gh repo create vacterro/vacskills --public --push -> PASS
 - 2026-07-15 [T-004] RUN: git ls-remote origin main -> 39a5ece PASS
 - 2026-07-15 [T-004] RUN: ship v1.0.0 -> pushed 39a5ece
+- 2026-07-15 [T-005] RUN: grep personal paths (V:\___VAC|vac34) -> clean PASS
+- 2026-07-15 [T-005] RUN: ship v1.0.1 -> portable docs + LICENSE

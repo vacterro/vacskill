@@ -1,8 +1,8 @@
 # VAC UI — Dark Golden Win95 (mandatory for all UI work)
 
 Applies to every interface: web, app, panel, dialog, HTML report, TUI.
-Canonical full spec: `V:\___VAC\__K\__CODE\_AI_STUFF_AGENTIC\_ref\vintage\SKILL.md`
-(read when present); this file is the self-sufficient core.
+This file is self-sufficient. (Author's machine keeps an extended spec at
+`_ref\vintage\SKILL.md` — read it only if it exists; never required.)
 
 ## Iron laws
 
