@@ -19,7 +19,7 @@ Any agent, same three memory files, same loop. Limit hit on one agent →
 
 | Say | Effect |
 |---|---|
-| `VACSKILL SET` / `vac` | Resume from `.vac/` (init if missing). Board done → HUNT |
+| `VACSKILL SET` / `vac set` / `vac` | Resume from `.vac/` (init if missing). Board done → HUNT |
 | `vac <goal>` | Init if needed, plan goal, work |
 | `vac stop` | Write handoff, tell user switch phrase |
 | `vac status` | Report state, change nothing |

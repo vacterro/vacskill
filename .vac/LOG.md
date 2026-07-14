@@ -11,3 +11,4 @@
 - 2026-07-15 [T-006] DEC: rewrite SKILL.md — loop caps, PUBLISH opt-in gating, HUNT clean-skip, token discipline, 218->169 lines
 - 2026-07-15 [T-006] RUN: structure grep (sections+caps+gating) -> PASS, 169 lines
 - 2026-07-15 [T-007] RUN: ship v1.1.0 -> pushing
+- 2026-07-15 [T-008] RUN: ship v1.1.0a -> alias 'vac set' official
