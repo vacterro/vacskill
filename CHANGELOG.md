@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0 — 2026-07-15
+- loop caps (3 hypotheses / 2 fix cycles / 2 gate passes → BLOCKED, never spin); PUBLISH opt-in only (no auto-push of user projects); HUNT skips unchanged-clean repos; runtime token discipline section; unified checkpoint doctrine; 218→169 lines
+
 ## 1.0.1 — 2026-07-15
 - portable install: clone-anywhere paths, macOS/Linux symlinks; MIT LICENSE; SKILL.md init block uses <VAC_HOME> instead of hardcoded path
 

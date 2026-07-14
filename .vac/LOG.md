@@ -8,3 +8,6 @@
 - 2026-07-15 [T-004] RUN: ship v1.0.0 -> pushed 39a5ece
 - 2026-07-15 [T-005] RUN: grep personal paths (V:\___VAC|vac34) -> clean PASS
 - 2026-07-15 [T-005] RUN: ship v1.0.1 -> portable docs + LICENSE
+- 2026-07-15 [T-006] DEC: rewrite SKILL.md — loop caps, PUBLISH opt-in gating, HUNT clean-skip, token discipline, 218->169 lines
+- 2026-07-15 [T-006] RUN: structure grep (sections+caps+gating) -> PASS, 169 lines
+- 2026-07-15 [T-007] RUN: ship v1.1.0 -> pushing
