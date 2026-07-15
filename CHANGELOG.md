@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.0 — 2026-07-15
+- one-shot injectors inject.ps1 + inject.sh: auto-detect and wire all agentic systems (Claude Code, OpenCode, Codex, Gemini, Antigravity plugins, Aider), idempotent re-runs
+
 ## 1.1.5 — 2026-07-15
 - chat voice = дед-caveman fusion: caveman compression + grandpa wit/мат/аналогии, clarity sacred; LOG persona unchanged
 

@@ -41,6 +41,26 @@ git clone https://github.com/vacterro/vacskills
 cd vacskills
 ```
 
+### One-shot injector (recommended)
+
+Installs VAC as the default protocol on every agentic system found on the
+machine — Claude Code, OpenCode, Codex, Gemini/Antigravity, Aider.
+Idempotent: re-run any time (e.g. after `git pull` to refresh Antigravity
+copies); already-installed systems are skipped.
+
+Windows:
+```powershell
+powershell -ExecutionPolicy Bypass -File .\inject.ps1
+```
+macOS / Linux:
+```bash
+bash inject.sh
+```
+Prints a per-system report, then: open any project in any agent and say
+`VACSKILL SET`. Done.
+
+### Manual install (per system)
+
 **Claude Code** — link the skill once; edits to your clone apply instantly:
 
 Windows (PowerShell, from the clone dir):
