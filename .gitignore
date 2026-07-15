@@ -1,4 +1,5 @@
 .vacskill/tmp/
+.vacskill/history/
 .vac/tmp/
 *.bak
 .DS_Store

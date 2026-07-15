@@ -1,6 +1,6 @@
 # vacskill — One Skill. Any Agent. Zero Amnesia.
 
-**v3.0.0** · [Changelog](CHANGELOG.md) · plain markdown · zero dependencies · MIT
+**v3.1.0** · [Changelog](CHANGELOG.md) · plain markdown · zero dependencies · MIT
 
 Your AI agent died mid-work. Again. And the next one greets you with
 "So, tell me about your project!" like some intern on day one. To hell
@@ -104,6 +104,12 @@ Gorgeous.
 - Two agents, one project → takeover guard asks before grabbing the wheel.
 - Versions grow slow and honest: `3.1.0 → 3.1.0a` micro, `3.2.1` little,
   `3.2.0` feature. No jumping to v9 because the README got a new emoji.
+- Every shipped state is tagged and recoverable forever — `git show
+  v1.0.0:vacskill/SKILL.md` hands you the ancient one, no archive folders
+  rotting in the tree. Your project memory rides the same rails: it's
+  committed, so `git show <rev>:.vacskill/STATE.md` rewinds any day of work.
+- The protocol polices its own waistline: capped at ~250 lines, new rule
+  must evict a stale one. Bloat IS the drift it warns about.
 
 ## Upgrading from VAC (pre-3.0)
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.0 — 2026-07-15
+- anti-drift: STYLE.md Persistence section (voice holds every response, no revert after many turns) + protocol loads it upfront; git tags as release archive (all 17 past versions tagged retroactively); memory backup rule for non-git projects; self-imposed ~250-line cap — SKILL.md compressed 281 → 249 with zero rules lost
+
 ## 3.0.0 — 2026-07-15
 - BREAKING: renamed VAC → vacskill everywhere — skill name, folder, memory dir (.vac/ → .vacskill/), pointer blocks (VACSKILL:BEGIN), repo (github.com/vacterro/vacskill). Short alias `vac` still works for every command. Injector migrates pre-3.0 installs automatically; in projects run `git mv .vac .vacskill`
 
