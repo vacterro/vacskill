@@ -11,3 +11,10 @@
   durable truth lives in architecture/conventions/decisions/traps files.
 - FreeBuff-class readers (~/.agents/skills): need lowercase dir + real copy,
   skip junctions and uppercase names. Injector copies, never links there.
+- v2.1.0 accepted from review: confidence on verified tickets, graph mode
+  over needs: DAG, KNOWLEDGE index rule, status metrics. REJECTED for now:
+  agents/ manifest files and .vac/metrics.md file (both belong to a future
+  external Python orchestrator, not to the skill — LLM-maintained metrics
+  files drift into fiction). Next evolution direction: small orchestrator
+  reading BOARD needs: DAG and dispatching agents; SKILL.md then becomes
+  the worker contract, not the top document.

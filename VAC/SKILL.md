@@ -25,7 +25,7 @@ UI.md.
 | `VACSKILL SET` / `vac set` / `vac` | Resume `.vac/` (init if none). Board done → HUNT |
 | `vac <goal>` | Init if needed → PLAN → work |
 | `vac stop` | Checkpoint + handoff, announce switch phrase |
-| `vac status` | Report state, change nothing |
+| `vac status` | Report state + quick metrics (done/blocked, FAIL rate from LOG), change nothing |
 | `vac ship` | REVIEW gate → green → PUBLISH |
 | `vac fix <symptom>` | Straight to VERIFY/debug |
 
@@ -67,6 +67,12 @@ Flags after verify: `[P]` parallel-safe · `ui` (UI.md applies) · `perf` ·
 deliberate act: move the ticket AND log a DEC line why. An agent that
 "prefers" another task first is broken.
 
+**Graph mode (several agents at once):** `needs:` forms the DAG. Each
+agent claims one unblocked `[P]` ticket by writing `owner: <name>` on it +
+a LOG claim line; first claim in LOG wins conflicts. Work only your
+ticket's files; checkpoint normally. A join ticket (`needs:` all branches)
+re-runs full VERIFY after merge.
+
 ### LOG.md — journal only
 
 `- <DD.MM.YY HH:mm> [T-###] DEC|RUN|H: <one line, ≤120 chars>`
@@ -85,7 +91,8 @@ traps.md          bugs that bit, gotchas, flaky zones, env quirks
 ```
 Create each file at first real content — no empty placeholders. SCOUT
 reads KNOWLEDGE/ before re-scouting the repo: knowledge is cheaper than
-rediscovery. Plain professional prose (STYLE.md).
+rediscovery. Plain professional prose (STYLE.md). Past 4 files or any file
+~200 lines → add `index.md`: topic → file:line pointers.
 
 ## Switch protocol
 
@@ -154,6 +161,9 @@ the minimum; LOG every result. New nontrivial logic → test in repo style
 failed pre-fix. GUI/env unverifiable → LOG `RUN: MANUAL-VERIFY <steps +
 expected>`, never fake a pass. Flaky = flips without code change → find
 timing/state cause or quarantine ticket; never green on retry-luck.
+Close with confidence: `(verified: <check> PASS, conf: high|med|low)` —
+high = real tests green; med = smoke/import only; low = MANUAL-VERIFY or
+env-limited. Low conf → next agent re-verifies before building on it.
 
 **Debug** (on FAIL) — reproduce exactly, quote one decisive error line →
 cheap suspects first (`git log -5 --stat`, config, env, the file the

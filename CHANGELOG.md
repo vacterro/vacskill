@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.0 — 2026-07-15
+- verify confidence (high/med/low) on DONE tickets; graph mode: parallel agents claim [P] tickets over needs: DAG; KNOWLEDGE index.md rule; vac status quick metrics
+
 ## 2.0.0 — 2026-07-15
 - protocol/personality split: SKILL.md cold protocol + new STYLE.md (voices); SCOUT and REVIEW promoted to phases (PLAN→SCOUT→BUILD→VERIFY→REVIEW→SHIP); KNOWLEDGE/ base (architecture/conventions/decisions/traps) — LOG is journal only; BOARD needs: dependencies + no-free-will pick rule; minimal STATE; FreeBuff fix: lowercase copy (readers skip junctions/uppercase)
 
