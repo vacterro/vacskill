@@ -22,3 +22,7 @@
 - 15.07.26 06:15 [T-015] RUN: inject.ps1 live test -> 8x already + 2 Antigravity refreshed, идемпотентный как рубильник PASS
 - 15.07.26 06:20 [T-015] RUN: ship v1.2.0 -> injector родился: одна команда и VAC везде хозяин, красота
 - 15.07.26 06:40 [T-016] RUN: ship v1.2.1 -> README теперь дед по-английски базарит: коротко, красиво, пятилетка поймёт, prohvessor одобрит
+- 15.07.26 07:05 [T-017] H: FreeBuff не читает VAC -> confirmed: копия с убитой кодировкой (в†' вместо стрелок), frontmatter битый
+- 15.07.26 07:10 [T-017] RUN: junction ~/.agents/skills/VAC -> encoding чистый, 211 строк, PASS
+- 15.07.26 07:12 [T-017] RUN: inject.ps1 re-run -> 9x already + 2 Antigravity refresh, новый путь в строю
+- 15.07.26 07:15 [T-017] RUN: ship v1.2.2 -> FreeBuff в семье, кракозябры на помойке

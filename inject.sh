@@ -41,6 +41,8 @@ echo "------------------------------------------------------------"
                                 || printf '%-28s %s\n' "Codex" "not installed - skip"
 [ -d "$HOME/.gemini" ]          && printf '%-28s %s\n' "Gemini GEMINI.md"        "$(add_block "$HOME/.gemini/GEMINI.md")" \
                                 || printf '%-28s %s\n' "Gemini" "not installed - skip"
+[ -d "$HOME/.agents/skills" ]   && printf '%-28s %s\n' "~/.agents skills"        "$(add_link "$HOME/.agents/skills/VAC")" \
+                                || printf '%-28s %s\n' "~/.agents" "not installed - skip"
 
 if command -v aider >/dev/null 2>&1; then
   A="$HOME/.aider.conf.yml"

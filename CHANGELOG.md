@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.2 — 2026-07-15
+- injectors detect generic ~/.agents/skills (FreeBuff etc.); fixed broken-encoding stale copy there
+
 ## 1.2.1 — 2026-07-15
 - README rewritten: ded-caveman English voice, ELI5 usage guide, half the size, twice the punch
 

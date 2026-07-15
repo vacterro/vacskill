@@ -72,6 +72,11 @@ if (Test-Path "$h\.gemini") {
   [void]$report.Add(@("Gemini GEMINI.md", (Add-Block "$h\.gemini\GEMINI.md")))
 } else { [void]$report.Add(@("Gemini", "not installed - skip")) }
 
+# --- Generic ~/.agents/skills (FreeBuff and friends) ---
+if (Test-Path "$h\.agents\skills") {
+  [void]$report.Add(@("~/.agents skills", (Add-Junction "$h\.agents\skills\VAC")))
+} else { [void]$report.Add(@("~/.agents", "not installed - skip")) }
+
 # --- Antigravity plugins (copy: IDE locks dirs, junction impossible while open) ---
 $plugRoot = "$h\.gemini\config\plugins"
 if (Test-Path $plugRoot) {
