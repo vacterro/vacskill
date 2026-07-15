@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.0a — 2026-07-15
+- drop _archive_versions/ — identical twins of v1.2.2, already served by tags (`git show v1.2.2:VAC/SKILL.md`)
+
 ## 3.1.0 — 2026-07-15
 - anti-drift: STYLE.md Persistence section (voice holds every response, no revert after many turns) + protocol loads it upfront; git tags as release archive (all 17 past versions tagged retroactively); memory backup rule for non-git projects; self-imposed ~250-line cap — SKILL.md compressed 281 → 249 with zero rules lost
 
