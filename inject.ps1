@@ -17,7 +17,7 @@ $block = @"
 <!-- VAC:BEGIN -->
 ## VAC protocol (global)
 On "VACSKILL SET" / "vac ..." commands, or when project root contains .vac/:
-read $VacHome\SKILL.md and follow it.
+read $VacHome\SKILL.md + $VacHome\STYLE.md and follow them.
 Memory: .vac/ at project root - read .vac/STATE.md before work; checkpoint
 BOARD + STATE after every ticket, LOG line after every run.
 Path missing (new machine)? clone github.com/vacterro/vacskills.
@@ -72,9 +72,17 @@ if (Test-Path "$h\.gemini") {
   [void]$report.Add(@("Gemini GEMINI.md", (Add-Block "$h\.gemini\GEMINI.md")))
 } else { [void]$report.Add(@("Gemini", "not installed - skip")) }
 
-# --- Generic ~/.agents/skills (FreeBuff and friends) ---
+# --- Generic ~/.agents/skills (FreeBuff etc.) ---
+# Copy, lowercase: these readers skip junctions and uppercase dirs.
 if (Test-Path "$h\.agents\skills") {
-  [void]$report.Add(@("~/.agents skills", (Add-Junction "$h\.agents\skills\VAC")))
+  $old = "$h\.agents\skills\VAC"
+  if ((Test-Path $old) -and (Get-Item $old -Force).LinkType) {
+    cmd /c rmdir "$old" | Out-Null   # remove junction only, never a real dir
+  }
+  $dst = "$h\.agents\skills\vac"
+  if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force $dst | Out-Null }
+  Copy-Item (Join-Path $VacHome "SKILL.md"),(Join-Path $VacHome "UI.md"),(Join-Path $VacHome "STYLE.md") $dst -Force
+  [void]$report.Add(@("~/.agents skills", "copied as 'vac' (re-run after updates)"))
 } else { [void]$report.Add(@("~/.agents", "not installed - skip")) }
 
 # --- Antigravity plugins (copy: IDE locks dirs, junction impossible while open) ---
@@ -85,7 +93,7 @@ if (Test-Path $plugRoot) {
     if (Test-Path $skillsDir) {
       $dst = Join-Path $skillsDir "VAC"
       if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force $dst | Out-Null }
-      Copy-Item (Join-Path $VacHome "SKILL.md"),(Join-Path $VacHome "UI.md") $dst -Force
+      Copy-Item (Join-Path $VacHome "SKILL.md"),(Join-Path $VacHome "UI.md"),(Join-Path $VacHome "STYLE.md") $dst -Force
       [void]$report.Add(@("Antigravity [$($_.Name)]", "copied (re-run injector after VAC updates)"))
     }
   }

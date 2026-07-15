@@ -26,3 +26,8 @@
 - 15.07.26 07:10 [T-017] RUN: junction ~/.agents/skills/VAC -> encoding чистый, 211 строк, PASS
 - 15.07.26 07:12 [T-017] RUN: inject.ps1 re-run -> 9x already + 2 Antigravity refresh, новый путь в строю
 - 15.07.26 07:15 [T-017] RUN: ship v1.2.2 -> FreeBuff в семье, кракозябры на помойке
+- 15.07.26 08:05 [T-018] DEC: критика принята — протокол и личность развелись, SCOUT/REVIEW стали фазами, KNOWLEDGE/ родился -> KNOWLEDGE/decisions.md
+- 15.07.26 08:10 [T-018] H: FreeBuff не видит VAC -> confirmed: читает только lowercase копии, junctions игнорит как тёща советы
+- 15.07.26 08:12 [T-018] RUN: inject.ps1 -> vac lowercase copy в .agents, 3 файла, кодировка чистая PASS
+- 15.07.26 08:15 [T-018] RUN: ship v2.0.0 -> конституцию распилили на протокол и балалайку, обе тоньше и злее
+- 15.07.26 08:15 [T-018] хайку: Дед съехал в STYLE / протокол стал холодным / оба довольны (mõlemad — оба)

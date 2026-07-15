@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0 — 2026-07-15
+- protocol/personality split: SKILL.md cold protocol + new STYLE.md (voices); SCOUT and REVIEW promoted to phases (PLAN→SCOUT→BUILD→VERIFY→REVIEW→SHIP); KNOWLEDGE/ base (architecture/conventions/decisions/traps) — LOG is journal only; BOARD needs: dependencies + no-free-will pick rule; minimal STATE; FreeBuff fix: lowercase copy (readers skip junctions/uppercase)
+
 ## 1.2.2 — 2026-07-15
 - injectors detect generic ~/.agents/skills (FreeBuff etc.); fixed broken-encoding stale copy there
 

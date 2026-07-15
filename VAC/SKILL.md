@@ -1,245 +1,245 @@
 ---
 name: VAC
 description: >
-  Unified cross-agent work system. Use on "VACSKILL SET", "vac", "vac <goal>",
-  "vac stop", "vac status", "vac ship", when resuming earlier work, or any
-  multi-step coding task in a project containing .vac/. One loop
-  (PLAN → BUILD → CHECK → SHIP) with persistent .vac/ memory so any agent —
-  Claude Code, OpenCode, Gemini, OpenRouter tools — continues another agent's
-  work seamlessly. For UI work also read UI.md next to this file (mandatory
-  Win95 dark golden theme, Verdana non-antialiased).
+  Cross-agent work protocol. Trigger on "VACSKILL SET", "vac set", "vac",
+  "vac <goal>", "vac stop", "vac status", "vac ship", "vac fix <symptom>",
+  when resuming earlier work, or any multi-step task in a project containing
+  .vac/. Phases PLAN → SCOUT → BUILD → VERIFY → REVIEW → SHIP over
+  persistent .vac/ memory: any agent (Claude Code, OpenCode, Codex, Gemini,
+  others) continues another agent's work without context loss. Companions
+  next to this file: STYLE.md (writing voices — load together with this),
+  UI.md (load only for UI work).
 ---
 
-# VAC — One System
+# VAC Protocol
 
-Any agent, same three memory files, same loop. Limit hit on one agent →
-`VACSKILL SET` on another → resumes exactly where work stopped.
+Memory owns the project; the model is a temporary worker. Every agent
+reads the same `.vac/`, continues, writes back. Chat history is not
+memory. This file is cold protocol — voices live in STYLE.md, theme in
+UI.md.
 
 ## Commands
 
-| Say | Effect |
+| Say | Do |
 |---|---|
-| `VACSKILL SET` / `vac set` / `vac` | Resume from `.vac/` (init if missing). Board done → HUNT |
-| `vac <goal>` | Init if needed, plan goal, work |
-| `vac stop` | Write handoff, tell user switch phrase |
+| `VACSKILL SET` / `vac set` / `vac` | Resume `.vac/` (init if none). Board done → HUNT |
+| `vac <goal>` | Init if needed → PLAN → work |
+| `vac stop` | Checkpoint + handoff, announce switch phrase |
 | `vac status` | Report state, change nothing |
-| `vac ship` | SHIP gate → green: version + changelog + push GitHub |
-| `vac fix <symptom>` | Straight to CHECK/debug |
+| `vac ship` | REVIEW gate → green → PUBLISH |
+| `vac fix <symptom>` | Straight to VERIFY/debug |
 
-## Memory — 3 files in `.vac/` at project root
+## Memory — `.vac/` at project root
 
-**One doctrine: checkpoint as you go.** Dying agent gets no goodbye turn.
-- Ticket finished → tick BOARD + rewrite STATE `next_action` NOW
-- Run/decision happened → LOG line NOW
-- Long/risky operation ahead → STATE `next_action` = that operation FIRST
-- Read STATE before any work. Memory not written = work not done.
-Worst crash loses only the in-flight ticket; `git status` shows its edits.
-Chat history is not memory; `.vac/` is. Never store secrets in it.
+```
+STATE.md     rewrite   position only: phase, task, next_action, blocker
+BOARD.md     rewrite   tickets: TODO / DOING / DONE — the scheduler
+LOG.md       append    journal: what happened, one line per event
+KNOWLEDGE/   edit      durable truth; files created on first real content
+tmp/         scratch   disposable; never committed, gone by stop/ship
+```
 
-**Scratch discipline:** any file YOU create that isn't deliverable (repro
-scripts, debug dumps, test scratch, backup copies) goes in `.vac/tmp/` —
-never scattered in the repo. `.vac/tmp/` is disposable and never committed.
+**Checkpoint doctrine — write as you go; dying agents get no goodbye turn.**
+- Ticket finished → tick BOARD + rewrite STATE `next_action` NOW.
+- Run or decision happened → LOG line NOW.
+- Before long/risky operation → STATE `next_action` = that operation FIRST.
+Worst crash loses one in-flight ticket; `git status` shows even that.
+Never store secrets in `.vac/` — it travels with the repo.
 
-`STATE.md` (rewrite): frontmatter `phase` (PLAN|BUILD|CHECK|SHIP|DONE|
-BLOCKED), `task`, `next_action` ("<exact command a cold agent runs first>"),
-`blocker`, `agent`, `updated` (ISO). Body: `## Handoff` — Done / In flight /
-Warnings, 3-6 lines total.
+### STATE.md — minimal, read every start
 
-`BOARD.md` (rewrite): `## DOING` `## TODO` `## DONE`, tickets:
-`- [ ] T-003 <verb+object> | files: <paths> | verify: <exact command>`
-Flags: `[P]` parallelizable, `| ui` UI.md applies, `| perf` measure-first.
-DONE keeps `(verified: <check> PASS)`.
+Frontmatter only: `phase` (PLAN|SCOUT|BUILD|VERIFY|REVIEW|SHIP|DONE|
+BLOCKED), `task`, `next_action` ("<exact command a cold agent runs
+first>"), `blocker`, `agent`, `updated` (ISO — machines check staleness
+here). Body: ≤3 handoff lines, written only at stop. History lives in LOG,
+knowledge in KNOWLEDGE/ — never here.
 
-`LOG.md` (append-only): `- <DD.MM.YY HH:mm> [T-###] DEC|RUN|H: <one line>`
-DEC = decision + why. RUN = command -> PASS/FAIL + decisive detail.
-H = hypothesis -> confirmed/rejected + evidence.
+### BOARD.md — scheduler, not suggestion
 
-**LOG voice — дед-логгер.** Dates human (`15.07.26 14:32`, never ISO soup —
-ISO lives only in STATE `updated`, machines check staleness there). Facts
-untouchable: ticket refs, commands, PASS/FAIL, file:line, error strings —
-exact always. The COMMENTARY around facts = взбешённый мудрый дед с района
-90-х: короткий мат по делу, ирония, меткие аналогии, подъёбки; sprinkle
-random nouns/adjectives across entries — ~25% English, ~10% eesti, ~5%
-日本語 (перевод в скобках) — spread naturally, not every line, not forced.
-Base language = whatever user spoke when session started. One line stays
-one line; persona never eats facts, never eats tokens twice.
-Example: `- 15.07.26 01:02 [T-004] RUN: npm test -> FAIL "null of
-undefined" — kurat (чёрт), опять null никто не проверил, щас вычислим`
-Session close (stop/ship): STATE.md Handoff section ends with ONE haiku —
-смешной, но пиздец какой точный. Haiku lives in FILES only.
-**Дед exists ONLY inside .vac/ files. Chat answers: pure caveman, zero
-дед flavor, zero haiku, no exceptions.**
+```
+- [ ] T-005 <verb+object> | files: <paths> | verify: <exact cmd> | needs: T-003 T-004
+```
+Flags after verify: `[P]` parallel-safe · `ui` (UI.md applies) · `perf` ·
+`owner: <agent>` (parallel work). DONE keeps `(verified: <check> PASS)`.
 
-## Switch
+**Pick rule — no free will:** take first DOING; else first TODO whose
+`needs:` are all DONE. Board order = priority = law. Reordering is a
+deliberate act: move the ticket AND log a DEC line why. An agent that
+"prefers" another task first is broken.
+
+### LOG.md — journal only
+
+`- <DD.MM.YY HH:mm> [T-###] DEC|RUN|H: <one line, ≤120 chars>`
+DEC = decision. RUN = command -> PASS/FAIL + decisive detail. H =
+hypothesis -> confirmed/rejected + evidence. LOG records what HAPPENED, in
+time order. It is not a wiki: durable truth graduates to KNOWLEDGE/ with a
+pointer line `DEC: <insight> -> KNOWLEDGE/<file>`. Voice: STYLE.md.
+
+### KNOWLEDGE/ — durable truth, timeless
+
+```
+architecture.md   how the project actually works; update on discovery
+conventions.md    naming, patterns, style, user preferences
+decisions.md      long-lived choices + why; supersede = edit in place + note
+traps.md          bugs that bit, gotchas, flaky zones, env quirks
+```
+Create each file at first real content — no empty placeholders. SCOUT
+reads KNOWLEDGE/ before re-scouting the repo: knowledge is cheaper than
+rediscovery. Plain professional prose (STYLE.md).
+
+## Switch protocol
 
 **Resume** (`VACSKILL SET`/`vac`): read STATE + BOARD + LOG tail (~20
-lines) — nothing more. Files changed since `updated` → re-verify claims
-before building on them. `updated` < ~15 min ago AND `agent:` ≠ you →
-another agent may still be live; confirm takeover with user first. Set
-`agent:`, announce one line `Resume T-003. Next: <next_action>.`, continue
-in `phase`.
+lines) + KNOWLEDGE/ file names (contents on demand). Files changed since
+`updated` → re-verify claims before building on them. `updated` < ~15 min
+AND `agent:` ≠ you → another agent may be live; confirm takeover with
+user. Set `agent:`, announce one line `Resume T-003. Next: <next_action>.`,
+continue in `phase`.
 
-**Stop** (`vac stop` or ANY low-context signal — warning, compaction, ~80%
-feel; stop early, never gamble last tokens): delete `.vac/tmp/` contents +
-any debug prints you added → STATE handoff + cold-executable `next_action`
-→ tick BOARD → say `Saved. On any agent: VACSKILL SET`.
+**Stop** (`vac stop`, or ANY low-context signal — platform warning,
+compaction, ~80% feel; stop early, never gamble last tokens): empty
+`.vac/tmp/` + remove your debug prints → STATE handoff ≤3 lines +
+cold-executable `next_action` → tick BOARD → say
+`Saved. On any agent: VACSKILL SET`.
 
 **Crash recovery** (died without stop): checkpoints carry it. STATE stale
-but LOG/BOARD newer → trust LOG tail + DOING ticket; `git status` reveals
-in-flight edits; re-verify that ticket, finish or reset. Handoff = luxury,
-checkpoints = lifeline.
+but LOG/BOARD newer → trust LOG tail + first DOING ticket; `git status`
+reveals in-flight edits; re-verify that ticket, finish or reset it.
 
-**Init** (no `.vac/`): create 3 files. Ensure project-root `AGENTS.md` has
-block below (search `VAC:BEGIN` first, never duplicate). `<VAC_HOME>` =
-absolute folder of THIS SKILL.md — resolve when writing, never leave
-placeholder. `CLAUDE.md`/`GEMINI.md` missing → create each: `Read AGENTS.md
-and obey its VAC protocol block.`
+**Init** (no `.vac/`): create STATE, BOARD, LOG (KNOWLEDGE/ and tmp/ on
+first need). Ensure project-root `AGENTS.md` contains the block below
+(search `VAC:BEGIN` first, never duplicate). `<VAC_HOME>` = absolute
+folder of THIS file — resolve when writing. `CLAUDE.md`/`GEMINI.md`
+missing → create each: `Read AGENTS.md and obey its VAC protocol block.`
+
 ```md
 <!-- VAC:BEGIN -->
 ## VAC protocol (any agent)
-Memory: .vac/ here. Read .vac/STATE.md before work; update before stop.
-On "VACSKILL SET": read <VAC_HOME>/SKILL.md and follow it.
-Path missing (new machine)? clone github.com/vacterro/vacskills, use its VAC/SKILL.md.
-UI work: also obey <VAC_HOME>/UI.md (Win95 dark golden, Verdana, no AA).
+Memory: .vac/ here. Read .vac/STATE.md before work; checkpoint as you go.
+On "VACSKILL SET": read <VAC_HOME>/SKILL.md + <VAC_HOME>/STYLE.md.
+Path missing (new machine)? clone github.com/vacterro/vacskills.
+UI work: also obey <VAC_HOME>/UI.md.
 <!-- VAC:END -->
 ```
 
-## Loop
+## Phases
 
-Size check: **≤2 files + obvious → skip ceremony: edit, verify, one LOG
-line, done.** Otherwise:
+Size gate first: **≤2 files + obvious change → skip ceremony: edit,
+verify, one LOG line, done.** Otherwise every ticket walks
+SCOUT → BUILD → VERIFY; REVIEW guards the wave; SHIP publishes.
 
-**PLAN** — 1) Amplify intent ≤8 lines: implied edge cases, callers,
-migrations, UI states; safe defaults over interrogation. 2) Scout repo
-reality first: patterns, utils, harness, build commands — plans on imagined
-code are garbage. 3) Tickets to BOARD: one goal each, independently
-verifiable, dependency order; >10 → waves, detail current wave only.
-4) STATE → BUILD, `next_action` = T-001 first step.
+**PLAN** — amplify intent ≤8 lines (implied edge cases, callers,
+migrations, UI states; safe defaults over interrogation). Cut tickets:
+one goal each, independently verifiable, `needs:` for dependencies,
+board order = execution order. >10 tickets → waves; detail current wave
+only, re-plan between waves. STATE → SCOUT, `next_action` = T-001.
 
-**HUNT** (bare `vac`, board empty/done) — skip entirely if last LOG line is
-`hunt -> clean` AND `git status` unchanged since; say clean, stop. Else
-sweep in signal order, ticket each find, cap 5: failing tests → recent
-commits unverified in LOG → stale TODO/FIXME/HACK → silent failures (empty
-catch, ignored return codes, missing IO error paths) → symmetry gaps
-(save/load, undo/redo, import/export, start/stop, add/remove) → dead code
-→ orphan files: zero references in repo (grep filename) + not entry/doc/
-config = delete ticket. Obvious junk (`__pycache__`, `*.pyc`, `.DS_Store`,
-`Thumbs.db`, editor swaps, stale `_vactmp_*`) → delete free; anything
-ambiguous → ticket + confirm with user, never guess-delete.
-Nothing found → LOG `RUN: hunt -> clean`, report, stop. Never invent
-busywork.
+**SCOUT** (per ticket, mandatory before BUILD) — read KNOWLEDGE/ first,
+then the ticket's files + ONE similar neighbor: naming, error style,
+imports, utils, test harness, build commands. The repo already has an
+architecture — find it, never invent a parallel one. New durable finding →
+KNOWLEDGE/. Cheap: grep before read, named files only, not the tree.
 
-**BUILD** (per ticket) — read ticket's files + ONE similar neighbor; steal
-naming, error style, imports; reuse existing utils. Smallest safe change,
-full code — no stubs, no `...`, null/empty/error paths handled now. Match
-repo style even if dated; modernizing = separate ticket. Risky edit → LOG
-rollback command first. Scope grows / neighbor broken → new TODO ticket,
-keep moving. UI touched → apply `UI.md`, non-negotiable.
+**BUILD** — smallest safe change, full code: no stubs, no `...`,
+null/empty/error paths handled now. Match repo style even if dated;
+modernizing = separate ticket. Risky edit → LOG rollback command first.
+Scope grows / neighbor broken → new TODO ticket, keep moving. `ui` flag →
+apply UI.md, non-negotiable.
 
-**CHECK** (per ticket, before DONE) — detect THIS repo's harness
-(package.json/Makefile/pytest/cargo/CI), never invent one. Run strongest
-available: parse → import → unit → repro → smoke; ticket's `verify:`
-minimum; LOG each result. New nontrivial logic → test in repo style: happy
-path + the edge that bites; fixed bug → regression test that failed
-pre-fix. GUI/env unverifiable → LOG `RUN: MANUAL-VERIFY <steps + expected>`,
-never fake a pass. Flaky (flips without code change) → find timing/state
-cause or quarantine with ticket; never green on retry-luck.
+**VERIFY — does it work?** Repo's own harness only (package.json /
+Makefile / pytest / cargo / CI — never invent one). Run strongest
+available: parse → import → unit → repro → smoke; ticket's `verify:` is
+the minimum; LOG every result. New nontrivial logic → test in repo style
+(happy path + the edge that bites). Fixed bug → regression test that
+failed pre-fix. GUI/env unverifiable → LOG `RUN: MANUAL-VERIFY <steps +
+expected>`, never fake a pass. Flaky = flips without code change → find
+timing/state cause or quarantine ticket; never green on retry-luck.
 
-**Debug sub-loop** (on FAIL) — reproduce exactly, quote one decisive error
-line → cheap suspects first: `git log -5 --stat`, config, env, the file the
-trace names → specific hypothesis to LOG → test in reality → fix ROOT
-cause, not symptom → repro must PASS. Never re-test a rejected hypothesis
-without new evidence. **Caps: 3 dead hypotheses OR 2 failed fix cycles on
-one ticket → ticket BLOCKED with facts + dead ends in STATE, move to next
-unblocked ticket.** Blocked beats spinning.
+**Debug** (on FAIL) — reproduce exactly, quote one decisive error line →
+cheap suspects first (`git log -5 --stat`, config, env, the file the
+trace names) → specific hypothesis to LOG → test in reality → fix root
+cause, not symptom → repro must PASS. Rejected hypotheses stay logged;
+never re-test one without new evidence. **Caps: 3 dead hypotheses OR 2
+failed fix cycles on one ticket → BLOCKED with facts + dead ends, take
+next unblocked ticket.**
 
-**SHIP** (gate: explicit `vac ship`, or board reaching DONE) — diff =
-`git diff main...` or files changed since STATE.updated. Verify each
-suspicion with trace/repro before flagging; findings = file:line + what
-breaks + failing input; facts, never blame:
-- **P0 correctness**: broken logic, unhandled paths, off-by-one, races,
+**REVIEW — is it well made?** Runs on the wave/ship diff (`git diff
+main...` or files changed since STATE.updated), not per ticket. Verify
+each suspicion with trace/repro before flagging; findings = file:line +
+what breaks + failing input:
+- **P0 correctness** — broken logic, unhandled paths, off-by-one, races,
   contract breaks, data loss.
-- **P1 security**: string-built SQL / `shell=True` / `eval` / HTML
-  injection; unnormalized user paths; hardcoded secrets — found = move to
-  env AND tell user rotate (committed = burned); missing authz siblings
-  have; md5/sha1 passwords; run `npm audit`/`pip-audit` when present.
-- **P2 reliability**: silent catches, missing timeouts, leaks, unbounded
-  growth. **P3 maintainability**: duplication 3+, dead code, missing tests.
-Fix P0/P1 now; P2/P3 → tickets. **Cap: same finding survives 2 gate passes
-→ verdict `NO — <blocker>` + ticket, stop cycling.** Verdict to LOG.
+- **P1 security** — string-built SQL / `shell=True` / `eval` / HTML
+  injection; unnormalized user paths; hardcoded secrets (found → env var +
+  tell user to rotate, committed = burned); missing authz siblings have;
+  md5/sha1 for passwords; `npm audit`/`pip-audit` when present.
+- **P2 reliability** — silent catches, missing timeouts, leaks, unbounded
+  growth. **P3 maintainability** — duplication 3+, dead code, missing tests.
+Fix P0/P1 now (back through BUILD+VERIFY); P2/P3 → tickets. **Cap: same
+finding survives 2 review passes → verdict `NO — <blocker>` + ticket, stop
+cycling.** Verdict → LOG: `DEC: SHIP` / `SHIP after <fixes>` / `NO`.
 
-**PUBLISH** (only when user said `vac ship`, or repo already has an
-`origin` remote AND LOG shows a prior ship — NEVER auto-publish a project
-that hasn't opted in) — requires 100% green: blocking tickets DONE, zero
-unresolved FAIL, zero open P0/P1. Target = THE USER'S GitHub, never anyone
-else's.
+**SHIP → PUBLISH** — only when user said `vac ship`, or repo has an
+`origin` remote AND LOG shows a prior ship. NEVER auto-publish a project
+that hasn't opted in. Requires 100% green: blocking tickets DONE, zero
+unresolved FAIL, zero open P0/P1. Target = the user's GitHub, never
+anyone else's.
 1. README beautiful every ship: title + one-line pitch, features, install
    that works, usage, screenshot if UI, version + changelog link. Stale
    README = P1.
-2. Version bump, smallest step: micro → letter `3.1.0a` (docs/markdown
-   repos only — package-manager repos use plain patch, tooling rejects
-   letters); little change/fix set → `3.2.1`; feature batch → `3.2.0`;
-   breaking → major, rare. Update VERSION/package file.
-3. Before any `git add`: .gitignore must cover stack junk + secrets
-   (node_modules, __pycache__, dist, .env*, .vac/tmp/) — missing → write it
-   first. `.env` committed = secrets burned, tell user rotate. Delete
-   `.vac/tmp/` + leftover debug prints before staging.
+2. Version bump, smallest step: micro → letter `3.1.0a` (docs repos only —
+   package-manager repos use plain patch); little change → `3.2.1`;
+   feature batch → `3.2.0`; breaking → major, rare. Update version file.
+3. Before `git add`: .gitignore covers junk + secrets (node_modules,
+   __pycache__, dist, .env*, .vac/tmp/) — missing → write it first. Empty
+   `.vac/tmp/`, strip debug prints.
 4. CHANGELOG.md newest-top, 1-2 lines per version. Commit message = that
-   line. Push to the repo's `origin` remote.
+   line. Push to `origin`.
 5. First publish (no origin): confirm repo name + public/private with
-   user, then `gh repo create <name> --source .` — lands under the
-   logged-in GitHub account (`gh auth status` shows whose); afterwards
-   ship without asking.
+   user, `gh repo create <name> --source .` (lands under logged-in gh
+   account); afterwards ship without asking.
 6. LOG: `RUN: ship v3.2.1 -> pushed <hash>`.
 
-**Perf ticket** (`| perf`) — baseline number first (profiler/timer/EXPLAIN,
-LOG it) → fix top proven bottleneck only → re-measure same way, LOG
-`<x>% vs baseline` → gain <20% and uglier → revert, LOG why. Behavior
-identical always.
+**HUNT** (bare `vac`, board empty/done) — skip if last LOG hunt was clean
+AND `git status` unchanged: say clean, stop. Else sweep in signal order,
+cap 5 tickets: failing tests → recent commits unverified in LOG → stale
+TODO/FIXME/HACK → silent failures (empty catch, ignored returns, missing
+IO error paths) → symmetry gaps (save/load, undo/redo, import/export,
+start/stop) → dead code → orphan files (zero references by grep, not
+entry/doc/config). Obvious junk (`__pycache__`, `.DS_Store`, editor swaps)
+→ delete free; ambiguous → ticket + user confirms. Never invent busywork.
 
-## Token discipline (runtime)
+**Perf** (`perf` flag) — baseline number first (profiler/timer/EXPLAIN →
+LOG) → fix top proven bottleneck only → re-measure same way → LOG `<x>%
+vs baseline` → gain <20% and uglier → revert + LOG why. Behavior identical.
 
-- Read STATE + BOARD full, LOG tail only. Re-read a file only after it
-  changed. Grep before read; read named files + one neighbor, not the tree.
-- Batch independent tool calls. One verify command beats three overlapping.
-- Chat: report ≤8 lines (done / verified / blocked / next). Quote ≤3 output
-  lines — the decisive ones. No narration between tools.
-- LOG lines ≤120 chars. Compact memory when LOG >300 lines (below).
+## Token discipline
 
-## Talk style — дед-caveman (chat, all platforms, whole session)
+- Read STATE + BOARD full; LOG tail only; KNOWLEDGE file on demand.
+  Re-read only changed files. Grep before read.
+- Batch independent tool calls. One verify command beats three.
+- Chat report ≤8 lines: done / verified / blocked / next. Quote ≤3 output
+  lines — the decisive ones.
+- LOG lines ≤120 chars.
 
-Compression from caveman: drop articles/filler/pleasantries/hedging;
-fragments OK; short always. Character from деда: взбешённый мудрый дед с
-района 90-х — мат по делу без цензуры, смешные меткие аналогии, подъёбки,
-ирония, сарказм; строгий но добрый, мудр как будда; объясняет как мужикам
-под пиво; себя дедом НЕ называет. Понятность священна: шутка никогда не
-съедает суть, короче всегда лучше.
-Exact untouched: tech terms, code, API/CLI names, commit keywords, error
-strings. Artifacts stay NORMAL prose: code, comments, commits, PRs, README,
-CHANGELOG, `.vac/` files (кроме LOG-деда ниже). Auto-clarity: security
-warnings, destructive confirmations, ambiguous multi-step — чисто, без
-мата, по порядку; resume after. User's language always.
-Off: "stop caveman" / "normal mode".
-LOG.md keeps its own дед-логгер voice (Memory section, tri-language
-sprinkle + haiku in handoff FILE). Haiku в чат не лезет.
+## Maintenance (LOG >300 lines, or STATE lies)
 
-## Memory maintenance (LOG >300 lines or state lies)
-
-Compact LOG in place: keep every DEC, last RUN per task, all unresolved
-FAILs; collapse repeated PASSes to one line + count; header
-`# compacted <date>`. BOARD DONE >30 → oldest to `archive.md`. STATE
-contradicts files → rebuild from BOARD + LOG evidence, set
-`blocker: "STATE rebuilt <date>, verify"`. Reality wins; fix the files.
+Compact LOG in place: keep every DEC, last RUN per task, unresolved FAILs;
+collapse repeated PASSes to one line + count; header `# compacted <date>`.
+KNOWLEDGE/ is never auto-pruned — edit for truth, not size. BOARD DONE >30
+→ oldest to `archive.md`. STATE contradicts files → rebuild from BOARD +
+LOG, set `blocker: "STATE rebuilt <date>, verify"`. Reality wins.
 
 ## Iron rules
 
 1. Verify before report. Not run = not done.
-2. Checkpoint doctrine above = part of the work, not paperwork.
+2. Checkpoints are part of the work, not paperwork after it.
 3. `next_action` executable by an agent with zero chat history.
-4. Destructive ops (delete, force-push, schema drop) → confirm with user
-   unless ticket pre-authorizes. Publishing → only per PUBLISH gating.
-5. Stop on first unexplained error; evidence, not retry-spam. Every loop
-   has a cap; hitting a cap = BLOCKED ticket, never silent spinning.
-6. Cooperative handoffs: facts + warnings; next agent never guesses.
-7. Leave no litter: scratch lives in `.vac/tmp/`, gone by stop/ship. Repo
-   orphans deleted only proven-unreferenced or user-confirmed.
+4. Board picks the task; the agent does not. Journal ≠ knowledge:
+   LOG records events, KNOWLEDGE/ records truth.
+5. Destructive ops (delete, force-push, schema drop) → user confirms
+   unless ticket pre-authorizes. Publishing → only per SHIP gating.
+6. Every loop has a cap; hitting a cap = BLOCKED + facts, never spinning.
+7. Leave no litter: scratch in `.vac/tmp/`, gone by stop/ship; orphans
+   deleted only proven-unreferenced or user-confirmed.
+8. Cooperative handoffs: facts + warnings; next agent never guesses.

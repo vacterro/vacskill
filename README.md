@@ -14,14 +14,17 @@ writes in it while working. Notebook = team brain. Robot = replaceable.
 
 ```
 vacskills/                    ← this repo, clone anywhere
-  VAC/SKILL.md                the rules every robot obeys
+  VAC/SKILL.md                cold protocol every robot obeys
+  VAC/STYLE.md                the voices (chat wit, grumpy diary grandpa)
   VAC/UI.md                   the look (Win95 dark gold, sharp pixels)
   inject.ps1 / inject.sh      one-shot installer
 
 your-project/.vac/            ← the notebook (robots make it themselves)
-  STATE.md                    where work stands + what to do next
-  BOARD.md                    job tickets: TODO / DOING / DONE
+  STATE.md                    where work stands + exact next step
+  BOARD.md                    job tickets with dependencies — the boss
   LOG.md                      diary: every test, every decision, one line
+  KNOWLEDGE/                  durable truth: architecture, conventions,
+                              decisions, traps — outlives every robot
 ```
 
 ## Install (three commands, no crying)
@@ -71,10 +74,14 @@ That's it. Damn near idiot-proof.
 - **UI law** — any interface comes out Win95 dark golden: Verdana, no
   antialiasing, sharp bevels, zero animations. [VAC/UI.md](VAC/UI.md) —
   non-negotiable, gorgeous.
-- **Two voices** — chat answers: short, funny, no fluff. LOG diary: wise
-  angry grandpa with human dates (`15.07.26 14:32`, not ISO soup) and one
-  closing haiku per session. Facts stay exact in both — comedy never eats
-  evidence.
+- **Voices split from protocol** ([VAC/STYLE.md](VAC/STYLE.md)) — chat:
+  short, dry, no fluff. LOG diary: wise angry grandpa, human dates
+  (`15.07.26 14:32`, not ISO soup), one closing haiku per session. Code
+  and docs: boring on purpose. Facts exact in every voice — comedy never
+  eats evidence.
+- **Board is the boss** — tickets carry `needs:` dependencies; robot takes
+  the top unblocked ticket, period. No "I felt like doing the README
+  first" nonsense.
 
 ## Why it doesn't fall apart
 

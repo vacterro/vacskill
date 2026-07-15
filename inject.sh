@@ -11,7 +11,7 @@ BLOCK="
 <!-- VAC:BEGIN -->
 ## VAC protocol (global)
 On \"VACSKILL SET\" / \"vac ...\" commands, or when project root contains .vac/:
-read $VAC_HOME/SKILL.md and follow it.
+read $VAC_HOME/SKILL.md + $VAC_HOME/STYLE.md and follow them.
 Memory: .vac/ at project root - read .vac/STATE.md before work; checkpoint
 BOARD + STATE after every ticket, LOG line after every run.
 Path missing (new machine)? clone github.com/vacterro/vacskills.
@@ -41,8 +41,12 @@ echo "------------------------------------------------------------"
                                 || printf '%-28s %s\n' "Codex" "not installed - skip"
 [ -d "$HOME/.gemini" ]          && printf '%-28s %s\n' "Gemini GEMINI.md"        "$(add_block "$HOME/.gemini/GEMINI.md")" \
                                 || printf '%-28s %s\n' "Gemini" "not installed - skip"
-[ -d "$HOME/.agents/skills" ]   && printf '%-28s %s\n' "~/.agents skills"        "$(add_link "$HOME/.agents/skills/VAC")" \
-                                || printf '%-28s %s\n' "~/.agents" "not installed - skip"
+if [ -d "$HOME/.agents/skills" ]; then # copy, lowercase: these readers skip links/uppercase
+  [ -L "$HOME/.agents/skills/VAC" ] && rm "$HOME/.agents/skills/VAC"
+  mkdir -p "$HOME/.agents/skills/vac"
+  cp "$VAC_HOME/SKILL.md" "$VAC_HOME/UI.md" "$VAC_HOME/STYLE.md" "$HOME/.agents/skills/vac/"
+  printf '%-28s %s\n' "~/.agents skills" "copied as 'vac' (re-run after updates)"
+else printf '%-28s %s\n' "~/.agents" "not installed - skip"; fi
 
 if command -v aider >/dev/null 2>&1; then
   A="$HOME/.aider.conf.yml"
