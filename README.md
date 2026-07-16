@@ -2,8 +2,6 @@
 
 **v6.1.0** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
 
-*Formerly known as the Cross-Agent Project Memory Protocol (vacskill).*
-
 **One command. Zero amnesia.**
 
 ASP is a stable, vendor-neutral continuation protocol. Its sole purpose is to guarantee that a completely cold agent with zero chat history can execute `/vacskill continue` and resume productive work within one minute, without asking the user to repeat context.
