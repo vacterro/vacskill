@@ -1,6 +1,6 @@
 # Agent Session Protocol (ASP)
 
-**v6.1.0** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
+**v7.1.0** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
 
 **One command. Zero amnesia.**
 
@@ -22,14 +22,14 @@ Run these three commands to inject the protocol into any project:
 ```bash
 git clone https://github.com/vacterro/vacskill
 cd vacskill
-powershell -ExecutionPolicy Bypass -File .\inject.ps1     # Windows
-bash inject.sh                                             # macOS / Linux
+powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
+bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
 No install? Paste one line to your agent:
-> Read <clone>/asp/PROTOCOL.md + <clone>/STYLE.md and follow them.
+> Read <clone>/asp/RFC.md + <clone>/asp/STYLE.md and follow them.
 
 ## Documentation
 - **[SPEC.md](SPEC.md)**: The formal RFC specification. Read this if you are building extensions or agent frameworks.
-- **[PROTOCOL.md](asp/PROTOCOL.md)**: The brutal, machine-readable ruleset that agents execute.
+- **[RFC.md](asp/RFC.md)**: The brutal, machine-readable ruleset that agents execute.
 - **[GUIDE.md](GUIDE.md)**: The human tutorial with examples.
