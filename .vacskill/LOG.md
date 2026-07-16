@@ -8,7 +8,7 @@
 - 2026-07-15 [T-004] RUN: ship v1.0.0 -> pushed 39a5ece
 - 2026-07-15 [T-005] RUN: grep personal paths (V:\___VAC|vac34) -> clean PASS
 - 2026-07-15 [T-005] RUN: ship v1.0.1 -> portable docs + LICENSE
-- 2026-07-15 [T-006] DEC: rewrite SKILL.md � loop caps, PUBLISH opt-in gating, HUNT clean-skip, token discipline, 218->169 lines
+- 2026-07-15 [T-006] DEC: rewrite SKILL.md � loop caps, PUBLISH opt-in gating, HUNT clean-skip, token discipline, 218->169 lines
 - 2026-07-15 [T-006] RUN: structure grep (sections+caps+gating) -> PASS, 169 lines
 - 2026-07-15 [T-007] RUN: ship v1.1.0 -> pushing
 - 2026-07-15 [T-008] RUN: ship v1.1.0a -> alias 'vac set' official
@@ -82,3 +82,6 @@
 - 17.07.26 01:45 [T-037] RUN: ship v4.0.0 -> скилл вырос в протокол: одно ядро, девять адаптеров, любая модель у руля
 - 17.07.26 01:45 [T-037] хайку: Скилл сбросил кожу / протокол — общий язык / моделям — лопаты (shpatel — лопатка)
 - 17.07.26 01:55 [T-037] RUN: BOM в KNOWLEDGE/decisions.md (наследие ранних PowerShell-записей) -> снят, репо 0 BOM PASS
+- 17.07.26 01:58 [T-038] RUN: encoding scan all files -> BOM=0 ctrl=0 everywhere PASS
+- 17.07.26 01:58 [T-038] RUN: ship v4.1.0 -> pushed 6ad68fe, tag v4.1.0 PASS
+- 17.07.26 01:58 [T-038] DEC: no hardcoded machine paths in protocol/adapter/style files; LOG.md entries historical only
