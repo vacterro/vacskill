@@ -15,10 +15,10 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## 4. File Model
 The protocol relies on four canonical files inside `.vacskill/`:
-- **STATE.md**: Answers "What do I do right now?". MUST contain frontmatter: `phase`, `task`, `next_action`, `blocker`, `agent`, `updated`. The `next_action` MUST be an immediately executable command (e.g., `pytest tests/`), NOT a vague intent.
-- **BOARD.md**: Answers "What task am I picking up?". MUST track `status` (TODO/DOING/DONE), `needs:` (dependencies), and `owner` (claims).
-- **LOG.md**: Answers "Why did we come to this point?". Append-only event graph. MUST be one event per line (DEC, RUN, H). MUST use Event IDs (`[E-001]`) and MAY use `parent_id` (`[parent: E-001]`) to form a decision graph instead of a linear list.
-- **KNOWLEDGE/**: Answers "What is the durable truth of this project?". Directory for durable truths. MUST NOT contain event histories. Major architectural decisions MUST be recorded here using the Architecture Decision Record (ADR) pattern (e.g. `ADR-001.md`).
+- **STATE.md**: MUST contain frontmatter: `phase`, `task`, `next_action`, `blocker`, `agent`, `updated`. The `next_action` MUST be an immediately executable command, NOT a semantic intent.
+- **BOARD.md**: MUST track `status` (TODO/DOING/DONE), `needs:` (dependencies), and `owner` (claims).
+- **LOG.md**: Append-only event graph. MUST be one event per line (DEC, RUN, H). MUST use Event IDs (`[E-001]`) and MAY use `parent_id` (`[parent: E-001]`).
+- **KNOWLEDGE/**: Directory for durable truths. MUST NOT contain event histories. Major architectural decisions MUST be recorded here using the Architecture Decision Record (ADR) pattern (e.g. `ADR-001.md`).
 
 *Formal schemas for these files are defined in `extensions/schemas/`.*
 
@@ -42,7 +42,6 @@ Tasks (Tickets) govern execution. An agent MUST NOT execute arbitrary work not l
 - Agents MUST only pick TODO tickets where all `needs:` are marked DONE.
 
 ## 7. Claim / Ownership
-To prevent race conditions in multi-agent environments:
 - An agent claims a ticket by setting `owner: <AgentID>` and `claim_time: <ISO8601>` on the BOARD ticket.
 - Active owner: `claim_time` < 15 minutes old, or agent actively writing to `LOG.md`.
 - Stale claims: If `claim_time` > 15 minutes and no LOG activity, another agent MAY claim the ticket.
@@ -73,12 +72,10 @@ The agent adapts; it MUST NOT hallucinate competence.
 Adapters (e.g., for Claude, Aider, OpenCode) MUST be thin translation layers. They SHALL NOT implement business logic. They MUST simply instruct the model to read this `PROTOCOL.md` file and obey it.
 
 ## 12. Conformance
-Implementations MUST be able to pass a self-check:
-- State schema is valid.
-- Board dependencies are acyclic.
-- Log is strictly append-only.
-- Knowledge contains no event data.
-- Agent successfully resumes from stale state.
+Implementations MUST pass self-check across three vectors:
+1. **Repo Validation**: `STATE.md`, `BOARD.md`, and `LOG.md` MUST conform to `extensions/schemas/`. `KNOWLEDGE/` MUST NOT contain event data.
+2. **Session Validation**: `BOARD.md` MUST be acyclic. `LOG.md` graph parent-child links MUST resolve.
+3. **Phase Contract Validation**: The agent's stated `mode` in `STATE.md` MUST legally permit the current `phase` (e.g., `mode: no-publish` MUST NOT be in `phase: SHIP`).
 If requested by the user via `vacskill validate`, the agent MUST run this conformance check.
 
 **TEST-001: The Continuation Test**

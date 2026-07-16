@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.0 -- 2026-07-17
+- refactor: Ruthlessly purged all conversational/literary explanations from `PROTOCOL.md` to ensure the machine document remains absolutely cold and unambiguous.
+- feat: Formalized Conformance into three strict vectors: Repo Validation, Session Validation, and Phase Contract Validation. `vacskill validate` is now structurally mandated to enforce these vectors.
+
 ## 6.1.0 -- 2026-07-17
 - doc: Reframed ASP completely around the **"Continuation Test"**. Memory is a means to an end; instant action is the goal. Tagline changed to "One command. Zero amnesia."
 - feat: Added `TEST-001: The Continuation Test` to the Conformance section as the gold standard for release validation.
