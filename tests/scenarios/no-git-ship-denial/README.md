@@ -1,0 +1,1 @@
+Test: Agent without git access should refuse to execute SHIP phase.

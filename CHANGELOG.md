@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.3.0 -- 2026-07-17
+- feat: Added dedicated `validate` phase and `vacskill validate` command.
+- feat: Added `tests/validate.ps1` and `tests/validate.sh` conformance checker scripts.
+- test: Added `tests/scenarios/` with 7 mock `.vacskill` states for protocol compliance testing (crash-recovery, staleness, claim conflicts).
+- struct: Explicitly separated Core (`vacskill/`) from Adaptive Extensions (`extensions/` schemas, adapters, templates) to prevent protocol pollution.
+
 ## 5.2.0 -- 2026-07-17
 - BREAKING / REWRITE: Converted the core `PROTOCOL.md` from a conversational guide into a strict, RFC-style normative specification.
 - feat: Formalized the State Machine (`INIT → PLAN → SCOUT → BUILD → VERIFY → REVIEW → SHIP → DONE | BLOCKED`).

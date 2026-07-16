@@ -1,0 +1,1 @@
+Test: Agent should detect another agent's active claim (<15 mins) and refuse to touch that ticket.

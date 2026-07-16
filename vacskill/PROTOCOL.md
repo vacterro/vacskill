@@ -77,8 +77,17 @@ Implementations MUST be able to pass a self-check:
 - Agent successfully resumes from stale state.
 If requested by the user via `vacskill status`, the agent MUST run this conformance check.
 
-## 13. Extensions
+## 13. Commands
+The following commands route to specific phases or actions:
+| Command | Action |
+|---|---|
+| `vacskill stop` | Checkpoint + handoff |
+| `vacskill status` | Report only, change nothing |
+| `vacskill validate` | execute validate.md |
+| `vacskill ship` | review.md -> ship.md |
+
+## 14. Extensions
 Extensions MAY add new phases or ticket metadata, provided they do not conflict with sections 3-10. Unknown frontmatter keys MUST be ignored by core implementations.
 
-## 14. Change Control
+## 15. Change Control
 Changes to this protocol MUST strictly bump the semantic version (MAJOR.MINOR.PATCH) in `VERSION` and document the change in `CHANGELOG.md`. The on-disk schema contract dictates the MAJOR version.

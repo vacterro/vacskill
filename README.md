@@ -10,28 +10,29 @@ Think `.git`, but for agent sessions.
 
 ## Architecture
 
-The protocol is strictly normative. The core rules are defined in `vacskill/PROTOCOL.md`, formatted as a formal RFC specification detailing state machines, claim resolution, checkpointing, and capability negotiation. 
+The protocol is strictly normative. The core rules are defined in `vacskill/PROTOCOL.md`, formatted as a formal RFC specification. 
+
+We explicitly separate the **Core Protocol** from **Adaptive Extensions**.
 
 ```
-vacskill/                   <- distributable unit
+vacskill/                   <- THE CORE (distributable unit)
   PROTOCOL.md               normative core specification (MUST/SHOULD/MAY)
-  phases/                   lazy-loaded state machine logic
-    init.md
-    plan.md
-    scout.md
-    build.md
-    verify.md
-    review.md
-    ship.md
-    hunt.md
-    done.md
-    blocked.md
-  STYLE.md                  non-normative voice (взбешённый дед с района)
-  UI.md                     non-normative visual theme
-schemas/                    canonical file schemas
-adapters/                   per-model bridges
-templates/                  fresh .vacskill/ boilerplate
-inject.ps1 / inject.sh      one-shot installer
+  phases/                   strict state machine logic
+    validate.md             conformance testing
+    init.md / plan.md / scout.md / build.md / verify.md / review.md / ship.md
+    hunt.md / done.md / blocked.md
+
+extensions/                 <- THE ADAPTIVE LAYER
+  adapters/                 per-model instruction bridges
+  schemas/                  canonical file schemas
+  templates/                fresh .vacskill/ boilerplate
+
+tests/                      <- CONFORMANCE LAYER
+  validate.ps1 / .sh        protocol self-check validator
+  scenarios/                mock states (crash-recovery, claim-conflicts, etc.)
+
+STYLE.md / UI.md            <- NON-NORMATIVE VOICE / THEME
+inject.ps1 / inject.sh      <- INSTALLERS
 ```
 
 ## Install
