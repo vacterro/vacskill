@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.2.0 -- 2026-07-17
+- BREAKING / REWRITE: Converted the core `PROTOCOL.md` from a conversational guide into a strict, RFC-style normative specification.
+- feat: Formalized the State Machine (`INIT → PLAN → SCOUT → BUILD → VERIFY → REVIEW → SHIP → DONE | BLOCKED`).
+- feat: Formalized Claim/Ownership logic (`owner` and `claim_time` added to `board.schema.json`) to prevent multi-agent race conditions.
+- feat: Added Capability Negotiation handshake (agents MUST check capabilities like git/shell before engaging).
+- feat: Added formal Recovery doctrine.
+- doc: Stripped all "marketing copy" and persona out of `PROTOCOL.md` into non-normative abstracts, reinforcing that voice (`STYLE.md`) never overrides logic.
+
 ## 5.1.0 -- 2026-07-17
 - feat: unified "дед с района" persona. Removed haiku requirement completely. The direct, witty, tough-love "grandpa" style is now the default for both chat responses and LOG entries (while maintaining strict caveman token compression and preserving facts verbatim).
 

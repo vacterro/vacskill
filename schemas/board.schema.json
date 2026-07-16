@@ -25,6 +25,14 @@
       "needs": {
         "type": "array",
         "items": { "type": "string" }
+      },
+      "owner": {
+        "type": "string",
+        "description": "Agent ID claiming this ticket"
+      },
+      "claim_time": {
+        "type": "string",
+        "format": "date-time"
       }
     },
     "required": ["status", "id", "description"]

@@ -1,110 +1,84 @@
-# vacskill Protocol v5
+# vacskill Protocol Specification (v5.2.0)
 
-Vendor-neutral execution protocol for LLM agents. Memory owns the project;
-model is a temporary worker. `.vacskill/` is the truth; chat is not memory.
-STYLE.md loads with this file. UI work: also load UI.md.
+## 1. Abstract
+VACSKILL defines a portable, file-backed project session protocol for LLM agents. Implementations MAY vary. The on-disk contract MUST remain stable. This protocol allows disparate agents to collaborate, hand off state, and recover from crashes with zero amnesia by treating the `.vacskill/` directory as the single source of truth.
 
-## Boot sequence
+## 2. Scope
+This document specifies the core state machine, file schemas, memory layout, capability negotiation, and recovery semantics. It bounds what an agent MUST do to be considered conformant. Voice, personality, and platform-specific bridging logic are explicitly out of scope.
 
-1. Read `.vacskill/STATE.md` -- get `phase`, `task`, `next_action`.
-2. Read `.vacskill/BOARD.md` -- find the current ticket.
-3. Read `.vacskill/LOG.md` tail (~20 lines).
-4. Read `.vacskill/KNOWLEDGE/` filenames (contents on demand).
-5. Load `phases/<phase>.md` for the current phase rules.
-6. Execute `next_action`. Checkpoint after every action.
+## 3. Normative Rules
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
+- An agent MUST read the `STATE.md`, `BOARD.md`, and tail of `LOG.md` before taking action.
+- An agent MUST NOT rely on its chat context window for project state.
+- `STYLE.md` and `UI.md` define non-normative voice and visual themes; they SHALL NOT override protocol logic.
+- An agent MUST degrade its capabilities safely if tools (e.g., git, shell) are missing.
 
-No `.vacskill/`? Init from `templates/`. Ensure `AGENTS.md` has the
-`VACSKILL:BEGIN` block (see `phases/init.md`).
+## 4. File Model
+The protocol relies on four canonical files inside `.vacskill/`:
+- **STATE.md**: The exact current execution state. MUST contain frontmatter: `phase`, `task`, `next_action`, `blocker`, `agent`, `updated`.
+- **BOARD.md**: The dependency graph of tasks. MUST track `status` (TODO/DOING/DONE), `needs:` (dependencies), and `owner` (claims).
+- **LOG.md**: Append-only event stream. MUST be one event per line (DEC, RUN, H).
+- **KNOWLEDGE/**: Directory for durable truths (e.g., `architecture.md`). MUST NOT contain event histories.
 
-## Commands -- `vacskill` / `vac`
+*Formal schemas for these files are defined in `schemas/`.*
 
-| Say | Phase loaded |
-|---|---|
-| `vacskill GOAL` | init.md if needed, then plan.md |
-| `vacskill` / `VACSKILL SET` | Resume current phase. Board done: hunt.md |
-| `vacskill stop` | Checkpoint + handoff |
-| `vacskill status` | Report only, change nothing |
-| `vacskill ship` | review.md -> ship.md |
-| `vacskill fix SYMPTOM` | verify.md (Debug path) |
+## 5. State Machine
+Agents MUST follow the strict phase transition model:
+`INIT → PLAN → SCOUT → BUILD → VERIFY → REVIEW → SHIP → DONE | BLOCKED`
 
-## Capabilities -- protocol degrades, agent never fakes
+**Transitions:**
+- **INIT**: Bootstraps the `.vacskill/` directory. Exit: `PLAN`.
+- **PLAN**: Analyzes goals and creates tasks on the BOARD. Exit: `SCOUT`.
+- **SCOUT**: Reads code, builds context. Exit: `BUILD`.
+- **BUILD**: Edits files. Exit: `VERIFY`.
+- **VERIFY**: Runs tests. Failure loops back to `BUILD` (max 2 loops) or `SCOUT`. Cap hit → `BLOCKED`. Success → `REVIEW`.
+- **REVIEW**: Validates diffs against constraints. P0/P1 failure → `BUILD`. Success → `SHIP`.
+- **SHIP**: Finalizes and publishes. Exit: `DONE`.
 
-| Missing | Degradation |
-|---|---|
-| git | no SHIP; backups via `.vacskill/history/`; hunt anchor = mtimes |
-| terminal | VERIFY = MANUAL-VERIFY only, conf never above low |
-| file write | read-only advisor: report, write nothing |
-| network | no PUBLISH, no dep audits; LOG once |
+## 6. Ticket Model
+Tasks (Tickets) govern execution. An agent MUST NOT execute arbitrary work not listed on `BOARD.md`.
+- Tickets MUST define dependencies using `needs: [T-XXX]`.
+- Agents MUST only pick TODO tickets where all `needs:` are marked DONE.
 
-## Memory -- `.vacskill/` at project root
+## 7. Claim / Ownership
+To prevent race conditions in multi-agent environments:
+- An agent claims a ticket by setting `owner: <AgentID>` and `claim_time: <ISO8601>` on the BOARD ticket.
+- Active owner: `claim_time` < 15 minutes old, or agent actively writing to `LOG.md`.
+- Stale claims: If `claim_time` > 15 minutes and no LOG activity, another agent MAY claim the ticket.
+- Conflicting writes: The agent that successfully commits to the filesystem wins.
 
-```
-STATE.md     rewrite   phase, task, next_action, blocker, agent, updated
-BOARD.md     rewrite   TODO / DOING / DONE -- the scheduler
-LOG.md       append    one line per event: DEC|RUN|H
-KNOWLEDGE/   edit      durable truth (architecture, conventions, decisions, traps)
-tmp/         scratch   empty by stop/ship
-```
+## 8. Checkpointing
+Agents MUST checkpoint their work.
+- **When**: After every completed ticket, or before terminating a session.
+- **How**: Update `BOARD.md` to reflect task status, update `STATE.md` with the explicit `next_action`, and flush `LOG.md`.
+- Dying agents get no "goodbye" turn. The on-disk state MUST be atomic.
 
-UTF-8 no BOM. No secrets. Travels with repo.
+## 9. Recovery
+Crash recovery is a first-class state:
+- If `STATE.md` is stale but `LOG.md` or `BOARD.md` is newer, the agent MUST read `git status` as the ground truth for in-flight edits.
+- The agent SHALL rebuild `STATE.md` based on the latest `LOG.md` entry and the current open DOING ticket on the BOARD.
 
-**Checkpoint -- write as you go; dying agents get no goodbye.**
-Ticket done: tick BOARD + STATE `next_action` NOW.
-Run/decision: LOG line NOW.
-Before risky op: STATE `next_action` = that op FIRST.
+## 10. Capability Negotiation (Handshake)
+Before engaging, an agent MUST evaluate its host environment:
+- **Git access**: If no, agent MUST NOT transition to `SHIP`.
+- **Shell access**: If no, `VERIFY` MUST degrade to manual user verification.
+- **Filesystem Write**: If no, agent operates in read-only advisory mode.
+The agent adapts; it MUST NOT hallucinate competence.
 
-### STATE.md
-Frontmatter: `phase` `task` `next_action` `blocker` `agent` `updated`.
-Body <=3 handoff lines at stop only.
+## 11. Adapter Contract
+Adapters (e.g., for Claude, Aider, OpenCode) MUST be thin translation layers. They SHALL NOT implement business logic. They MUST simply instruct the model to read this `PROTOCOL.md` file and obey it.
 
-### BOARD.md
-```
-- [ ] T-005 VERB+OBJECT | files: PATHS | verify: CMD | needs: T-003
-```
-DONE keeps `(verified: CHECK, conf: high|med|low)`. No verification = not done.
-Pick: first DOING, else first TODO with all `needs:` done. Board order = law.
+## 12. Conformance
+Implementations MUST be able to pass a self-check:
+- State schema is valid.
+- Board dependencies are acyclic.
+- Log is strictly append-only.
+- Knowledge contains no event data.
+- Agent successfully resumes from stale state.
+If requested by the user via `vacskill status`, the agent MUST run this conformance check.
 
-### LOG.md
-`- DD.MM.YY HH:mm [T-###] DEC|RUN|H: ONE LINE <=120 CHARS`
-DEC = decision. RUN = cmd PASS/FAIL. H = hypothesis confirmed/rejected.
-Durable truth graduates to KNOWLEDGE/.
+## 13. Extensions
+Extensions MAY add new phases or ticket metadata, provided they do not conflict with sections 3-10. Unknown frontmatter keys MUST be ignored by core implementations.
 
-### KNOWLEDGE/
-architecture.md, conventions.md, decisions.md, traps.md.
-Create on first real content, never empty placeholders.
-
-## Switch
-
-**Resume:** boot sequence above. `updated` <15 min + different `agent:`:
-confirm takeover. Set `agent:`, announce resume, continue in `phase`.
-
-**Stop:** empty tmp/, STATE handoff <=3 lines + executable `next_action`,
-tick BOARD, say `Saved. On any agent: VACSKILL SET`.
-
-**Crash recovery:** LOG tail + first DOING over stale STATE. `git status`
-reveals in-flight edits. Re-verify, finish or reset.
-
-## Iron rules
-
-1. Not run = not done.
-2. Board picks task, not the agent.
-3. `next_action` executable with zero chat history.
-4. LOG = events. KNOWLEDGE/ = truth. Never mix.
-5. Destructive ops: user confirms.
-6. Every loop has a cap. Hit cap = BLOCKED + facts.
-7. No litter. Delete only proven-unreferenced.
-8. UTF-8 plain text. Unreadable memory = no memory.
-9. Never fake a capability; degrade per table above.
-
-## Token discipline
-
-STATE + BOARD: full. LOG: tail only. KNOWLEDGE/: on demand.
-Re-read only changed files. Grep before read. Batch tool calls.
-Chat report <=8 lines. Quote <=3 decisive output lines.
-
-## Maintenance
-
-LOG >300 lines: compact in place (keep DECs, last RUN per task).
-BOARD DONE >30: oldest to archive.md.
-STATE contradicts files: rebuild from BOARD + LOG. Reality wins.
-Protocol too: new rule evicts stale one.
+## 14. Change Control
+Changes to this protocol MUST strictly bump the semantic version (MAJOR.MINOR.PATCH) in `VERSION` and document the change in `CHANGELOG.md`. The on-disk schema contract dictates the MAJOR version.

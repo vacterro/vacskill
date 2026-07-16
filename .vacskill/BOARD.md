@@ -1,10 +1,12 @@
 # Board
 ## DOING
-- [ ] T-045 UPDATE STYLE.md -- make "дед с района" the default chat style and remove haiku | files: vacskill/STYLE.md | verify: grep haiku clean, chat style updated | needs: 
 ## TODO
-- [ ] T-046 UPDATE README.md + CHANGELOG.md -- document style change | files: README.md, CHANGELOG.md | verify: README reflects new style | needs: T-045
-- [ ] T-047 SHIP v5.1.0 | files: VERSION | verify: git push and tag | needs: T-046
 ## DONE
+- [x] T-049 UPGRADE PROTOCOL.md to strict RFC spec v5.2.0 (verified: 14 sections strictly defined, schemas updated, conf: high)
+- [x] T-048 REWRITE README.md to English "дед" style (verified: README updated and committed, conf: high)
+- [x] T-047 SHIP v5.1.0 (verified: git push main da71032, tag v5.1.0 pushed PASS, conf: high)
+- [x] T-046 UPDATE README.md + CHANGELOG.md (verified: README reflects new style, CHANGELOG updated, BOM=False ctrl=0 PASS, conf: high)
+- [x] T-045 UPDATE STYLE.md -- make "дед с района" default chat style, remove haiku (verified: grep haiku clean, chat style updated, conf: high)
 - [x] T-044 SHIP v5.0.1 (verified: git push main 920ce8c, tag v5.0.1 pushed PASS, conf: high)
 - [x] T-043 UPDATE README.md for phases/ dir (verified: verify and review added, BOM=False ctrl=0 PASS, conf: high)
 - [x] T-042 IMPLEMENT missing lazy-load phases (verified: verify.md, review.md, done.md, blocked.md extracted from build.md and ship.md, conf: high)
