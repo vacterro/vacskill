@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.2.0 -- 2026-07-18
+- feat: Introduced the `ADD` phase. The agent now acts as a product manager and lead engineer to systematically brainstorm and implement new features based on core UX rules (persistence, industry standards, maximum user control, safe step-by-step evolution).
+- feat: Automated Continuous Evolution. When `BOARD.md` is empty, `/asp` defaults to the `HUNT` phase to fix bugs. If `HUNT` finds a clean codebase, it automatically transitions to the `ADD` phase to safely evolve the software.
+- doc: Added ELI5 "Grandpa Style" guides (`GUIDE_RU.md`, `GUIDE_EN.md`) and linked them with prominent shields.io badges in the `README.md`.
+- fix: Replaced `inject.ps1` and `inject.sh` symlink (junction) creation with direct file copies to ensure maximum reliability across all agent platforms.
+- fix: Restored Cyrillic UTF-8 encoding in `STYLE.md` to ensure correct persona injection for future agents.
+
 ## 7.1.2 -- 2026-07-17
 - refactor: Renamed GitHub repository from `vacskill` to `asp`. Updated all absolute URLs and git clone instructions.
 
