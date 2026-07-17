@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# asp injector (macOS/Linux) РІР‚вЂќ installs asp as default on every agentic system found.
+# asp injector (macOS/Linux) Р Р†Р вЂљРІР‚Сњ installs asp as default on every agentic system found.
 # Run from clone dir:  bash inject.sh
 # Idempotent: re-run safe. Also migrates pre-3.0 installs named "VAC".
 
 set -u
 SKILL_HOME="$(cd "$(dirname "$0")/vacskill" 2>/dev/null && pwd)"
-[ -f "$SKILL_HOME/PROTOCOL.md" ] || { echo "FATAL: asp/PROTOCOL.md not found"; exit 1; }
+[ -f "$SKILL_HOME/RFC.md" ] || { echo "FATAL: asp/RFC.md not found"; exit 1; }
 
 BLOCK="
 <!-- ASP:BEGIN -->
 ## asp protocol (global)
 On \"asp SET\" / \"asp ...\" (short alias \"vac ...\") commands, or when
-project root contains .asp/: read $SKILL_HOME/PROTOCOL.md + $SKILL_HOME/STYLE.md
+project root contains .asp/: read $SKILL_HOME/RFC.md + $SKILL_HOME/STYLE.md
 and follow them.
 Memory: .asp/ at project root - read .asp/STATE.md before work;
 checkpoint BOARD + STATE after every ticket, LOG line after every run.
@@ -19,7 +19,7 @@ Path missing (new machine)? clone github.com/vacterro/vacskill.
 UI work: also obey $SKILL_HOME/UI.md (Win95 dark golden, Verdana, no AA).
 <!-- ASP:END -->"
 
-# Pre-3.0 block points at the old VAC/ folder РІР‚вЂќ strip it before adding the new one.
+# Pre-3.0 block points at the old VAC/ folder Р Р†Р вЂљРІР‚Сњ strip it before adding the new one.
 strip_legacy_block() { # $1=file
   [ -f "$1" ] || return 1
   grep -q '<!-- ASP:BEGIN -->' "$1" || return 1
@@ -32,9 +32,9 @@ add_block() { # $1=file
   strip_legacy_block "$1" && migrated=0
   if [ -f "$1" ] && grep -q "ASP:BEGIN" "$1"; then
     if grep -q "PROTOCOL\.md" "$1"; then echo "already"; return; fi
-    # 3.x block points at SKILL.md РІР‚вЂќ replace with PROTOCOL.md block
+    # 3.x block points at SKILL.md Р Р†Р вЂљРІР‚Сњ replace with RFC.md block
     sed -i.bak '/<!-- ASP:BEGIN -->/,/<!-- ASP:END -->/d' "$1" && rm -f "$1.bak"
-    printf '%s\n' "$BLOCK" >> "$1"; echo "block upgraded to PROTOCOL.md"; return
+    printf '%s\n' "$BLOCK" >> "$1"; echo "block upgraded to RFC.md"; return
   fi
   mkdir -p "$(dirname "$1")"; printf '%s\n' "$BLOCK" >> "$1"
   [ $migrated -eq 0 ] && echo "migrated from VAC" || echo "block added"
@@ -62,18 +62,18 @@ add_link() { # $1=target $2=legacy
 copy_skill() { # $1=dst $2=legacy
   [ -n "${2:-}" ] && rm_legacy "$2"
   mkdir -p "$1"
-  cp "$SKILL_HOME/SKILL.md" "$SKILL_HOME/PROTOCOL.md" "$SKILL_HOME/UI.md" "$SKILL_HOME/STYLE.md" "$1/"
+  cp "$SKILL_HOME/SKILL.md" "$SKILL_HOME/RFC.md" "$SKILL_HOME/UI.md" "$SKILL_HOME/STYLE.md" "$1/"
 }
 
 echo "asp injector (source: $SKILL_HOME)"
 echo "------------------------------------------------------------"
-[ -d "$HOME/.claude" ]          && { printf '%-28s %s\n' "Claude Code skill"     "$(add_link "$HOME/.claude/skills/vacskill" "$HOME/.claude/skills/VAC")";
+[ -d "$HOME/.claude" ]          && { printf '%-28s %s\n' "Claude Code skill"     "$(add_link "$HOME/.claude/skills/asp" "$HOME/.claude/skills/VAC")";
                                      printf '%-28s %s\n' "Claude Code CLAUDE.md" "$(add_block "$HOME/.claude/CLAUDE.md")"; } \
                                 || printf '%-28s %s\n' "Claude Code" "not installed - skip"
-[ -d "$HOME/.config/opencode" ] && { printf '%-28s %s\n' "OpenCode skill"        "$(add_link "$HOME/.config/opencode/skills/vacskill" "$HOME/.config/opencode/skills/vac")";
+[ -d "$HOME/.config/opencode" ] && { printf '%-28s %s\n' "OpenCode skill"        "$(add_link "$HOME/.config/opencode/skills/asp" "$HOME/.config/opencode/skills/vac")";
                                      printf '%-28s %s\n' "OpenCode AGENTS.md"    "$(add_block "$HOME/.config/opencode/AGENTS.md")"; } \
                                 || printf '%-28s %s\n' "OpenCode" "not installed - skip"
-[ -d "$HOME/.codex" ]           && { printf '%-28s %s\n' "Codex skill"           "$(add_link "$HOME/.codex/skills/vacskill" "$HOME/.codex/skills/vac")";
+[ -d "$HOME/.codex" ]           && { printf '%-28s %s\n' "Codex skill"           "$(add_link "$HOME/.codex/skills/asp" "$HOME/.codex/skills/vac")";
                                      printf '%-28s %s\n' "Codex AGENTS.md"       "$(add_block "$HOME/.codex/AGENTS.md")"; } \
                                 || printf '%-28s %s\n' "Codex" "not installed - skip"
 [ -d "$HOME/.gemini" ]          && printf '%-28s %s\n' "Gemini GEMINI.md"        "$(add_block "$HOME/.gemini/GEMINI.md")" \
@@ -81,17 +81,17 @@ echo "------------------------------------------------------------"
 
 if [ -d "$HOME/.agents/skills" ]; then # copy, lowercase: these readers skip links/uppercase
   rm_legacy "$HOME/.agents/skills/VAC"
-  copy_skill "$HOME/.agents/skills/vacskill" "$HOME/.agents/skills/vac"
+  copy_skill "$HOME/.agents/skills/asp" "$HOME/.agents/skills/vac"
   printf '%-28s %s\n' "~/.agents skills" "copied (re-run after updates)"
 else printf '%-28s %s\n' "~/.agents" "not installed - skip"; fi
 
 if command -v aider >/dev/null 2>&1; then
   A="$HOME/.aider.conf.yml"
-  P="$SKILL_HOME/PROTOCOL.md"
+  P="$SKILL_HOME/RFC.md"
   if [ ! -f "$A" ]; then printf '# asp protocol auto-loaded\nread:\n  - %s\n' "$P" > "$A"; printf '%-28s %s\n' "Aider conf" "created"
   elif grep -qE '/(VAC|vacskill)/SKILL\.md' "$A"; then
     sed -i.bak "s#.*/\(VAC\|asp\)/SKILL\.md#  - $P#" "$A" && rm -f "$A.bak"
-    printf '%-28s %s\n' "Aider conf" "migrated to PROTOCOL.md"
+    printf '%-28s %s\n' "Aider conf" "migrated to RFC.md"
   elif grep -qF "$P" "$A"; then printf '%-28s %s\n' "Aider conf" "already"
   elif ! grep -q "^read:" "$A"; then printf '\n# asp protocol auto-loaded\nread:\n  - %s\n' "$P" >> "$A"; printf '%-28s %s\n' "Aider conf" "read: appended"
   else printf '%-28s %s\n' "Aider conf" "has own read: - add manually: $P"; fi
