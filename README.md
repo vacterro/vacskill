@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="assets/SAIPEN_TEXT1.png" alt="SAIPEN Logo"/>
+  <br>
+  <img src="assets/__SAIPEN_Alpha.png" alt="SAIPEN Sticker" width="200"/>
+</p>
+
 # SAIPEN
 
 **v7.2.0** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
@@ -48,3 +54,7 @@ No install? Paste one line to your agent:
 - **[SPEC.md](SPEC.md)**: The formal RFC specification. Read this if you are building extensions or agent frameworks.
 - **[RFC.md](saipen/RFC.md)**: The brutal, machine-readable ruleset that agents execute.
 - **[GUIDE.md](GUIDE.md)**: The human tutorial with examples.
+
+<p align="center">
+  <img src="assets/SAIPEN_design2_alpha.png" alt="SAIPEN Stamp" width="120"/>
+</p>

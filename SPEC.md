@@ -49,3 +49,8 @@ Transient event logs do not house permanent knowledge. SAIPEN mandates that stru
 SAIPEN ensures state integrity via file-based claims (`owner`, `claim_time`) and sequential graphs (`LOG.md`). However, **SAIPEN is a state protocol, not a distributed consensus algorithm.**
 - **Local/Shared Filesystem**: Conflict resolution relies on atomic filesystem writes ("first commit wins").
 - **Networked/Distributed Environments**: If agents operate across disconnected machines without real-time file syncing, race conditions on `BOARD.md` claims will occur. In highly distributed setups, SAIPEN MUST remain immutable, but a thin **Coordinator/Server Layer** SHOULD be built *on top* of SAIPEN to broker atomic locks before pushing state to the agents.
+
+
+<p align="center">
+  <img src="assets/SAIPEN_design2_alpha.png" alt="SAIPEN Stamp" width="120"/>
+</p>

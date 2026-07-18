@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/SAIPEN_design1.png" alt="SAIPEN Guide Title" width="800"/>
+</p>
+
 # SAIPEN Guide
 
 Welcome to SAIPEN! If you're a human developer looking to tame your AI agents, you're in the right place. 
@@ -27,3 +31,8 @@ Don't put project-specific rules in the global agent prompts. Put them in `.saip
 - Create a file like `.saipen/KNOWLEDGE/ADR-001-database.md`.
 - Tell the agent: "Always use PostgreSQL according to ADR-001".
 - The agent will now obey this forever, and any future agent will too.
+
+
+<p align="center">
+  <img src="assets/SAIPEN_design2_alpha.png" alt="SAIPEN Stamp" width="120"/>
+</p>

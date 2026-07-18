@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/SAIPEN_design1.png" alt="SAIPEN Guide Title" width="800"/>
+</p>
+
 # SAIPEN Guide (Explain Like I'm Five, Grandpa Edition)
 
 Listen here, rookie. The problem is simple: your AI agents have the memory of a goldfish. Yesterday you spent half a day explaining your architecture, and today you open a fresh chat and it starts building everything from scratch while asking stupid questions.
@@ -34,3 +38,8 @@ Board empty? Bored? Type `/saipen`.
 Agent won't whine 'how can I help?'. It jumps to **HUNT**, seeks bugs. No bugs? Hits **ADD** and builds a new feature by strict rules: zero hardcoding, bulletproof persistence, user controls everything. You just sit, smoke, watch the app grow muscles itself.
 
 Any questions? No? Then get back to work.
+
+
+<p align="center">
+  <img src="assets/SAIPEN_design2_alpha.png" alt="SAIPEN Stamp" width="120"/>
+</p>
