@@ -15,15 +15,18 @@ SAIPEN is evolutionary, not creative. Its purpose is to complete software, not r
 
 ## Architecture
 
-The protocol is strictly normative. We explicitly separate the **Core Protocol** from **Adaptive Extensions**.
+The protocol is strictly normative. SAIPEN conceptually divides into two layers: **Core** and **Engineering**.
 
 ```text
-saipen/                   <- THE CORE (distributable unit)
-  RFC.md                    normative core specification (MUST/SHOULD/MAY)
+saipen/
+  RFC.md                    normative specification (divided into Core and Engineering)
   phases/                   strict state machine logic
+    [Core Phases]
+    init.md / plan.md / scout.md / build.md / review.md / ship.md / done.md / blocked.md
+    [Engineering Phases]
+    verify.md / hunt.md / add.md / clean.md
+    
     validate.md             conformance testing
-    init.md / plan.md / scout.md / build.md / verify.md / review.md / ship.md
-    hunt.md / done.md / blocked.md
 
 extensions/                 <- THE ADAPTIVE LAYER
   adapters/                 per-model instruction bridges
