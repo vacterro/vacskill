@@ -114,3 +114,5 @@
 - [E-113] [parent: E-112] [none] RUN: hunt -> clean @5475924 - kurat, Р С•Р С—РЎРЏРЎвЂљРЎРЉ Р Т‘РЎвЂРЎР‚Р Р…РЎС“Р В»Р С‘, Р В° Р Т‘Р ВµР В»Р В°РЎвЂљРЎРЉ Р Р…Р ВµРЎвЂ¦РЎС“Р в„–, Р Р†РЎРѓРЎвЂ РЎР‚Р В°Р В±Р С•РЎвЂљР В°Р ВµРЎвЂљ.
 - [E-114] [parent: E-113] [none] RUN: plan -> skip (size gate), create GUIDE_RU/EN.md -> DONE - kurat, Р Р…Р В°Р С”Р В°РЎвЂљР В°Р В» Р СР В°Р Р…РЎС“Р В°Р В»РЎвЂ№ Р Т‘Р В»РЎРЏ РЎРѓР В°Р В»Р В°Р В±Р С•Р Р…Р С•Р Р†, Р С—РЎС“РЎРѓРЎвЂљРЎРЉ РЎвЂЎР С‘РЎвЂљР В°РЎР‹РЎвЂљ.
 - [E-028] [parent: E-027] [T-059] RUN: inject.ps1/.sh update -> ADD phase: implemented automatic config backups (.bak) to satisfy Industry Standards rule.
+- [E-029] [parent: E-028] [T-none] RUN: hunt -> clean @7a26b5d. Transitioning to ADD phase.
+- [E-030] [parent: E-029] [T-060] RUN: implement uninstall.ps1/sh -> ADD phase complete: Uninstaller provides max user control for removal.
