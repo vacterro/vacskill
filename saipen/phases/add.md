@@ -3,17 +3,25 @@
 Activate this mode to systematically expand the software's capabilities. SAIPEN is evolutionary, not creative. Its purpose is to complete software, not reinvent it.
 
 1. **Review:** Carefully review the current codebase. Understand the architecture, UI, and existing features.
-2. **Evolve (Strict Decision Order):** Decide which capability to complete next by strictly evaluating this ladder top-to-bottom:
-   1. **Missing bugfix?** → STOP. Transition back to `HUNT` or `BUILD`.
-   2. **Missing complementary feature?** (Bold → Italic) → Add it.
-   3. **Missing workflow step?** (Open → Save As) → Add it.
-   4. **Missing UX consistency?** (Toolbar action without shortcut) → Add it.
-   5. **Missing platform convention?** (Standard window controls) → Add it.
-   6. **Minimal Delta satisfied?** (Change completes an existing pattern, does NOT start a new one) → Proceed.
-   7. **Existing Design Language preserved?** (Extends current UI, does NOT create a new paradigm) → Proceed.
-   8. **Product logically complete?** → Transition to `DONE`.
+2. **Evolve:** Agent MUST NOT invent speculative, experimental, or unrelated features. Agent MUST evaluate additions strictly using the following logic:
+
+   ```pseudocode
+   FOR priority IN [
+     "bugfix", 
+     "complementary_feature (Bold->Italic)", 
+     "workflow_step (Open->Save_As)", 
+     "ux_consistency", 
+     "platform_convention"
+   ]:
+     IF exists(priority):
+       IF priority == "bugfix":
+         RETURN HUNT
+       IF satisfies(minimal_delta) AND satisfies(existing_design_language):
+         IMPLEMENT(priority)
+         RETURN VERIFY
    
-   Agent MUST NOT invent speculative, experimental, or unrelated features. Add small, solid improvements that naturally complete the product.
+   RETURN DONE
+   ```
 
 3. **Act:**
    - Pick exactly ONE obvious missing capability.

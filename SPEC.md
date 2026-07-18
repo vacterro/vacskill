@@ -15,7 +15,9 @@ SAIPEN is evolutionary, not creative. Its purpose is to complete software, not r
 
 ## Architecture
 
-The protocol is strictly normative. SAIPEN conceptually divides into two layers: **Core** and **Engineering**.
+The protocol is strictly normative. SAIPEN conceptually divides into two layers: **Core** and **Engineering**. 
+- **The Core layer** guarantees safe, vendor-neutral task continuation. 
+- **The Engineering layer** is an autonomous software maintenance model built on top of Core.
 
 ```text
 saipen/

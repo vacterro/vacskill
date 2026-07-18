@@ -1,7 +1,6 @@
 # SAIPEN Protocol (RFC)
 
 ## Part 1: CORE (Continuation Protocol)
-The Core layer guarantees safe, vendor-neutral task continuation.
 
 ### 1.1 Normative Rules
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
@@ -51,7 +50,6 @@ The protocol lives in the SAIPEN home; the project holds work, not protocol copi
 ---
 
 ## Part 2: ENGINEERING (Autonomous Maintenance)
-The Engineering layer is an optional autonomous software maintenance model built on top of Core.
 
 ### 2.1 Autonomous Transitions
 When the Core state machine reaches a halt (no pending tickets), the Engineering layer MAY take over.
@@ -60,15 +58,25 @@ When the Core state machine reaches a halt (no pending tickets), the Engineering
 - **HUNT**: Transition to `HUNT` MUST occur strictly when `BOARD.md` has no open `TODO` tickets without blockers, or when explicitly signaled by a failed verification loop. Agent MUST NOT hallucinate tasks during `HUNT`.
 - **CLEAN**: Transition to `CLEAN` occurs when explicitly triggered by user via `saipen clean`. Agent MUST audit and prune stale tickets, orphaned files, and broken paths before returning to `DONE`.
 
-### 2.2 Evolutionary ADD (Decision Order)
-- **ADD**: Agent MUST evolve the software conservatively using a strict Decision Order:
-  1. Missing bugfix? → STOP. Return to BUILD/HUNT.
-  2. Missing complementary feature? (Bold → Italic) → Add it.
-  3. Missing workflow step? (Open → Save As) → Add it.
-  4. Missing UX consistency? (Toolbar action without shortcut) → Add it.
-  5. Missing platform convention? → Add it.
-  6. Minimal Delta satisfied? (No new patterns) → Continue.
-  7. Existing Design Language preserved? → Continue.
-  8. Product logically complete? → DONE.
+### 2.2 Evolutionary ADD
+- **ADD**: Agent MUST NOT invent speculative, experimental, or unrelated features. Agent MUST evaluate additions strictly using the following logic:
+
+  ```pseudocode
+  FOR priority IN [
+    "bugfix", 
+    "complementary_feature (Bold->Italic)", 
+    "workflow_step (Open->Save_As)", 
+    "ux_consistency", 
+    "platform_convention"
+  ]:
+    IF exists(priority):
+      IF priority == "bugfix":
+        RETURN HUNT
+      IF satisfies(minimal_delta) AND satisfies(existing_design_language):
+        IMPLEMENT(priority)
+        RETURN VERIFY
   
-  Agent MUST NOT invent speculative, experimental, or unrelated features. After every ADD, transition to VERIFY, then HUNT. Only if HUNT is clean may another ADD begin.
+  RETURN DONE
+  ```
+  
+  After every ADD implementation, agent MUST transition to VERIFY, then HUNT. Only if HUNT is clean may another ADD begin.
