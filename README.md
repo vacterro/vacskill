@@ -15,7 +15,9 @@
 [![Russian Guide](https://img.shields.io/badge/📖_ELI5_Guide-НА_РУССКОМ-red?style=for-the-badge)](GUIDE_RU.md)
 [![English Guide](https://img.shields.io/badge/📖_ELI5_Guide-IN_ENGLISH-blue?style=for-the-badge)](GUIDE_EN.md)
 
-SAIPEN is a stable, vendor-neutral continuation protocol. Its sole purpose is to guarantee that a completely cold agent with zero chat history can execute `/saipen continue` and resume productive work within one minute, without asking the user to repeat context.
+SAIPEN guarantees that any compatible AI agent can safely continue any project without being rebriefed.
+
+SAIPEN is a stable, vendor-neutral continuation protocol. Its sole purpose is to ensure that a completely cold agent with zero chat history can execute `/saipen continue` and resume productive work within one minute, without asking the user to repeat context.
 
 ```text
 User  ->  /saipen continue
@@ -27,14 +29,14 @@ Agent ->  Works.
 
 Instead of writing a README instructing models "how to behave", you drop SAIPEN into your project. Whether you use Claude today and Gemini tomorrow, both agents will instantly negotiate capabilities, follow the state machine, and execute the next action.
 
-## Engineering Operating Model
+## The ABI for AI Agents (Compatibility Layer)
 
 SAIPEN consists of two independent layers.
 
 | Layer | Required | Purpose |
 |---|---|---|
 | **Core** | ✅ | Continue work safely (the continuation protocol) |
-| **Engineering** | Built on top of Core | Improve software autonomously (the operating model) |
+| **Maintenance** | Built on top of Core | Improve software autonomously (continuous evolution) |
 
 ### Automated Continuous Evolution
 When your project has no active tasks, just type `/saipen`. The protocol automatically triggers:

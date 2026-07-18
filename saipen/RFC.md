@@ -49,10 +49,10 @@ The protocol lives in the SAIPEN home; the project holds work, not protocol copi
 
 ---
 
-## Part 2: ENGINEERING (Autonomous Maintenance)
+## Part 2: MAINTENANCE (Autonomous Evolution)
 
 ### 2.1 Autonomous Transitions
-When the Core state machine reaches a halt (no pending tickets), the Engineering layer MAY take over.
+When the Core state machine reaches a halt (no pending tickets), the Maintenance layer MAY take over.
 
 - **DEFAULT BEHAVIOR**: The bare command `saipen` is an alias for `saipen continue`. If there are pending tickets on `BOARD.md`, the agent MUST resume work. If the user runs the protocol (e.g., `saipen` or `saipen continue`) and `BOARD.md` is empty (no open tickets), the agent MUST immediately transition to the `HUNT` phase to search for bugs. If `HUNT` finds nothing (clean), the agent MUST immediately transition to `ADD` to evolve the software.
 - **HUNT**: Transition to `HUNT` MUST occur strictly when `BOARD.md` has no open `TODO` tickets without blockers, or when explicitly signaled by a failed verification loop. Agent MUST NOT hallucinate tasks during `HUNT`.

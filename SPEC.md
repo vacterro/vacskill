@@ -3,7 +3,9 @@
 ## Abstract
 **Design Goal #1: A cold agent with zero chat history must be able to execute `/saipen continue` and resume productive work within one minute, without asking the user to repeat context.**
 
-SAIPEN is an engineering operating model for autonomous software maintenance. At its core, it uses a portable, file-backed continuation protocol for LLM agents. Implementations MAY vary. The on-disk contract MUST remain stable. Everything in this protocol exists to serve the Continuation Test.
+SAIPEN is an ABI (Application Binary Interface) for engineering AI agents—a compatibility layer that solves the amnesia problem. It guarantees that any compatible AI agent can safely continue any project without being rebriefed. Whether you use Claude today, Gemini tomorrow, and GPT the day after, they will all work as a single unified engineer.
+
+At its core, SAIPEN uses a portable, file-backed continuation protocol for LLM agents. Implementations MAY vary. The on-disk contract MUST remain stable. Everything in this protocol exists to serve the Continuation Test.
 
 SAIPEN is evolutionary, not creative. Its purpose is to complete software, not reinvent it. ADD extends existing design patterns, industry conventions, and obvious feature symmetry.
 
@@ -24,17 +26,17 @@ If the answer is "no" to at least two of these questions, the idea is rejected. 
 
 ## Architecture
 
-The protocol is strictly normative. SAIPEN conceptually divides into two layers: **Core** and **Engineering**. 
+The protocol is strictly normative. SAIPEN conceptually divides into two layers: **Core** and **Maintenance**. 
 - **The Core layer** guarantees safe, vendor-neutral task continuation. 
-- **The Engineering layer** is an autonomous software maintenance model built on top of Core.
+- **The Maintenance layer** is an autonomous software evolution model built on top of Core.
 
 ```text
 saipen/
-  RFC.md                    normative specification (divided into Core and Engineering)
+  RFC.md                    normative specification (divided into Core and Maintenance)
   phases/                   strict state machine logic
     [Core Phases]
     init.md / plan.md / scout.md / build.md / review.md / ship.md / done.md / blocked.md
-    [Engineering Phases]
+    [Maintenance Phases]
     verify.md / hunt.md / add.md / clean.md
     
     validate.md             conformance testing
