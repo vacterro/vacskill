@@ -1,13 +1,13 @@
 ---
-name: asp
+name: saipen
 description: >
-  Agent Session Protocol (v7). Trigger on "asp SET", "asp",
+  SAIPEN (v7). Trigger on "saipen SET", "saipen",
   and subcommands. 2-tier architecture: boot RFC.md
   loads always; phases/ modules load on demand per STATE.
-  Persistent .asp/ memory lets any agent continue another's work.
+  Persistent .saipen/ memory lets any agent continue another's work.
 ---
 
-# asp -- skill adapter
+# saipen -- skill adapter
 
 Thin entry for skill-reading platforms. The system lives elsewhere:
 
@@ -17,6 +17,6 @@ Thin entry for skill-reading platforms. The system lives elsewhere:
 4. UI work: also read `UI.md` (Win95 dark golden, Verdana, no AA).
 
 Platform notes:
-- Native task lists mirror `.asp/BOARD.md`, never replace it.
+- Native task lists mirror `.saipen/BOARD.md`, never replace it.
 - Prefer file tools over shell redirects -- UTF-8 no BOM.
 - RFC.md decides. No rule here overrides it.

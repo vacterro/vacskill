@@ -19,7 +19,7 @@
   reading BOARD needs: DAG and dispatching agents; SKILL.md then becomes
   the worker contract, not the top document.
 
-- 2-tier protocol (v5.0.0): asp/RFC.md = dense boot loader (~110 lines,
+- 2-tier protocol (v5.0.0): saipen/RFC.md = dense boot loader (~110 lines,
   ~1,200 tokens). Phase rules live in `phases/*.md`, loaded on demand per STATE.phase. Reason: monolithic v4 loaded 240 lines (~3k
   tokens) every cold start even when 80% was irrelevant. Now BUILD session
   never parses SHIP rules. Inspired by caveman skill's single-sentence

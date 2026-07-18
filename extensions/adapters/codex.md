@@ -1,7 +1,7 @@
 # Codex CLI adapter
 
-- Skill route: `~/.codex/skills/asp/` junction; global
-  `~/.codex/AGENTS.md` carries the asp block (injector writes both).
-- Sandbox limits в†’ declare capabilities honestly; degrade per protocol table.
+- Skill route: `~/.codex/skills/saipen/` junction; global
+  `~/.codex/AGENTS.md` carries the saipen block (injector writes both).
+- Sandbox limits РІвЂ вЂ™ declare capabilities honestly; degrade per protocol table.
 
-Everything else: follow `asp/PROTOCOL.md`.
+Everything else: follow `saipen/PROTOCOL.md`.

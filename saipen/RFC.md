@@ -12,7 +12,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 - **KNOWLEDGE/**: Directory for durable truths. MUST NOT contain event histories. Uses ADR pattern (`ADR-001.md`).
 
 ## 3. State Machine Transitions
-`INIT → PLAN → SCOUT → BUILD → VERIFY → REVIEW → SHIP → DONE | BLOCKED | HUNT | ADD`
+`INIT в†’ PLAN в†’ SCOUT в†’ BUILD в†’ VERIFY в†’ REVIEW в†’ SHIP в†’ DONE | BLOCKED | HUNT | ADD`
 
 **Strict Transition Constraints:**
 - **VERIFY**: MUST be executed. Failure loops back to `BUILD` (max 2 loops) or `SCOUT`. Success transitions to `REVIEW`.
@@ -20,7 +20,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 - **DONE**: A ticket MUST NOT be marked `DONE` without a successful `VERIFY` (or human `MANUAL-VERIFY`).
 - **HUNT**: Transition to `HUNT` MUST occur strictly when `BOARD.md` has no open `TODO` tickets without blockers, or when explicitly signaled by a failed verification loop. Agent MUST NOT hallucinate tasks during `HUNT`.
 - **ADD**: Transition to `ADD` occurs when instructed to brainstorm and implement new features based on core UX rules.
-- **DEFAULT BEHAVIOR**: If the user runs the protocol (e.g., `/asp` or `asp continue`) and `BOARD.md` is empty (no tickets), the agent MUST immediately transition to the `HUNT` phase to search for bugs. If `HUNT` finds nothing (clean), the agent MUST immediately transition to `ADD` to evolve the software.
+- **DEFAULT BEHAVIOR**: If the user runs the protocol (e.g., `/saipen` or `saipen continue`) and `BOARD.md` is empty (no tickets), the agent MUST immediately transition to the `HUNT` phase to search for bugs. If `HUNT` finds nothing (clean), the agent MUST immediately transition to `ADD` to evolve the software.
 
 ## 4. Ticket Model (DAG)
 - Tickets MUST define dependencies using `needs: [T-XXX]`.
@@ -29,7 +29,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 ## 5. Claim / Ownership
 - Agent sets `owner: <AgentID>` and `claim_time: <ISO8601>` on BOARD.
 - Active owner: `claim_time` < 15 minutes old, or actively writing to `LOG.md`.
-- Stale claims: `claim_time` > 15 minutes + no LOG activity → claim is forfeit.
+- Stale claims: `claim_time` > 15 minutes + no LOG activity в†’ claim is forfeit.
 - Conflicting writes: First successful filesystem commit wins.
 
 ## 6. Checkpointing
@@ -49,8 +49,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
    - Missing Filesystem Write: `mode: read-only`.
 
 ## 9. Workspace Hygiene
-The protocol lives in the ASP home; the project holds work, not protocol copies.
-- Protocol files (`RFC.md`, `STYLE.md`, `UI.md`, `SKILL.md`, `phases/`) MUST NOT be copied into the project. Agents read them from the ASP home; the pointer block in `AGENTS.md` gives the path.
-- Project memory MUST live in `.asp/` under canonical names only: `STATE.md`, `BOARD.md`, `LOG.md`, `KNOWLEDGE/`. Ad-hoc names (`CONTEXT.md`, `MEMORY.md`, `NOTES.md`) are non-conformant — fold their content into the canonical file (`CONTEXT` → `KNOWLEDGE/`, `MEMORY` → `LOG.md`) and delete the stray.
+The protocol lives in the SAIPEN home; the project holds work, not protocol copies.
+- Protocol files (`RFC.md`, `STYLE.md`, `UI.md`, `SKILL.md`, `phases/`) MUST NOT be copied into the project. Agents read them from the SAIPEN home; the pointer block in `AGENTS.md` gives the path.
+- Project memory MUST live in `.saipen/` under canonical names only: `STATE.md`, `BOARD.md`, `LOG.md`, `KNOWLEDGE/`. Ad-hoc names (`CONTEXT.md`, `MEMORY.md`, `NOTES.md`) are non-conformant вЂ” fold their content into the canonical file (`CONTEXT` в†’ `KNOWLEDGE/`, `MEMORY` в†’ `LOG.md`) and delete the stray.
 - Every `.md` MUST earn its place: one purpose, no duplication, no filler. On checkpoint, agent MUST prune generated litter (`__pycache__`, editor swaps, empty scaffold files) and MUST NOT create a file it will not maintain.
 - Deliverables (client-facing outputs) live at project root and are exempt; they are work, not protocol.

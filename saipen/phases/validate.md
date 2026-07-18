@@ -1,6 +1,6 @@
 # Phase: VALIDATE
 ## Goal
-Execute the conformance script to verify the structural integrity of `.asp/`.
+Execute the conformance script to verify the structural integrity of `.saipen/`.
 This prevents "schizophrenic READMEs" and agent hallucinations.
 
 ## Steps

@@ -19,7 +19,7 @@
     "agent": {
       "type": "string"
     },
-    "asp_version": {
+    "saipen_version": {
       "type": "integer"
     },
     "schema_version": {
@@ -44,7 +44,7 @@
     "next_action",
     "blocker",
     "agent",
-    "asp_version",
+    "saipen_version",
     "schema_version",
     "updated"
   ]

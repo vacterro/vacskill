@@ -1,10 +1,10 @@
 # Claude adapter (Claude Code / claude.ai)
 
-- Skill route: `~/.claude/skills/asp/` junction carries SKILL.md в†’
+- Skill route: `~/.claude/skills/saipen/` junction carries SKILL.md РІвЂ вЂ™
   PROTOCOL.md automatically; nothing extra needed.
 - Plain chat without skills? Paste:
-  `Read <clone>/asp/PROTOCOL.md + <clone>/asp/STYLE.md and follow them.`
-- Write repo files with editor tools, never shell redirects вЂ” BOM risk.
-- Native todo lists mirror `.asp/BOARD.md`, never replace it.
+  `Read <clone>/saipen/PROTOCOL.md + <clone>/saipen/STYLE.md and follow them.`
+- Write repo files with editor tools, never shell redirects РІР‚вЂќ BOM risk.
+- Native todo lists mirror `.saipen/BOARD.md`, never replace it.
 
-Everything else: follow `asp/PROTOCOL.md`.
+Everything else: follow `saipen/PROTOCOL.md`.
