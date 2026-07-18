@@ -119,3 +119,6 @@
 - [E-031] [parent: E-030] [T-none] RUN: hunt -> clean @0932f65. Transitioning to ADD phase.
 - [E-032] [parent: E-031] [T-061] RUN: implement export.ps1/sh -> ADD phase complete: Export satisfies memory backup rule.
 - [E-033] [parent: E-032] [T-062] RUN: implement saipen clean -> ADD phase complete: CLEAN phase provides deep workspace pruning.
+- [E-034] [parent: E-033] [T-064] RUN: unnest SAIPEN project from _ASP folder. Project is now flat.
+- [E-035] [parent: E-034] [T-063] RUN: implement §10 Phase Loading in RFC to prevent hallucinated per-project phases.
+- [E-036] [parent: E-035] [T-063] RUN: FastPrompter cleanup: backed up and removed localized phases/protocol files.

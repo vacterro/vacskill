@@ -6,6 +6,8 @@
 ## TODO
 ## TODO
 ## DONE
+- [x] T-064 FIX: SAIPEN project nested in _ASP directory | files: _SAIPEN | verify: project is flat at V:\___VAC\__K\__CODE\_AI_STUFF_AGENTIC\_SAIPEN | needs: none
+- [x] T-063 ADD: §10 Phase Loading in RFC | files: saipen/RFC.md | verify: explicitly prevents loading local phases and hallucinating | needs: none
 - [x] T-062 ADD: CLEAN phase and saipen clean trigger | files: saipen/phases/clean.md, saipen/RFC.md, GUIDE*.md | verify: saipen clean commands documented and protocol updated | needs: none
 - [x] T-061 ADD: Session State Export tool for backups | files: bootstrap/export.ps1, bootstrap/export.sh | verify: archives .saipen memory into a timestamped zip/tar file | needs: none
 - [x] T-060 ADD: Uninstaller scripts for max user control | files: bootstrap/uninstall.ps1, bootstrap/uninstall.sh | verify: cleanly strips SAIPEN from host configs without deleting the repo | needs: none

@@ -55,3 +55,9 @@ The protocol lives in the SAIPEN home; the project holds work, not protocol copi
 - Project memory MUST live in `.saipen/` under canonical names only: `STATE.md`, `BOARD.md`, `LOG.md`, `KNOWLEDGE/`. Ad-hoc names (`CONTEXT.md`, `MEMORY.md`, `NOTES.md`) are non-conformant — fold their content into the canonical file (`CONTEXT` → `KNOWLEDGE/`, `MEMORY` → `LOG.md`) and delete the stray.
 - Every `.md` MUST earn its place: one purpose, no duplication, no filler. On checkpoint, agent MUST prune generated litter (`__pycache__`, editor swaps, empty scaffold files) and MUST NOT create a file it will not maintain.
 - Deliverables (client-facing outputs) live at project root and are exempt; they are work, not protocol.
+
+## 10. Phase Loading
+- When transitioning to a new phase (e.g., changing `phase: [name]` in `STATE.md`), the agent MUST read the corresponding phase rules strictly from `<SAIPEN_HOME>/phases/<phase>.md`.
+- The agent MUST NOT attempt to load phases from the local project directory.
+- If a phase is not found in the `<SAIPEN_HOME>/phases/` directory, the agent MUST transition to `BLOCKED` and await human intervention.
+- The agent MUST NOT hallucinate, invent, or create new phase files under any circumstances.
