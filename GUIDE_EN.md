@@ -54,7 +54,7 @@ Think of the agent as a smart dog. These are the commands you use to tell it wha
 | `saipen status` | **The Status Report.** The agent looks at the board and tells you what's done and what's next, without touching the code. | *Scenario:* You haven't checked the project in a week and just want to know what the current plan is. |
 | `saipen GOAL <text>` | **The Boss Move.** Throws the current plan out the window and forces the agent to focus on a new high-level objective. | *Scenario:* The boss just called and said "Pivot everything, we're building a crypto app now." You type `saipen GOAL build crypto app`. |
 | `saipen clean` | **The Janitor.** The agent scrubs the repository, deletes orphaned files, fixes bad links, and prunes old done tasks. | *Scenario:* Your repo is full of `.tmp` files, old `TODO`s, and dead code, and you want a fresh start before a major release. |
-| `saipen` | **The Auto-Pilot.** Kicks off the HUNT phase to find bugs, or the ADD phase to build new features if no bugs exist. | *Scenario:* The project is done, the board is empty, but you want the agent to proactively improve the app while you watch YouTube. |
+| `saipen` | **The Universal "Go" Button.** Acts exactly like `saipen continue` to resume work if there are tickets. If the board is totally empty, it switches to Auto-Pilot (HUNT/ADD) to find bugs or build new features. | *Scenario:* You are lazy and just want the agent to do whatever needs to be done next, whether that's finishing a task or finding new ones. |
 
 
 <p align="center">
