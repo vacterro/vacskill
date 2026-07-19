@@ -64,10 +64,10 @@ When the Core state machine reaches a halt (no pending tickets), the Maintenance
   ```pseudocode
   FOR priority IN [
     "bugfix", 
-    "complementary_feature (e.g. Bold->Italic, Apply->Save/Cancel)", 
-    "workflow_step (e.g. Copy/Paste, Import/Export, Backup)", 
+    "complementary_feature (Bold->Italic)", 
+    "workflow_step (Open->Save_As)", 
     "ux_consistency", 
-    "platform_convention (industry standard functions, bilingual support)"
+    "platform_convention"
   ]:
     IF exists(priority):
       IF priority == "bugfix":
@@ -80,3 +80,9 @@ When the Core state machine reaches a halt (no pending tickets), the Maintenance
   ```
   
   After every ADD implementation, agent MUST transition to VERIFY, then HUNT. Only if HUNT is clean may another ADD begin.
+
+### 2.3 The "etc" Convention (Implied Extension)
+When a user provides an instruction containing the keyword `etc` (e.g., "Add an Apply button etc"), the agent MUST interpret this as a strict directive to thoughtfully expand the requested feature with all complementary basic functionality to meet industrial standards.
+- If the user asks for "Apply", the agent SHOULD evaluate if "Save" or "Cancel" are contextually required.
+- If the user asks for "Export", the agent SHOULD consider "Import" or "Backup".
+- The agent MUST NOT harm existing functionality. The extension MUST strictly follow the Evolutionary ADD priorities (complementary features, workflow steps, platform conventions) to reasonably extend the user's ability to control the software.
