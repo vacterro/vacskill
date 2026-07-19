@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.4.1 -- 2026-07-19
+- fix: `phases/ship.md`'s terminal line ("After SHIP: STATE -> DONE") had zero mention of `goal_mode`, the same class of gap fixed in `done.md`/`review.md` a version ago -- a model landing here in one continuous turn could write `phase: DONE` without ever loading `done.md`'s goal_mode check in the same pass. Now checks explicitly. Full sweep of every other `DONE` transition in `phases/*.md` confirmed clean: `add.md`'s is the one legitimate exit condition (product mature) RFC §2.4 already defers to, and `clean.md` is purely human-triggered, already covered by `done.md`'s landing check.
+
 ## 7.4.0 -- 2026-07-19
 - feat: `HUNT` fans its 6 independent signal categories out to parallel subagents when the platform supports spawning them (RFC.md §1.3, new optional `subagents` capability -- never required, never gates a phase). Subagents are read-only investigators; only the orchestrating agent writes BOARD/LOG, once, after merging results, avoiding write races by construction. No subagent support falls back silently to the existing sequential sweep -- identical cap, identical output, just slower.
 

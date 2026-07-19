@@ -15,4 +15,7 @@ unopted project. Needs 100% green.
    -- ALWAYS, even under `goal_mode`. New public artifact is a one-way door.
 7. LOG: `RUN: ship vX.Y.Z -> pushed HASH`.
 
-After SHIP: STATE -> DONE.
+After SHIP: STATE -> DONE. `goal_mode: true`? Do not treat this as a
+stopping point even momentarily -- `next_action` MUST already name the
+next step, never a wait. `phases/done.md` § 1 sends you straight to HUNT;
+board-empty is a waypoint, not an exit (RFC § 2.4).
