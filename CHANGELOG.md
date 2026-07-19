@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.1 -- 2026-07-18
+- docs: Refined the Industrial Completion Rule (`RFC.md` §2.3, `phases/add.md`). Replaced "functional cluster" with "user workflow" throughout for a clearer mental model. Added the "Complete before you extend" maxim: finish the requested workflow before proposing a different one, because agents should preserve user expectations before introducing new capabilities.
+
 ## 7.2.0 -- 2026-07-18
 - feat: Introduced the `ADD` phase. The agent now acts as a product manager and lead engineer to systematically brainstorm and implement new features based on core UX rules (persistence, industry standards, maximum user control, safe step-by-step evolution).
 - feat: Automated Continuous Evolution. When `BOARD.md` is empty, `/saipen` defaults to the `HUNT` phase to fix bugs. If `HUNT` finds a clean codebase, it automatically transitions to the `ADD` phase to safely evolve the software.

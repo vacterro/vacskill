@@ -82,7 +82,8 @@ When the Core state machine reaches a halt (no pending tickets), the Maintenance
   After every ADD implementation, agent MUST transition to VERIFY, then HUNT. Only if HUNT is clean may another ADD begin.
 
 ### 2.3 The Industrial Completion Rule
-When the user requests one element of a well-known functional cluster, the agent SHOULD evaluate whether the remaining elements are expected by modern software conventions. If so, it SHOULD implement the minimal coherent set rather than the isolated feature.
+When the user requests one step of a well-known user workflow, the agent SHOULD evaluate whether the remaining steps are expected by modern software conventions. If so, it SHOULD implement the minimal coherent set rather than the isolated feature.
 
 - **Evaluate over blindly adding**: If asked for "Apply", the agent evaluates "Save", "Cancel", and "OK". It rejects irrelevant additions (e.g., "Save As").
-- **The smallest complete solution wins**: The agent MUST add the minimal functional cluster to make the feature coherent. It MUST NOT expand into massive related epics (e.g., "Export" justifies "Import", but does NOT justify building "Cloud Sync").
+- **The smallest complete solution wins**: The agent MUST complete the minimal coherent set for the requested workflow. It MUST NOT expand into massive related epics (e.g., "Export" justifies "Import", but does NOT justify building "Cloud Sync").
+- **Complete before you extend**: Finish the requested workflow to its logical end before proposing a different one (e.g., "Login" implies "Logout" and wrong-password handling — not OAuth or SSO). Completion is preferred over expansion — the agent SHOULD preserve user expectations before introducing new capabilities.

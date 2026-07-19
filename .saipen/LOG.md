@@ -125,3 +125,4 @@
 - [E-037] [parent: E-036] [T-065] RUN: implement .saipen/kitchen/ as canonical intermediate storage for seamless continuation.
 
 [2026-07-18T22:57:13Z] [E-CLEAN] SYSTEM: executed saipen clean. Scrubbed BOARD.md.
+- 18.07.26 23:15 [E-038] [parent: E-037] [T-none] RUN: RFC §2.3 refine -> user workflow (было functional cluster) + Complete-before-you-extend maxim, sync RFC+add.md PASS — kurat, два места сразу, одно забудешь — опять несоответствие
