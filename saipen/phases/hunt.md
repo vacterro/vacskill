@@ -11,8 +11,10 @@ Signal order, cap 5 tickets:
 6. Dead code, orphan files (zero grep refs, not entry/doc/config)
 
 Obvious junk -> delete free. Ambiguous -> ticket + user confirms.
-Nothing found -> `RUN: hunt -> clean @SHORT-HASH`, then immediately transition to `ADD` phase to evolve the software.
-Never invent busywork.
+Nothing found -> LOG exactly `RUN: hunt -> clean @SHORT-HASH` (this exact
+format, not a free-text summary), then immediately transition to `ADD`.
+This transition is unconditional -- a clean hunt is never itself a reason
+to stop, under `goal_mode` or otherwise (RFC § 2.4). Never invent busywork.
 
 ## Perf (perf flag)
 

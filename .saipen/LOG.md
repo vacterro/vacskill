@@ -128,3 +128,7 @@
 - 18.07.26 23:15 [E-038] [parent: E-037] [T-none] RUN: RFC §2.3 refine -> user workflow (было functional cluster) + Complete-before-you-extend maxim, sync RFC+add.md PASS — kurat, два места сразу, одно забудешь — опять несоответствие
 - 18.07.26 23:40 [E-039] [parent: E-038] [T-none] RUN: RFC §2.4 GOAL Mode implemented -> ship-автопуш при goal_mode:true, потолок 3 волны/20 тикетов, VERIFY/REVIEW неприкосновенны PASS — как в Antigravity, только с тормозами
 - 18.07.26 23:55 [E-040] [parent: E-039] [T-none] RUN: readmes -> нашёл старый saipen GOAL в гайдах, смыслы слиты (pivot + автозавершение), регистр выровнен под SET PASS — два агента писали одно слово по-разному, вот и приплыли
+- 19.07.26 00:10 [E-041] [parent: E-040] [T-none] RUN: полный снос капса (set/goal/init везде) + инжектор-шаблон PASS
+- 19.07.26 00:15 [E-042] [parent: E-041] [T-none] H: WildRiftAssistant застрял на DONE после чистого hunt под goal_mode -> confirmed: мой же Exit-пункт разрешал считать пустую доску завершением, обрывая обязательный HUNT->ADD
+- 19.07.26 00:20 [E-042] [parent: E-041] [T-none] DEC: пустая доска — не выход, а путевая точка; goal_mode живёт через весь HUNT->ADD, выход только по зрелости продукта/BLOCKED/потолку -> RFC §2.4 переписан
+- 19.07.26 00:22 [E-043] [parent: E-042] [T-none] RUN: hunt.md усилен явным требованием точного формата лога и безусловности перехода PASS — сам дал слабой модели лазейку, сам и заделал

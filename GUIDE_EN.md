@@ -23,7 +23,7 @@ bash bootstrap/inject.sh                                            # macOS / Li
 
 **Step 2. Start it in your project**
 Open your terminal or editor in your project folder, call the agent, and tell it straight to its face:
-> `saipen SET` 
+> `saipen set` 
 
 It will grumble, create an `.saipen/` folder, and start writing a list of tasks (tickets). Bam, the patient is on the hook.
 
@@ -50,11 +50,11 @@ Think of the agent as a smart dog. These are the commands you use to tell it wha
 
 | Command | What it does (ELI5) | When to use it (Scenario) |
 |---|---|---|
-| `saipen SET` | **The On-Switch.** Creates the memory folder (`.saipen/`) and starts the first planning session. | *Scenario:* You just opened a completely new project folder and want the agent to start managing it. |
+| `saipen set` | **The On-Switch.** Creates the memory folder (`.saipen/`) and starts the first planning session. | *Scenario:* You just opened a completely new project folder and want the agent to start managing it. |
 | `saipen continue` | **The Workhorse.** Tells the agent to shut up, read its notes, pick the top task from the board, and do it. | *Scenario:* You come back from lunch, open a blank chat, and want the agent to resume coding exactly where it left off. |
 | `saipen stop` | **The Brakes.** Forces the agent to stop what it's doing, save its progress, and wait for you. | *Scenario:* The agent is going down a rabbit hole or you need to urgently push code to production. |
 | `saipen status` | **The Status Report.** The agent looks at the board and tells you what's done and what's next, without touching the code. | *Scenario:* You haven't checked the project in a week and just want to know what the current plan is. |
-| `saipen GOAL <text>` | **The Boss Move.** Shoves the current plan in the drawer -- doesn't shred it, old tickets just wait their turn -- and drives the new objective home solo: plans it, builds it, tests it, and ships it, no "should I continue?" hand-holding. Stops itself after 3 waves or 20 tickets so it can't run off a cliff. | *Scenario:* The boss just called and said "Pivot everything, we're building a crypto app now." You type `saipen GOAL build crypto app` and go get coffee. |
+| `saipen goal <text>` | **The Boss Move.** Shoves the current plan in the drawer -- doesn't shred it, old tickets just wait their turn -- and drives the new objective home solo: plans it, builds it, tests it, and ships it, no "should I continue?" hand-holding. Stops itself after 3 waves or 20 tickets so it can't run off a cliff. | *Scenario:* The boss just called and said "Pivot everything, we're building a crypto app now." You type `saipen goal build crypto app` and go get coffee. |
 | `saipen clean` | **The Janitor.** The agent scrubs the repository, deletes orphaned files, fixes bad links, and prunes old done tasks. | *Scenario:* Your repo is full of `.tmp` files, old `TODO`s, and dead code, and you want a fresh start before a major release. |
 | `saipen` | **The Universal "Go" Button.** Acts exactly like `saipen continue` to resume work if there are tickets. If the board is totally empty, it switches to Auto-Pilot (HUNT/ADD) to find bugs or build new features. | *Scenario:* You are lazy and just want the agent to do whatever needs to be done next, whether that's finishing a task or finding new ones. |
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.3.2 -- 2026-07-19
+- fix: Lowercased every command everywhere -- `saipen set`, `saipen goal`, `saipen init` (was inconsistently ALL-CAPS in RFC/README/guides/skill/injector). No functional change from casing.
+- fix (real bug, found via a live WildRiftAssistant trace): Goal Mode's Exit clause let a momentarily empty `BOARD.md` count as "reached DONE," short-circuiting the mandatory HUNT->ADD Autonomous Transition (RFC.md §2.1) and stranding the agent at `next_action: wait for user command` instead of looping. RFC.md §2.4 now states explicitly: board-empty is a waypoint, not an exit; `goal_mode` persists through HUNT->ADD->HUNT->ADD until ADD itself gracefully concludes (product mature), BLOCKED, or the safety valve (3 waves/20 tickets) triggers. `phases/hunt.md` reinforced: the clean-hunt-to-ADD transition is unconditional and the LOG line format is exact, not free text.
+
 ## 7.3.1 -- 2026-07-18
 - fix: Merged `saipen GOAL <text>` with the pre-existing (undocumented-in-RFC) "pivot" semantics already promised in the guides -- entering GOAL mode now demotes (never deletes) the current board and inserts the new objective's tickets on top, before running them to completion. Normalized casing to `saipen GOAL` everywhere (was inconsistently `goal` in RFC/phases/README, matching the pre-existing `saipen SET` convention). Updated README, GUIDE.md, GUIDE_EN.md, GUIDE_RU.md to describe the full merged behavior.
 

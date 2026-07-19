@@ -49,7 +49,7 @@ When your project has no active tasks, just type `/saipen`. The protocol automat
 It never spins its wheels. It just safely evolves your app step-by-step without you lifting a finger.
 
 ### GOAL Mode -- Pivot and Run a Request to Completion
-Type `/saipen GOAL <what you want>` and the agent drops whatever was queued (nothing is deleted -- old tickets are demoted, not discarded) and plans, builds, verifies, and reviews the new objective across the *whole* board without stopping to ask "shall I continue?" between tickets. Every VERIFY and REVIEW gate still runs in full -- autonomy shortens the pauses, never the checks. On a project with an existing GitHub remote, SHIP auto-pushes too; a brand-new repo still asks you to confirm its name and visibility once. A built-in ceiling (3 waves / 20 tickets per invocation) keeps a single run bounded -- hit it, and SAIPEN checkpoints and reports rather than running forever.
+Type `/saipen goal <what you want>` and the agent drops whatever was queued (nothing is deleted -- old tickets are demoted, not discarded) and plans, builds, verifies, and reviews the new objective across the *whole* board without stopping to ask "shall I continue?" between tickets. Every VERIFY and REVIEW gate still runs in full -- autonomy shortens the pauses, never the checks. On a project with an existing GitHub remote, SHIP auto-pushes too; a brand-new repo still asks you to confirm its name and visibility once. A built-in ceiling (3 waves / 20 tickets per invocation) keeps a single run bounded -- hit it, and SAIPEN checkpoints and reports rather than running forever.
 
 ## Quick Start (5 minutes)
 
@@ -64,7 +64,7 @@ bash bootstrap/inject.sh                                            # macOS / Li
 
 **2. Start a Project**
 Open an agent in your project folder and type:
-> `saipen SET` (or `saipen INIT`)
+> `saipen set` (or `saipen init`)
 
 No install? Paste one line to your agent:
 > Read <clone>/saipen/RFC.md + <clone>/saipen/STYLE.md and follow them.

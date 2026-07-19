@@ -1,7 +1,7 @@
 ---
 name: saipen
 description: >
-  SAIPEN (v7). Trigger on "saipen SET", "saipen",
+  SAIPEN (v7). Trigger on "saipen set", "saipen",
   and subcommands. 2-tier architecture: boot RFC.md
   loads always; phases/ modules load on demand per STATE.
   Persistent .saipen/ memory lets any agent continue another's work.

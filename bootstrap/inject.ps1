@@ -22,7 +22,7 @@ $block = @"
 
 <!-- SAIPEN:BEGIN -->
 ## saipen protocol (global)
-On "saipen SET" / "saipen ..." (short alias "vac ...") commands, or when
+On "saipen set" / "saipen ..." (short alias "vac ...") commands, or when
 project root contains .saipen/: read $SkillHome\RFC.md + $SkillHome\STYLE.md
 and follow them.
 Memory: .saipen/ at project root - read .saipen/STATE.md before work;
@@ -176,4 +176,4 @@ foreach ($r in $report) {
   Write-Host ("{0,-28} {1}" -f $r[0], $r[1]) -ForegroundColor $color
 }
 Write-Host ("-" * 60)
-Write-Host "Done. Test: open any project in any agent, say: saipen SET" -ForegroundColor Yellow
+Write-Host "Done. Test: open any project in any agent, say: saipen set" -ForegroundColor Yellow

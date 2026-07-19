@@ -14,7 +14,7 @@ backup_file() {
 BLOCK="
 <!-- SAIPEN:BEGIN -->
 ## saipen protocol (global)
-On \"saipen SET\" / \"saipen ...\" (short alias \"vac ...\") commands, or when
+On \"saipen set\" / \"saipen ...\" (short alias \"vac ...\") commands, or when
 project root contains .saipen/: read $SKILL_HOME/RFC.md + $SKILL_HOME/STYLE.md
 and follow them.
 Memory: .saipen/ at project root - read .saipen/STATE.md before work;
@@ -100,4 +100,4 @@ if command -v aider >/dev/null 2>&1; then
 else printf '%-28s %s\n' "Aider" "not installed - skip"; fi
 
 echo "------------------------------------------------------------"
-echo "Done. Test: open any project in any agent, say: saipen SET"
+echo "Done. Test: open any project in any agent, say: saipen set"
