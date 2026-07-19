@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.3.3 -- 2026-07-19
+- fix (root cause, found via a second WildRiftAssistant trace on the SAME bug after 7.3.2): `phases/done.md` item 3's HUNT-trigger condition was "the user simply typed `/saipen`" -- literally false when an agent arrives at DONE autonomously mid-`goal_mode` run, since the user typed nothing. A model reading `done.md` correctly would NOT transition to HUNT under that wording, no matter how clearly RFC.md §2.4 said to elsewhere. `done.md` now checks `goal_mode` FIRST, before any other branch, and forbids writing `next_action: wait for user command` while it's true.
+- fix: `phases/review.md` had no "STATE -> DONE" branch at all, yet the observed trace jumped straight to DONE past the mandatory SHIP step. Added an explicit line: SHIP is mandatory before DONE, no exceptions, even under `goal_mode`.
+
 ## 7.3.2 -- 2026-07-19
 - fix: Lowercased every command everywhere -- `saipen set`, `saipen goal`, `saipen init` (was inconsistently ALL-CAPS in RFC/README/guides/skill/injector). No functional change from casing.
 - fix (real bug, found via a live WildRiftAssistant trace): Goal Mode's Exit clause let a momentarily empty `BOARD.md` count as "reached DONE," short-circuiting the mandatory HUNT->ADD Autonomous Transition (RFC.md §2.1) and stranding the agent at `next_action: wait for user command` instead of looping. RFC.md §2.4 now states explicitly: board-empty is a waypoint, not an exit; `goal_mode` persists through HUNT->ADD->HUNT->ADD until ADD itself gracefully concludes (product mature), BLOCKED, or the safety valve (3 waves/20 tickets) triggers. `phases/hunt.md` reinforced: the clean-hunt-to-ADD transition is unconditional and the LOG line format is exact, not free text.

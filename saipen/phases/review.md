@@ -15,4 +15,6 @@ P0/P1: fix now (STATE -> BUILD). P2/P3: new tickets.
 Verdict -> LOG: `DEC: SHIP` / `SHIP after FIXES` / `NO -- BLOCKER`.
 **Cap: LOG has a verdict on this finding -> NO + ticket, stop cycling.**
 
-If P0/P1 clear and all tickets verified: STATE -> SHIP.
+If P0/P1 clear and all tickets verified: STATE -> SHIP. There is no
+"STATE -> DONE" branch here -- SHIP is mandatory before DONE, even for a
+two-line bugfix, even under `goal_mode`.
