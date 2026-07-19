@@ -33,6 +33,17 @@ The protocol is strictly normative. SAIPEN conceptually divides into two layers:
 - **The Core layer** guarantees safe, vendor-neutral task continuation. 
 - **The Maintenance layer** is an autonomous software evolution model built on top of Core.
 
+Underneath the two layers, SAIPEN separates three concerns that never entangle:
+**correctness and continuation** (Core -- `STATE`/`BOARD`/`LOG`/`KNOWLEDGE`, capability
+negotiation, checkpointing), **unattended evolution** (Maintenance -- `HUNT`/`ADD`/`CLEAN`,
+fully functional under the plain `saipen`/`saipen continue` default), and **throughput**
+(Goal Mode, Subagents -- both explicitly opt-in, §1.3/§2.4). Disable Goal Mode: the
+protocol is unchanged, one ticket at a time. Disable Subagents: `HUNT` runs the same
+six categories sequentially, same result. Use Core alone, with no Maintenance layer at
+all: it still holds -- a cold agent still resumes correctly. Each layer builds on the
+one beneath without the reverse ever being true; nothing upstream depends on a
+downstream feature existing.
+
 ```text
 saipen/
   RFC.md                    normative specification (divided into Core and Maintenance)

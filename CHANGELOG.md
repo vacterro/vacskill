@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.4.2 -- 2026-07-19
+- docs: Renamed "Optional acceleration" to "Optional Parallel Execution" in RFC.md §1.3 -- independence of the 6 HUNT categories is the trigger, speed is only the consequence. SPEC.md's Architecture section now states the verified layer independence explicitly: Core (correctness/continuation) works with zero Maintenance; Maintenance (unattended evolution) works identically with or without Goal Mode; Goal Mode and Subagents are both confirmed opt-in with no downstream dependency pointing back at them.
+
 ## 7.4.1 -- 2026-07-19
 - fix: `phases/ship.md`'s terminal line ("After SHIP: STATE -> DONE") had zero mention of `goal_mode`, the same class of gap fixed in `done.md`/`review.md` a version ago -- a model landing here in one continuous turn could write `phase: DONE` without ever loading `done.md`'s goal_mode check in the same pass. Now checks explicitly. Full sweep of every other `DONE` transition in `phases/*.md` confirmed clean: `add.md`'s is the one legitimate exit condition (product mature) RFC §2.4 already defers to, and `clean.md` is purely human-triggered, already covered by `done.md`'s landing check.
 
