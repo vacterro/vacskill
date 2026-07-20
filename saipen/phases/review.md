@@ -17,7 +17,12 @@ Prove suspicions with trace/repro. Findings = file:line + what breaks.
 
 P0/P1: fix now (STATE -> BUILD). P2/P3: new tickets.
 Verdict -> LOG: `DEC: SHIP` / `SHIP after FIXES` / `NO -- BLOCKER`.
-**Cap: LOG has a verdict on this finding -> NO + ticket, stop cycling.**
+**Cap: 2 review passes per finding (RFC § 2.4), identified by its `file:line`
+-- pass 1 finds it, BUILD fixes it, pass 2 re-checks. Still broken on pass 2
+-> verdict MUST become `NO -- BLOCKER`, ticket it, stop cycling on THIS
+finding. A NEW finding uncovered by the fix itself starts its own fresh
+2-pass count -- this caps re-litigating the same finding, not REVIEW as a
+whole.**
 
 If P0/P1 clear and all tickets verified: STATE -> SHIP. There is no
 "STATE -> DONE" branch here -- SHIP is mandatory before DONE, even for a

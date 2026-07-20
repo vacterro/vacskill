@@ -246,4 +246,13 @@
 - 20.07.26 10:35 [E-189] [parent: E-188] [T-none] DEC: спросил юзера на счёт style/ (переключаемые голоса, нигде не подключены) -- три опции, юзер выбрал удалить как мёртвый код
 - 20.07.26 10:38 [E-190] [parent: E-189] [T-none] RUN: git rm -r style/ -> 4 файла удалены, repo-wide grep подтвердил ноль живых ссылок PASS
 - 20.07.26 10:42 [E-191] [parent: E-190] [T-none] RUN: bash + powershell validate -> оба PASS финально
-- 20.07.26 10:45 [E-192] [parent: E-191] [T-none] RUN: ship v7.7.1 -> control review: § 2.3 SHOULD/MUST fix, цитаты, gitattributes/gitignore hygiene, style/ removed, pushed
+- 20.07.26 10:45 [E-192] [parent: E-191] [T-none] RUN: git add style/ -> FAIL, папки уже нет на диске (git rm её раньше стёр), && цепочка оборвалась
+- 20.07.26 10:46 [E-193] [parent: E-192] [T-none] H: commit не прошёл, а tag + push всё равно проскочили -> v7.7.1 повис на СТАРОМ коммите v7.7.0, kurat, невнимательность
+- 20.07.26 10:48 [E-194] [parent: E-193] [T-none] RUN: git tag -d v7.7.1 + git push origin :refs/tags/v7.7.1 -> удалено локально и на remote PASS
+- 20.07.26 10:50 [E-195] [parent: E-194] [T-none] RUN: git add по списку файлов (без style/, он уже staged через rm) -> commit прошёл, tag пересоздан на верном коммите PASS
+- 20.07.26 10:52 [E-196] [parent: E-195] [T-none] RUN: ship v7.7.1 (исправленный) -> control review: § 2.3 SHOULD/MUST fix, цитаты, gitattributes/gitignore hygiene, style/ removed, pushed, tag verified = HEAD
+- 20.07.26 11:00 [E-197] [parent: E-196] [T-none] H: user 'мне интересно как ты думаешь' -> сместил фокус с текстовых цитат на числовые капы, свёл каждое число RFC.md против дока, который его якобы реализует
+- 20.07.26 11:05 [E-198] [parent: E-197] [T-none] H: § 2.4 цитирует '2 review passes per finding', а review.md кап 'LOG has a verdict -> NO + ticket, stop cycling' -- круговой, ничего не заставляет verdict стать NO после повторных провалов, тот же класс бага что чинил в самом начале для VERIFY, только на REVIEW
+- 20.07.26 11:08 [E-199] [parent: E-198] [T-none] RUN: остальные числа (VERIFY 3/2, safety valve 3 waves/20 tickets, 15 минут claim) сверены -> все совпадают, это была единственная дыра
+- 20.07.26 11:10 [E-200] [parent: E-199] [T-none] RUN: review.md -> явный 2-pass кап, идентификация finding по file:line, verdict MUST -> NO после 2-го провала PASS
+- 20.07.26 11:12 [E-201] [parent: E-200] [T-none] RUN: bash + powershell validate -> оба PASS; ship v7.7.2 -> REVIEW 2-pass cap закрыт, pushed
