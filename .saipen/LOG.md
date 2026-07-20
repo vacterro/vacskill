@@ -282,3 +282,12 @@
 - 20.07.26 12:42 [E-225] [parent: E-224] [T-none] RUN: Edit replace_all по каждому битому паттерну -> все 4 запроса совпали с первого раза (не как со стрелкой раньше), PASS чистый ASCII
 - 20.07.26 12:45 [E-226] [parent: E-225] [T-none] RUN: non-ascii sweep UI.md -> 0, no BOM; assets/ проверены -> все 4 картинки на месте, битых ссылок нет
 - 20.07.26 12:48 [E-227] [parent: E-226] [T-none] RUN: bash + powershell validate -> оба PASS; ship v7.8.2 -> UI.md mojibake fix, pushed
+- 20.07.26 12:55 [E-228] [parent: E-227] [T-none] H: user 'последний обзор перед живым тестом длительным, смотри reliably' -> сменил линзу с 'найди опечатку' на 'выдержит ли это долгий автономный прогон'
+- 20.07.26 12:58 [E-229] [parent: E-228] [T-none] H: goal_mode safety valve '3 waves / 20 tickets' -- grep по всей схеме и RFC, счётчика нигде нет, kurat, только проза
+- 20.07.26 13:00 [E-230] [parent: E-229] [T-none] DEC: valve считался в контексте одного процесса -- рестарт/краш/смена агента молча обнуляет счёт, ровно то от чего должен защищать длинный прогон
+- 20.07.26 13:05 [E-231] [parent: E-230] [T-none] RUN: RFC § 1.2 + § 2.4 -> goal_waves/goal_tickets в STATE.md, инкремент+checkpoint в момент изменения, clear при exit PASS
+- 20.07.26 13:08 [E-232] [parent: E-231] [T-none] RUN: § 1.5 Recovery -> если STATE потерян, счётчики восстанавливаются из LOG.md с момента pivot DEC, не с нуля PASS
+- 20.07.26 13:10 [E-233] [parent: E-232] [T-none] RUN: state.schema.json -> goal_waves/goal_tickets добавлены, node JSON.parse PASS
+- 20.07.26 13:12 [E-234] [parent: E-233] [T-none] H: перепроверил VERIFY 3/2 и REVIEW 2-pass капы на ту же болезнь -- нет, они per-ticket, LOG сам их восстанавливает, рестарт терпим
+- 20.07.26 13:14 [E-235] [parent: E-234] [T-none] H: bare HUNT<->ADD без goal_mode -- намеренно без числового капа, ADD сам решает 'продукт зрелый', это дизайн, не дыра
+- 20.07.26 13:16 [E-236] [parent: E-235] [T-none] RUN: bash + powershell validate -> оба PASS; ship v7.9.0 -> goal_mode safety valve теперь реально reliable через рестарты, pushed

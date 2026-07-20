@@ -37,6 +37,16 @@
       "type": "boolean",
       "default": false
     },
+    "goal_waves": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Persisted safety-valve counter, RFC § 2.4. Present only while goal_mode is true."
+    },
+    "goal_tickets": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Persisted safety-valve counter, RFC § 2.4. Present only while goal_mode is true."
+    },
     "updated": {
       "type": "string",
       "format": "date-time"
