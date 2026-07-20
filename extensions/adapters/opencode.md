@@ -1,7 +1,7 @@
 # OpenCode adapter
 
-- Skill route: `~/.config/opencode/skills/saipen/` junction (injector) РІР‚вЂќ
-  SKILL.md РІвЂ вЂ™ PROTOCOL.md automatically.
+- Skill route: `~/.config/opencode/skills/saipen/` junction (injector) --
+  SKILL.md -> RFC.md automatically.
 - Global `~/.config/opencode/AGENTS.md` also carries the saipen block.
 
-Everything else: follow `saipen/PROTOCOL.md`.
+Everything else: follow `saipen/RFC.md`.
