@@ -1,7 +1,7 @@
 ---
 phase: DONE
-task: T-113
-next_action: "PHASE_DOCS_FIX_DIRECTIVE_PART2.md T-113 done -- item 1: added the saipen init alias to GUIDE_EN.md/GUIDE_RU.md's command tables (the one real gap T-100 flagged), all 3 guides now list all 10 commands. Item 2: all 4 files (GUIDE.md/EN/RU + README.md) shared the same subtle inaccuracy -- describing goal_mode as running the objective 'to completion' with only the wave/ticket cap mentioned as a stopping condition, never mentioning it falls into autonomous HUNT/ADD maintenance until mature. Exactly the misconception the thrice-rejected goal_exit proposal was about, just never fixed in the docs even though the behavior itself was always correct. Added the same clarification to all 4, each in its own voice. Items 3/4 needed nothing -- badge already current, README hasn't ballooned into an RFC copy. Local commit only, no tag/push (Prime Rule 7). Awaiting operator 'Execute T-114 only.'"
+task: T-114
+next_action: "WAIT: PHASE_DOCS_FIX_DIRECTIVE_PART2.md is fully complete (T-100 through T-114, all 15 tickets DONE -- 4 pure no-ops confirming already-correct state, 11 with real fixes, all with evidence packages). Scenario sweep clean, both validators PASS at v7.22.0, consolidated CHANGELOG entry written, commit staged locally. Confirm to tag v7.22.0 and push, per Prime Rule 7 (no tag/release without operator confirmation)."
 blocker: none
 saipen_version: 7
 schema_version: 1
@@ -11,5 +11,5 @@ requires:
   - git
 mode: full
 goal_mode: false
-updated: 2026-07-21T01:42:00Z
+updated: 2026-07-21T01:55:00Z
 ---

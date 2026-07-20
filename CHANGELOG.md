@@ -1,5 +1,40 @@
 # Changelog
 
+## 7.22.0 -- 2026-07-21 -- PHASE_DOCS_FIX_DIRECTIVE_PART2 (T-100 through T-114)
+A user-supplied ticket-by-ticket directive, executed one ticket at a time with an evidence package per ticket, local-commit-only until this final ship (Prime Rule 7: no tag/release without operator confirmation). Every ticket was cross-checked against what earlier rounds this session (through v7.21.0) had already fixed before touching anything -- several tickets turned out fully or partially already satisfied, and are reported as such below rather than re-done.
+
+**Canonicalization (T-100):** No duplicate or conflicting variants of any canonical file (RFC.md, SPEC.md, CONFORMANCE.md, GUIDE*.md, README.md, ship.md) exist anywhere in the working tree -- confirmed by direct search, not assumed. `.saipen/kitchen/PART2_CANONICAL_MAP.md` records the full checklist-vs-grep evidence per file.
+
+**Real bugs found and fixed, not just wording:**
+- `add.md`'s evaluation pseudocode had no `ELSE` on the minimal-delta/design-language check -- a genuine, non-minimal improvement opportunity silently fell through the loop to `RETURN DONE`, falsely declaring the product mature even though the phase's own "Act" prose already assumed a ticket-it-and-PLAN path existed. Added the missing branch (T-105).
+- `plan.md`'s size gate literally read "skip PLAN, edit, verify, LOG, done" -- going straight from verify to done in the text, contradicting `review.md`'s own "SHIP is mandatory before DONE" rule. Reworded so the gate only ever skips PLAN's detailed analysis, never a correctness gate (T-103).
+- `add.md`'s mature-exit branch never explicitly cleared `goal_mode`/`goal_waves`/`goal_tickets` -- RFC § 2.4's Exit rule for this exact case lived only in RFC.md, never operationalized at the point in `add.md` where an agent actually needs to act on it (T-105).
+
+**Normative additions:**
+- RFC § 1.2's `WAIT:` enum grows from 4 to 5 legal categories: manual-verify gate, destructive-op confirmation, first-publish confirmation, user's own explicit brake, and now -- narrowly -- `INIT` bootstrap when `BOARD.md` is empty and no project goal exists anywhere yet, asking for the first goal/backlog only. Weighed deliberately since this enum has been closed and tested all session; judged as formalizing already-working `INIT` behavior into the protocol's existing mechanism, not a new behavior or a reversal of any settled decision (T-104).
+- `hunt.md`'s 5-file delete-free cap gained an explicit "never user data" floor, matching `clean.md`'s own explicit floor (T-107).
+- RFC § 1.2 gained a general clarification: "LOG exactly `RUN: X`" fixed-format instructions mean the `TAXONOMY:text` portion only, the full line skeleton always still applies -- `ship.md`'s two LOG lines (the one file this hadn't reached yet) reworded to match (T-102).
+
+**Docs/clarity sync:**
+- `ship.md`: explicit pre-push version-consistency checklist (badge/CHANGELOG head/tag must all agree, new step 3); "PUBLISH is the action inside SHIP, not a separate phase" (the heading's `->` could otherwise misread like a transition-table row); an accurate no-publish note (RFC § 1.3 already blocks entering `SHIP` entirely under no-publish, not just the push step -- the ticket's proposed wording would have implied a scenario RFC's own rule prevents from occurring, written an accurate version instead) (T-101, T-106).
+- `translate.md`'s integration boundary strengthened to an explicit negative statement naming the `VERIFY`/`REVIEW`/`SHIP` gates directly (T-108).
+- `SPEC.md`'s "SAIPEN MUST remain immutable" (ambiguous enough to read as "project state must never change," the opposite of what a continuation protocol does) replaced with an accurate statement distinguishing the stable protocol contract from constantly-mutating project state (T-111).
+- `CONFORMANCE.md`'s TEST-001 reconciled with T-104's new bootstrap `WAIT:` category: a bootstrap `WAIT:` is the same specific-question pattern as the other four, doesn't fail the Continuation Test (T-112).
+- `GUIDE_EN.md`/`GUIDE_RU.md` gained the `saipen init` alias mention `GUIDE.md` already had; all 3 guides now list all 10 real commands (T-113).
+- `GUIDE.md`, `GUIDE_EN.md`, `GUIDE_RU.md`, and `README.md` all shared the same subtle inaccuracy describing `saipen goal` as running "to completion" with only the wave/ticket cap ever mentioned as a stopping condition -- none of them said what actually happens: shipping the objective isn't a stopping point, it falls into autonomous `HUNT`/`ADD` maintenance until mature, blocked, or capped. This is exactly the misconception the thrice-rejected `goal_exit` proposal was implicitly about; the behavior was always correct, the docs just never said so (T-113).
+
+**Confirmed already correct, explicitly not re-done:** RFC's no-git Recovery fallback, `schema_version` status documentation, "run-scoped" goal_mode wording, VERIFY's transition table row, and the stale hunt-transition note were all already fixed in v7.21.0 (T-110, full no-op). Six of the Core/Maintenance phase docs (`scout.md`, `build.md`, `verify.md`, `review.md`, `blocked.md`, `clean.md`) were swept against 28 checklist items with zero misalignment found (T-109, full no-op).
+
+**Declined sub-proposals, with reasoning, not silently dropped:**
+- `blocker: none -> ""` in the STATE.md templates -- would have contradicted this repo's own established convention (`none`, the same pattern RFC sanctions for `task: none`) without real justification (T-104).
+- "not tracked content" as an exclusion on `hunt.md`'s delete-free rule -- would have neutered the exact dead-code capability signal #6 exists for, and gets the safety direction backwards (a tracked file's deletion is more reversible than an untracked one's, not less) (T-107).
+
+**Scenario sweep (T-114):** All 16 `tests/scenarios/` fixture directories re-verified. 6 complete-structural fixtures (full `.saipen/`, meant to run through `tests/validate.sh`/`.ps1` directly) all produced their correct expected PASS or FAIL. 3 fixtures (`dependency-cycle`, `multi-agent-claim-conflict`, `resume-after-crash`) are deliberately partial single-file fixtures for a narrow behavioral assertion, confirmed via their own READMEs -- running the full validator against them fails for an unrelated missing-file reason, which is a limitation of a blanket full-pipeline sweep, not a fixture defect. 7 fixtures are behavioral-only by design, no `.saipen/` to run.
+
+**No settled decision reopened:** `goal_exit` remains rejected (referenced again in T-113's wording fix, not reconsidered). `.saipen/lock` for Core concurrency remains rejected -- multi-agent coordination stays the external `extensions/multi-agent/` layer, matching what v7.20.0 already shipped independently of this directive. Full machine-parseable LOG marker grammar remains rejected -- LOG text stays prose around the fixed skeleton.
+
+Minor version: T-104's new WAIT category and T-105's real bug fix plus newly-operationalized goal_mode behavior are normative additions, not just docs clarity.
+
 ## 7.21.0 -- 2026-07-20 -- external review round: stale HUNT note, unbounded free-delete, no-git recovery
 - fix: RFC.md § 1.6's transition table note still said "`hunt.md` itself does not state this transition explicitly today" -- true when written, but `hunt.md` gained that exact statement in v7.18.0 and nobody went back to update the note pointing at the gap it closed. Same two-source-drift class this protocol fights everywhere else, self-inflicted this time by fixing one side of a cross-reference and not the other.
 - feat: `hunt.md`'s "obvious junk -> delete free" had no cap -- a sweep finding many individually-obvious dead files could delete all of them at once with zero confirmation, arguably crossing into "mass file deletion" (RFC § 1.1's own destructive-ops category) without ever technically violating the letter of the rule. Capped at 5 files per sweep, matching the existing ambiguous-ticket cap; more than that gets ticketed for confirmation regardless of how obvious each individual file looks.
