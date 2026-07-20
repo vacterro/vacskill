@@ -19,10 +19,12 @@ Signal order, cap 5 tickets:
 6. Dead code, orphan files (zero grep refs, not entry/doc/config)
 
 Obvious junk -> delete free, capped at 5 files per sweep (same cap as the
-ambiguous tickets above). More than that in one pass is mass-deletion
-territory (RFC § 1.1) regardless of how obvious each file looks
-individually -- ticket the rest for confirmation instead of free-deleting
-past the cap. Ambiguous -> ticket + user confirms.
+ambiguous tickets above), and never user data (anything a user created or
+would recognize as their own work -- same floor `phases/clean.md` states
+explicitly). More than that in one pass is mass-deletion territory (RFC
+§ 1.1) regardless of how obvious each file looks individually -- ticket
+the rest for confirmation instead of free-deleting past the cap.
+Ambiguous -> ticket + user confirms.
 Findings ticketed (not clean)? STATE -> `PLAN` (or straight to `SCOUT` if
 a finding is small/obvious enough to skip planning, same judgment call as
 `phases/plan.md`'s size gate) -- work them same as any other `TODO`, board

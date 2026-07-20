@@ -1,7 +1,7 @@
 ---
 phase: DONE
-task: T-106
-next_action: "PHASE_DOCS_FIX_DIRECTIVE_PART2.md T-106 done -- items 1/3/5 (version consistency, LOG skeleton, first-publish WAIT) were already satisfied by T-101/T-102, verified by grep before touching anything. Added item 2 (PUBLISH is the action inside SHIP, not a separate STATE.md phase -- the heading's -> could otherwise be misread the same as a transition-table row). Item 4's ticket wording ('MUST NOT push, prepare local artifacts only') would have contradicted RFC § 1.3, which already blocks entering SHIP entirely under no-publish, not just the push step -- wrote an accurate version instead of the literal proposal. Local commit only, no tag/push (Prime Rule 7). Awaiting operator 'Execute T-107 only.'"
+task: T-107
+next_action: "PHASE_DOCS_FIX_DIRECTIVE_PART2.md T-107 done -- items 2 (LOG skeleton) and 3 (RFC transition note) were already satisfied by v7.21.0/T-102, verified by grep before touching anything. Item 1: added an explicit 'never user data' floor to hunt.md's 5-file delete-free cap (previously only implied via signal #6's scope, now matches clean.md's own explicit floor). Declined the ticket's 'not tracked content' sub-suggestion -- HUNT's dead-code signal is specifically about zero-reference files, which are usually git-tracked; excluding tracked content would neuter that capability, and a tracked deletion is actually more reversible than an untracked one (git history preserves it), not less safe. Local commit only, no tag/push (Prime Rule 7). Awaiting operator 'Execute T-108 only.'"
 blocker: none
 saipen_version: 7
 schema_version: 1
@@ -11,5 +11,5 @@ requires:
   - git
 mode: full
 goal_mode: false
-updated: 2026-07-21T00:55:00Z
+updated: 2026-07-21T01:05:00Z
 ---
