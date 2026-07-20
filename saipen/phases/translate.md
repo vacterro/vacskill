@@ -25,7 +25,9 @@ Deep, isolated translation preparation system. This phase runs in a strictly qua
 
 4. **Completion:**
    - Once the translation bundle is fully built, validated, and up-to-date,
-     LOG exactly `RUN: translate -> done @SHORT-HASH` (this exact format,
-     not a free-text summary), then transition the phase back to `DONE`.
+     LOG one normal Event Graph line per RFC § 1.2 -- `- DATE [E-###]
+     [parent: E-###] RUN: translate -> done @SHORT-HASH` (this exact text
+     after the taxonomy, not a free-text summary) -- then transition the
+     phase back to `DONE`.
    - The bundle sits safely in `.saitranslate/kitchen/` until a future `ADD`
      phase formally integrates it into the software.

@@ -1,7 +1,7 @@
 ---
 phase: DONE
 task: none
-next_action: "v7.20.0 shipped -- new extensions/multi-agent/ (README, lanes.md, multi-agent.md working agreement, prompts/planner+worker+integrator.md), the Coordinator/Server Layer SPEC.md's own Concurrency section has predicted since it was written, now made concrete. Fully additive -- RFC.md/phases/ untouched beyond one clarifying sentence in § 1.9. Came from critically evaluating a user-brought architecture proposal: kept the core (worktree isolation, single ledger writer, evidence packages), rejected a new lane: BOARD.md field (RFC's ticket shape is a closed enum -- lanes.md instead), kept LOG.md granularity via Integrator-reconciles-worker-kitchen-notes rather than Workers going fully silent. No open tickets. Board is empty -- bare `saipen` auto-transitions to HUNT per RFC § 2.1. Real-world use of this extension (e.g. on FastPrompter) still needs that project's own 265 uncommitted files resolved first -- separate, not blocking SAIPEN's own state."
+next_action: "v7.21.0 shipped -- external review round (7 of 9 claims confirmed real despite arriving with corrupted/stripped quote blocks, each re-verified against live files before acting): RFC's HUNT transition note was stale (hunt.md closed that gap in v7.18.0, the cross-reference pointing at the gap never got updated), hunt.md's obvious-junk free-delete had no cap (now 5 files/sweep, more goes to confirmation), LOG-exactly phrasing in hunt.md/translate.md now shows the full skeleton in its example, RFC Recovery gained a no-git fallback via filesystem timestamps, schema_version now cross-referenced from the MUST-list, VALIDATE's 'fix structural corruption' now explicitly shape-only (never rewrites LOG.md history), Goal Mode renamed session-scoped -> run-scoped to match what persisted counters actually do. No open tickets. Board is empty -- bare `saipen` auto-transitions to HUNT per RFC § 2.1."
 blocker: none
 saipen_version: 7
 schema_version: 1
@@ -11,5 +11,5 @@ requires:
   - git
 mode: full
 goal_mode: false
-updated: 2026-07-20T22:52:00Z
+updated: 2026-07-20T23:32:00Z
 ---

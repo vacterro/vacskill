@@ -18,15 +18,21 @@ Signal order, cap 5 tickets:
 5. Symmetry gaps (save/load, undo/redo, import/export, start/stop)
 6. Dead code, orphan files (zero grep refs, not entry/doc/config)
 
-Obvious junk -> delete free. Ambiguous -> ticket + user confirms.
+Obvious junk -> delete free, capped at 5 files per sweep (same cap as the
+ambiguous tickets above). More than that in one pass is mass-deletion
+territory (RFC § 1.1) regardless of how obvious each file looks
+individually -- ticket the rest for confirmation instead of free-deleting
+past the cap. Ambiguous -> ticket + user confirms.
 Findings ticketed (not clean)? STATE -> `PLAN` (or straight to `SCOUT` if
 a finding is small/obvious enough to skip planning, same judgment call as
 `phases/plan.md`'s size gate) -- work them same as any other `TODO`, board
 order = priority.
-Nothing found -> LOG exactly `RUN: hunt -> clean @SHORT-HASH` (this exact
-format, not a free-text summary), then immediately transition to `ADD`.
-This transition is unconditional -- a clean hunt is never itself a reason
-to stop, under `goal_mode` or otherwise (RFC § 2.4). Never invent busywork.
+Nothing found -> LOG one normal Event Graph line per RFC § 1.2 -- `- DATE
+[E-###] [parent: E-###] RUN: hunt -> clean @SHORT-HASH` (this exact text
+after the taxonomy, not a free-text summary) -- then immediately
+transition to `ADD`. This transition is unconditional -- a clean hunt is
+never itself a reason to stop, under `goal_mode` or otherwise (RFC § 2.4).
+Never invent busywork.
 
 ## Perf (user asks specifically, or a ticket calls for it)
 
