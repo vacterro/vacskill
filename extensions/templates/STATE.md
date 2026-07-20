@@ -1,7 +1,7 @@
 ---
 phase: PLAN
 task: none
-next_action: "Ask the user for the first goal, then PLAN tickets onto BOARD.md"
+next_action: "WAIT: provide the first project goal or raw backlog"
 blocker: none
 agent: none
 saipen_version: 7
