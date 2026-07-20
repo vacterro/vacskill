@@ -1,7 +1,7 @@
 ---
 phase: DONE
-task: T-109
-next_action: "PHASE_DOCS_FIX_DIRECTIVE_PART2.md T-109 done -- NO-OP. Read scout.md/build.md/verify.md/review.md/blocked.md/clean.md fresh and cross-checked all 28 checklist items against the real text; every one already satisfied, zero misalignment found. Per the ticket's own instruction ('only change what is misaligned, do not rewrite healthy files'), nothing was touched. Awaiting operator 'Execute T-110 only.'"
+task: T-110
+next_action: "PHASE_DOCS_FIX_DIRECTIVE_PART2.md T-110 done -- NO-OP. All 6 residual-gap items were already closed by earlier work this session: items 1/2/3/5/6 by v7.18.0/v7.21.0 (no-git recovery fallback, schema_version status, run-scoped goal_mode wording, VERIFY transition row, stale hunt note removal), item 4 (validate scope limit) already covered by a concise general MUST-NOT principle that logically subsumes the ticket's more granular enumerated list -- judged not worth the added verbosity. All 6 confirmed live via grep before declaring no-op. Awaiting operator 'Execute T-111 only.'"
 blocker: none
 saipen_version: 7
 schema_version: 1
@@ -11,5 +11,5 @@ requires:
   - git
 mode: full
 goal_mode: false
-updated: 2026-07-21T01:20:00Z
+updated: 2026-07-21T01:25:00Z
 ---
