@@ -6,6 +6,7 @@ blocker: none
 agent: none
 saipen_version: 7
 schema_version: 1
+mode: full
 goal_mode: false
 updated: 1970-01-01T00:00:00Z
 ---

@@ -13,6 +13,8 @@ unopted project. Needs 100% green.
 5. `git tag -a vVERSION -m "line"` + push tags.
 6. First publish (no `origin` yet): confirm name + public/private with user
    -- ALWAYS, even under `goal_mode`. New public artifact is a one-way door.
+   `next_action: WAIT: confirm repo name '<name>' and public/private before
+   I push` (RFC § 1.2).
 7. LOG: `RUN: ship vX.Y.Z -> pushed HASH`.
 8. Push rejected or fails (auth, network, non-fast-forward, hook failure):
    LOG `RUN: ship vX.Y.Z -> push FAILED <reason>` -- never claim success on

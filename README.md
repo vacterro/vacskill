@@ -6,7 +6,7 @@
 
 # SAIPEN
 
-**v7.17.0** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
+**v7.18.0** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
 
 **One command. Zero amnesia.**
 

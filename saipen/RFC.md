@@ -63,7 +63,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 `INIT → PLAN → SCOUT → BUILD → VERIFY → REVIEW → SHIP → DONE | BLOCKED`
 
 - **Ticket DAG**: Tickets MUST define dependencies using `needs: [T-XXX]`. **Pick Rule**: Agents MUST NOT pick a `TODO` ticket unless all its `needs:` are marked `DONE`.
-- **VERIFY**: MUST be executed. Failure loops back to `BUILD` (max 2 loops) or `SCOUT`. Success transitions to `REVIEW`.
+- **VERIFY**: MUST be executed. Failure retries within VERIFY itself, not a phase transition -- `phases/verify.md`'s own cap (3 dead hypotheses or 2 failed fix cycles) moves the ticket to `## BLOCKED` on `BOARD.md` and the agent picks up other workable tickets instead. Success transitions to `REVIEW`.
 - **MANUAL-VERIFY**: If `mode: manual-verify`, `VERIFY` MUST block and await human confirmation. Agent MUST NOT auto-transition to `REVIEW`.
 - **DONE**: A ticket MUST NOT be marked `DONE` without a successful `VERIFY` (or human `MANUAL-VERIFY`).
 
@@ -76,7 +76,7 @@ INIT      -> PLAN | BLOCKED
 PLAN      -> SCOUT | BLOCKED
 SCOUT     -> BUILD | BLOCKED
 BUILD     -> VERIFY | BLOCKED
-VERIFY    -> REVIEW | BUILD | SCOUT | BLOCKED
+VERIFY    -> REVIEW | BLOCKED
 REVIEW    -> SHIP | BUILD | BLOCKED
 SHIP      -> DONE | BLOCKED
 DONE      -> PLAN | HUNT | ADD | BLOCKED

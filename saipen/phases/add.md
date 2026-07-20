@@ -28,6 +28,11 @@ Activate this mode to systematically expand the software's capabilities. SAIPEN 
    - If the product is already mature and logically complete, **STOP**. Transition to `DONE` without hallucinating unnecessary features. Graceful completion is a successful outcome.
    - Otherwise, create a `TODO` ticket in `BOARD.md` describing the feature.
    - Transition to `PLAN` or `SCOUT` phase to begin immediate implementation.
+   - `goal_mode: true`? Either branch above completes this HUNT->ADD cycle --
+     increment `goal_waves` by 1 and checkpoint STATE (RFC § 2.4). Hits the
+     3-`goal_waves`/20-`goal_tickets` cap? STOP here instead of continuing --
+     full BOARD/STATE checkpoint, report progress, wait for the user to
+     re-invoke `saipen goal`.
 
 4. **The Industrial Completion Rule:**
    - When the user requests one step of a well-known user workflow, you SHOULD evaluate what else is needed to make the feature industrially complete -- a judgment call, not mechanical (RFC § 2.3).

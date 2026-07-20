@@ -11,5 +11,5 @@ There is no more work to do on the current ticket.
    value is only ever correct when `goal_mode: false`.
 2. If the user wants to start a new project or big feature, run `saipen goal` (sets phase to PLAN).
 3. If there are unresolved bugs, run `saipen SYMPTOM` (bare invocation -- there is no separate `fix` subcommand, see RFC § 2.4).
-4. If the board is clear and the user simply typed `/saipen`, you MUST immediately run `saipen (hunt)` (sets phase to HUNT) to look for bugs.
-5. If the user asks to add new features or brainstorm, run `saipen (add)` (sets phase to ADD).
+4. If the board is clear and the user simply typed `/saipen`, that bare command already auto-transitions to `HUNT` per RFC § 2.1 -- just proceed, there is no separate command to invoke.
+5. If the user asks to add new features or brainstorm, that's free text for `saipen goal <text>` (RFC § 1.10) or a normal ticket via PLAN -- there is no separate `add` command; `ADD` itself is only ever reached via a clean `HUNT` (RFC § 2.1).

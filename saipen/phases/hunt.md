@@ -19,6 +19,10 @@ Signal order, cap 5 tickets:
 6. Dead code, orphan files (zero grep refs, not entry/doc/config)
 
 Obvious junk -> delete free. Ambiguous -> ticket + user confirms.
+Findings ticketed (not clean)? STATE -> `PLAN` (or straight to `SCOUT` if
+a finding is small/obvious enough to skip planning, same judgment call as
+`phases/plan.md`'s size gate) -- work them same as any other `TODO`, board
+order = priority.
 Nothing found -> LOG exactly `RUN: hunt -> clean @SHORT-HASH` (this exact
 format, not a free-text summary), then immediately transition to `ADD`.
 This transition is unconditional -- a clean hunt is never itself a reason
