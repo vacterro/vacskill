@@ -10,7 +10,7 @@ Any release of this protocol MUST pass the gold standard test:
 1. Cold agent (zero chat history).
 2. Execute `saipen continue` (or equivalent bootstrap command).
 3. Agent MUST: read `next_action` and execute it instantly WITHOUT asking for context.
-If the agent asks "What should I do?", the protocol has failed. A `next_action: WAIT: <specific question>` (RFC.md § 1.2) does NOT fail this test -- asking one exact, pre-determined question instantly is the executable action; the failure mode is vague context-seeking, not a specific authorization gate.
+If the agent asks "What should I do?", the protocol has failed. A `next_action: WAIT: <specific question>` (RFC.md § 1.2) does NOT fail this test -- asking one exact, pre-determined question instantly is the executable action; the failure mode is vague context-seeking, not a specific authorization gate. This includes the bootstrap `WAIT:` `INIT` produces on a brand-new project (RFC § 1.2's fifth `WAIT:` category, `phases/init.md`) -- asking for the first project goal or raw backlog is the same kind of specific question, not vague context-seeking, and doesn't fail this test either: nothing in `STATE`/`BOARD`/`LOG` could have answered it instead, since none of them have any history yet.
 
 ## Scenario Coverage
 `tests/scenarios/` holds one fixture directory per concept below. Structural
