@@ -13,6 +13,10 @@ function Assert-Format($Condition, $Message) {
 Write-Host "saipen conformance validation starting..." -ForegroundColor Cyan
 
 # 1. Check STATE.md
+if (-not (Test-Path ".saipen\STATE.md")) {
+    Write-Host "FAIL: STATE.md missing" -ForegroundColor Red
+    exit 1
+}
 $stateContent = Get-Content ".saipen\STATE.md" -Raw
 Assert-Format ($stateContent -match "phase:\s+(INIT|PLAN|SCOUT|BUILD|VERIFY|REVIEW|SHIP|DONE|BLOCKED|VALIDATE|HUNT|ADD|CLEAN|TRANSLATE)") "STATE.md missing valid phase"
 Assert-Format ($stateContent -match "task:") "STATE.md missing task"
@@ -40,6 +44,10 @@ if ($stateContent -match "goal_mode:\s+true") {
 }
 
 # 2. Check BOARD.md (cycles)
+if (-not (Test-Path ".saipen\BOARD.md")) {
+    Write-Host "FAIL: BOARD.md missing" -ForegroundColor Red
+    exit 1
+}
 $boardLines = Get-Content ".saipen\BOARD.md"
 $deps = @{}
 foreach ($line in $boardLines) {
@@ -121,26 +129,43 @@ foreach ($heading in @("## DOING", "## TODO", "## DONE", "## BLOCKED")) {
 Write-Host "PASS: BOARD.md has all required section headings" -ForegroundColor Green
 
 # 3. Check LOG.md -- date prefix is optional (pre-STYLE.md history has none,
-# current entries carry one), everything else is mandatory.
-$logLines = Get-Content ".saipen\LOG.md"
-$logPattern = "^-\s+(\d{2}[.\/]\d{2}[.\/]\d{2}\s+\d{2}:\d{2}\s+)?\[E-\d+\](\s+\[parent:\s+E-\d+\])?"
-foreach ($line in $logLines) {
-    if ($line.Trim() -ne "" -and $line -notmatch "^#") {
-        Assert-Format ($line -match $logPattern) "LOG.md entry violates Graph Event format: $line"
+# current entries carry one), everything else is mandatory. File itself is
+# optional too (mirrors validate.sh -- a brand-new project may not have one yet).
+if (Test-Path ".saipen\LOG.md") {
+    $logLines = Get-Content ".saipen\LOG.md"
+    $logPattern = "^-\s+(\d{2}[.\/]\d{2}[.\/]\d{2}\s+\d{2}:\d{2}\s+)?\[E-\d+\](\s+\[parent:\s+E-\d+\])?"
+    foreach ($line in $logLines) {
+        if ($line.Trim() -ne "" -and $line -notmatch "^#") {
+            Assert-Format ($line -match $logPattern) "LOG.md entry violates Graph Event format: $line"
+        }
     }
+    Write-Host "PASS: LOG.md format valid" -ForegroundColor Green
 }
-Write-Host "PASS: LOG.md format valid" -ForegroundColor Green
 
-# 4. Check KNOWLEDGE/
+# 4. Check KNOWLEDGE/ -- recurse into subdirs and scan every file, not just
+# *.md at the top level, to match validate.sh's `grep -rE` over the whole tree.
 if (Test-Path ".saipen\KNOWLEDGE") {
-    $knowledgeFiles = Get-ChildItem ".saipen\KNOWLEDGE\*" -Include *.md
+    $knowledgeFiles = Get-ChildItem ".saipen\KNOWLEDGE" -Recurse -File
     foreach ($file in $knowledgeFiles) {
         $content = Get-Content $file.FullName
         foreach ($line in $content) {
-            Assert-Format ($line -notmatch "^-\s+\d{2,4}[-\.]\d{2}[-\.]\d{2}.*(RUN|DEC|H):") "KNOWLEDGE/ leak: found event journal syntax in $($file.Name)"
+            Assert-Format ($line -notmatch "^-\s+\d{2,4}[-./]\d{2}[-./]\d{2}.*(RUN|DEC|H):") "KNOWLEDGE/ leak: found event journal syntax in $($file.Name)"
         }
     }
+    Write-Host "PASS: KNOWLEDGE/ clean" -ForegroundColor Green
 }
-Write-Host "PASS: KNOWLEDGE/ clean" -ForegroundColor Green
+
+# 5. Self-check: README.md's version badge vs VERSION. Only applies when run
+# from the saipen repo's own clone root (fingerprinted by saipen/RFC.md sitting
+# next to VERSION -- a consuming project's .saipen/ never has that) -- this
+# exact drift has now happened three times because it only ever gets caught by
+# someone remembering a separate manual grep. Riding along on the validator
+# that already runs before every ship means it's caught for free instead.
+if ((Test-Path "saipen\RFC.md") -and (Test-Path "VERSION") -and (Test-Path "README.md")) {
+    $repoVersion = (Get-Content "VERSION" -Raw).Trim()
+    $readmeContent = Get-Content "README.md" -Raw
+    Assert-Format ($readmeContent -match [regex]::Escape("**v$repoVersion**")) "README.md badge doesn't match VERSION ($repoVersion) -- this has drifted before, update the badge"
+    Write-Host "PASS: README.md badge matches VERSION" -ForegroundColor Green
+}
 
 Write-Host "Validation complete. Agent is conformant." -ForegroundColor Green

@@ -37,3 +37,6 @@ fixture state why, not silently.
 | 13 | Unresolved LOG parent | N/A -- deliberately not validator-enforced (same reasoning as Event ID uniqueness: this repo's own LOG.md has real historical numbering resets from the vac -> vacskill -> SAIPEN rename that a naive resolver would immediately misflag; see `SAIPEN_GAP_MATRIX.md` G-05/G-06) |
 | 14 | Invalid phase transition | `invalid-phase-transition` -- conceptual only; `STATE.md` doesn't track phase history, so this can't be automated without new scope |
 | 15 | Invalid mode-phase combination | `invalid-mode-phase-combination` |
+| 16 | Ticket-level BLOCKED (non-cycle failure), work continues | `blocked-ticket` |
+| 17 | Fresh INIT bootstrap from `templates/` | `fresh-init` -- behavioral, no `.saipen/` yet by definition (that's what INIT creates) |
+| 18 | Evolutionary ADD feature symmetry (§ 2.2) | `add-feature-symmetry` -- behavioral, no fixture |

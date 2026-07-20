@@ -23,7 +23,8 @@
       "type": "integer"
     },
     "schema_version": {
-      "type": "integer"
+      "type": "integer",
+      "description": "MAY be absent on state written before this field existed -- RFC § 1.2 treats absence as 0 and upgrades at the next checkpoint. Not in the required list for that reason."
     },
     "requires": {
       "type": "array",
@@ -59,7 +60,7 @@
     "blocker",
     "agent",
     "saipen_version",
-    "schema_version",
+    "mode",
     "updated"
   ]
 }

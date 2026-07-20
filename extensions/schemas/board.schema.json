@@ -16,10 +16,6 @@
       "description": {
         "type": "string"
       },
-      "files": {
-        "type": "array",
-        "items": { "type": "string" }
-      },
       "verify": {
         "type": "string"
       },

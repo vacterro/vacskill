@@ -42,12 +42,52 @@ if grep -qE "goal_mode:[[:space:]]+true" .saipen/STATE.md; then
     echo -e "${GREEN}PASS: goal_mode counters present${NC}"
 fi
 
-# 2. Check BOARD.md (cycles are complex in pure bash, doing basic syntax check)
+# 2. Check BOARD.md exists, then real cycle detection via Kahn's algorithm
+# (repeatedly remove tickets whose needs: are all already resolved; if a
+# pass removes nothing but tickets remain, they form a cycle). Written
+# without associative arrays -- macOS ships bash 3.2 as /bin/bash by
+# default and declare -A needs bash 4+.
 if [ ! -f ".saipen/BOARD.md" ]; then
     echo -e "${RED}FAIL: BOARD.md missing${NC}"
     exit 1
 fi
-echo -e "${GREEN}PASS: BOARD.md exists (acyclic check requires powershell/python wrapper currently)${NC}"
+
+PAIRS=""
+while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    tid=$(echo "$line" | grep -oE 'T-[0-9]+' | head -1)
+    needs=$(echo "$line" | grep -oE 'needs:[^|]*' | sed 's/needs://' | grep -oE 'T-[0-9]+' | tr '\n' ',')
+    PAIRS="${PAIRS}${tid}|${needs}
+"
+done <<< "$(grep -oE '\- \[[ x/]\] T-[0-9]+.*' .saipen/BOARD.md || true)"
+
+REMAINING=$(echo "$PAIRS" | grep -oE '^T-[0-9]+' | sort -u || true)
+PROGRESS=1
+while [ -n "$REMAINING" ] && [ "$PROGRESS" -eq 1 ]; do
+    PROGRESS=0
+    NEXT_REMAINING=""
+    for tid in $REMAINING; do
+        needs_csv=$(echo "$PAIRS" | grep "^${tid}|" | head -1 | cut -d'|' -f2)
+        blocked=0
+        for need in $(echo "$needs_csv" | tr ',' ' '); do
+            if echo "$REMAINING" | tr ' ' '\n' | grep -qx "$need"; then
+                blocked=1
+                break
+            fi
+        done
+        if [ "$blocked" -eq 1 ]; then
+            NEXT_REMAINING="$NEXT_REMAINING $tid"
+        else
+            PROGRESS=1
+        fi
+    done
+    REMAINING=$(echo "$NEXT_REMAINING" | xargs || true)
+done
+if [ -n "$REMAINING" ]; then
+    echo -e "${RED}FAIL: BOARD.md contains cyclic needs: dependencies involving: $REMAINING${NC}"
+    exit 1
+fi
+echo -e "${GREEN}PASS: BOARD.md acyclic${NC}"
 
 # 2b. Check BOARD.md for duplicate ticket IDs -- a status change that
 # copied a ticket line instead of moving it (RFC § 1.2) leaves the same
@@ -102,6 +142,21 @@ if [ -d ".saipen/KNOWLEDGE" ]; then
         exit 1
     fi
     echo -e "${GREEN}PASS: KNOWLEDGE/ clean${NC}"
+fi
+
+# 5. Self-check: README.md's version badge vs VERSION. Only applies when run
+# from the saipen repo's own clone root (fingerprinted by saipen/RFC.md sitting
+# next to VERSION -- a consuming project's .saipen/ never has that) -- this
+# exact drift has now happened three times because it only ever gets caught by
+# someone remembering a separate manual grep. Riding along on the validator
+# that already runs before every ship means it's caught for free instead.
+if [ -f "saipen/RFC.md" ] && [ -f "VERSION" ] && [ -f "README.md" ]; then
+    REPO_VERSION=$(tr -d '[:space:]' < VERSION)
+    if ! grep -qF "**v${REPO_VERSION}**" README.md; then
+        echo -e "${RED}FAIL: README.md badge doesn't match VERSION (${REPO_VERSION}) -- this has drifted before, update the badge${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}PASS: README.md badge matches VERSION${NC}"
 fi
 
 echo -e "${GREEN}Validation complete. Agent is conformant.${NC}"

@@ -95,9 +95,12 @@ out of this ticket's scope.
 
 | ID | Gap | Evidence | Notes |
 |----|-----|----------|-------|
-| G-10 | Destructive-ops confirmation rule not in RFC.md | `grep -n "destructive" saipen/RFC.md` -> zero matches | Currently relies entirely on the operating agent's own general safety behavior, not portable protocol text. A different vendor's agent implementing SAIPEN wouldn't necessarily inherit this. |
-| G-11 | Secret-hygiene rule doesn't name kitchen dirs | `grep -n "MUST NOT write secrets" saipen/RFC.md` -> names STATE/BOARD/LOG/KNOWLEDGE only | `.saipen/kitchen/` and `.saitranslate/kitchen/` scratch files are just as committable/shareable as the named files. |
-| G-12 | Extension present-but-broken has no defined behavior | `grep -n "requirements missing" saipen/RFC.md` -> zero matches | §1.9 covers "extension absent -> proceed normally" but not "extension present, its own requirements (e.g. a scanner binary) aren't available." |
+| G-10 | ~~Destructive-ops confirmation rule not in RFC.md~~ | **CLOSED by T-014.** `grep -n "MUST NOT perform a destructive operation" saipen/RFC.md` now matches (§ 1.1). | Was: relied entirely on the operating agent's own general safety behavior, not portable protocol text. |
+| G-11 | ~~Secret-hygiene rule doesn't name kitchen dirs~~ | **CLOSED by T-014.** `grep -n "MUST NOT write secrets" saipen/RFC.md` now names `.saipen/kitchen/` and `.saitranslate/kitchen/` explicitly. | Was: named STATE/BOARD/LOG/KNOWLEDGE only. |
+| G-12 | ~~Extension present-but-broken has no defined behavior~~ | **CLOSED by T-013.** `grep -n "requirements aren't met" saipen/RFC.md` now matches (§ 1.9). | Was: §1.9 covered "extension absent -> proceed normally" but not "extension present, its own requirements unavailable." |
 
 Per PRIME RULE 3 (do not edit out of scope): none of G-10/G-11/G-12 were fixed in
-this ticket. They are logged here as the ticket instructs, not fixed silently.
+T-000 itself -- correctly logged out-of-scope at the time. They were closed later,
+by T-013 (G-12) and T-014 (G-10/G-11), and this table is updated to match rather
+than left contradicting the CLOSED rows above it. Found stale during a post-directive
+audit pass -- the matrix itself had drifted from the work it was tracking.
