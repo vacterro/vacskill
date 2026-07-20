@@ -65,6 +65,33 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 - **MANUAL-VERIFY**: If `mode: manual-verify`, `VERIFY` MUST block and await human confirmation. Agent MUST NOT auto-transition to `REVIEW`.
 - **DONE**: A ticket MUST NOT be marked `DONE` without a successful `VERIFY` (or human `MANUAL-VERIFY`).
 
+**Phase enum** (every legal `STATE.md phase:` value): `INIT`, `PLAN`, `SCOUT`, `BUILD`, `VERIFY`, `REVIEW`, `SHIP`, `DONE`, `BLOCKED`, `VALIDATE`, `HUNT`, `ADD`, `CLEAN`, `TRANSLATE`.
+
+**Transition table** -- a quick-reference index, not a second source of truth. Each phase's own `phases/*.md` is authoritative; if this table and a phase doc ever disagree, the phase doc wins and this table is the one that's wrong:
+
+```text
+INIT      -> PLAN | BLOCKED
+PLAN      -> SCOUT | BLOCKED
+SCOUT     -> BUILD | BLOCKED
+BUILD     -> VERIFY | BLOCKED
+VERIFY    -> REVIEW | BUILD | SCOUT | BLOCKED
+REVIEW    -> SHIP | BUILD | BLOCKED
+SHIP      -> DONE | BLOCKED
+DONE      -> PLAN | HUNT | ADD | BLOCKED
+VALIDATE  -> PLAN | SCOUT | BLOCKED
+HUNT      -> ADD | PLAN | SCOUT | BLOCKED
+ADD       -> VERIFY | PLAN | SCOUT | HUNT | DONE | BLOCKED
+CLEAN     -> DONE | BLOCKED
+TRANSLATE -> DONE | BLOCKED
+BLOCKED   -> PLAN | SCOUT
+```
+
+- `CLEAN`, `TRANSLATE`, and `VALIDATE` are entered by explicit user command (`saipen clean` / `saipen translate` / `saipen validate`, § 1.10) from ANY phase -- they are not chain-specific like the rows above, the same way `saipen stop` isn't. Once entered, their own row above governs what they can transition to next.
+- `HUNT -> PLAN | SCOUT` (the findings case, distinct from the clean-board case which always goes to `ADD`) is the reasonable reading of "ambiguous findings become tickets" (`phases/hunt.md`) combined with normal Ticket DAG flow -- `hunt.md` itself does not state this transition explicitly today. Flagged here rather than silently assumed.
+- `saipen status` MUST NOT change `phase` -- it is read-only (§ 1.10).
+- `saipen stop` checkpoints and halts; it is not itself a phase transition (§ 1.10).
+- Maintenance phases (`HUNT`/`ADD`/`CLEAN`/`TRANSLATE`) MUST NOT be required for Core continuation -- the Core chain (`INIT` through `DONE`/`BLOCKED`) is fully self-contained; a cold agent running Core alone never needs to reach them.
+
 ### 1.7 Workspace Hygiene
 The protocol lives in the SAIPEN home; the project holds work, not protocol copies.
 - `saipen set` in project root MUST NOT copy phases or scripts into the project. It MUST write a bootloader to `.saipen/STATE.md` pointing to the canonical `saipen/` home path.
@@ -87,6 +114,7 @@ The complete set of recognized user-facing commands. Phase-affecting ones are de
 - `saipen clean` -- deep repository scrub (`phases/clean.md`).
 - `saipen translate` -- isolated translation build (`phases/translate.md`).
 - `saipen ship` -- explicit SHIP trigger (`phases/ship.md`); SHIP also fires implicitly per that phase's other stated conditions.
+- `saipen validate` -- explicit VALIDATE trigger (`phases/validate.md`): run the conformance script, fix structural corruption if found, transition to `PLAN` or `SCOUT` per that phase's own rules.
 - `saipen status` -- MUST read `BOARD.md` and `STATE.md` and report current phase, the in-flight ticket, and what's queued next. MUST NOT write to any file or perform any work -- read-only, no exceptions, regardless of `goal_mode`.
 - `saipen stop` -- MUST checkpoint immediately per § 1.5 (flush `LOG.md`, update `BOARD.md`, set an explicit resumable `next_action`), then halt and return control to the user. MUST NOT leave a ticket mid-edit. Overrides `goal_mode` -- it is the user's manual brake and always wins.
 

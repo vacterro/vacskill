@@ -3,7 +3,7 @@
 Implementations MUST pass self-check across three vectors:
 1. **Repo Validation**: `STATE.md`, `BOARD.md`, `LOG.md`, and `KNOWLEDGE/` MUST conform to the shapes RFC.md § 1.2 defines, enforced today by `tests/validate.sh` / `validate.ps1`. `extensions/schemas/*.json` are a forward-looking reference for a future external validator, not machine-enforced yet -- see `extensions/schemas/README.md`.
 2. **Session Validation**: `BOARD.md`'s `needs:` graph MUST be acyclic AND every reference MUST resolve to a ticket that actually exists on the board -- a dangling reference is worse than a cycle, since nothing else catches it. `LOG.md` graph parent-child links MUST resolve.
-3. **Phase Contract Validation**: Stated `mode` MUST legally permit the current `phase`.
+3. **Phase Contract Validation**: Stated `mode` MUST legally permit the current `phase` (RFC.md § 1.3). `phase` MUST be one of the fourteen enum values RFC.md § 1.6 defines, and any phase-to-phase transition MUST be legal per § 1.6's transition table.
 
 ## TEST-001: The Continuation Test
 Any release of this protocol MUST pass the gold standard test:

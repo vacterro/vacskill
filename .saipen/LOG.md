@@ -338,3 +338,12 @@
 - 20.07.26 16:40 [E-281] [parent: E-280] [T-none] H: заодно нашёл 3 честных новых OPEN пункта -- destructive-ops confirmation нигде в RFC, secrets rule не упоминает kitchen/, extension present-но-broken не определено -- залогировал, не чиню молча (T-000 scope)
 - 20.07.26 16:45 [E-282] [parent: E-281] [T-none] RUN: bash + powershell validate -> оба PASS; ship v7.11.2 -> T-000 закрыт, GAP_MATRIX evidence-backed, pushed
 - 20.07.26 16:45 [E-283] [parent: E-282] [T-none] DEC: SAIPEN_SPEC_DIRECTIVE.md НЕ коммичу -- T-001/002/004/006/012 переоткрывают уже отклонённое, T-007 отменяет явное решение юзера -- флагаю, жду ответа, не выполняю дальше
+- 20.07.26 16:50 [E-284] [parent: E-283] [T-none] H: user 'Execute T-001 only' -- узко про T-001, не про T-007, продолжаю с этим одним тикетом
+- 20.07.26 16:55 [E-285] [parent: E-284] [T-none] H: НЕ доверяю памяти после промаха с subagent quote -- перечитал review.md/done.md/validate.md/blocked.md/hunt.md/add.md/clean.md/translate.md/init.md/plan.md заново, все свежие
+- 20.07.26 17:00 [E-286] [parent: E-285] [T-none] H: REVIEW->SCOUT из директивы нигде не подтверждается -- убрал; BLOCKED реально только -> PLAN|SCOUT, не широкий список -- сузил; ADD реально шире (PLAN/SCOUT/HUNT тоже) -- расширил
+- 20.07.26 17:05 [E-287] [parent: E-286] [T-none] H: VALIDATE -- та же болезнь что была у saipen ship: нигде во всём протоколе нет команды, которая туда ведёт, только сам phases/validate.md существует в вакууме
+- 20.07.26 17:10 [E-288] [parent: E-287] [T-none] RUN: RFC § 1.6 -> полный enum (14 фаз) + verified transition table PASS; § 1.10 -> saipen validate добавлен PASS
+- 20.07.26 17:12 [E-289] [parent: E-288] [T-none] RUN: CONFORMANCE.md vector 3 -> ссылка на enum + table добавлена PASS
+- 20.07.26 17:15 [E-290] [parent: E-289] [T-none] RUN: positive test PLAN->SCOUT в таблице, negative test INIT-строка без SHIP -> оба grep-ом подтверждены PASS
+- 20.07.26 17:18 [E-291] [parent: E-290] [T-none] H: hunt.md сам не говорит куда идти при findings (только clean->ADD explicit) -- вне файлового скоупа T-001, залогировал в GAP_MATRIX, не трогаю
+- 20.07.26 17:20 [E-292] [parent: E-291] [T-none] RUN: GAP_MATRIX обновлён (G-13/14/15); bash + powershell validate -> оба PASS; ship v7.12.0 -> T-001 закрыт, pushed

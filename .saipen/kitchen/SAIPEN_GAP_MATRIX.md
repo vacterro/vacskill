@@ -1,8 +1,17 @@
-# SAIPEN Gap Matrix (T-000)
+# SAIPEN Gap Matrix (T-000, updated after T-001)
 
-Produced per `SAIPEN_SPEC_DIRECTIVE.md` T-000. Every CLOSED row has a grep/validator
-command and its actual output as evidence, not a claim. This is scratch/audit
-output (kitchen/), not a normative file -- do not cite it as spec.
+Produced per `SAIPEN_SPEC_DIRECTIVE.md` T-000, updated with T-001 findings. Every
+CLOSED row has a grep/validator command and its actual output as evidence, not a
+claim. This is scratch/audit output (kitchen/), not a normative file -- do not
+cite it as spec.
+
+## T-001 addendum: new items found while building the transition table
+
+| ID | Gap | Evidence | Notes |
+|----|-----|----------|-------|
+| G-13 | `VALIDATE` phase had no defined entry trigger anywhere | `grep -rn "VALIDATE\|saipen validate" saipen/RFC.md saipen/phases/*.md saipen/SKILL.md saipen/CONFORMANCE.md` (before fix) returned zero hits outside `phases/validate.md` itself | FIXED this ticket -- `saipen validate` added to § 1.10 Command Surface. |
+| G-14 | `phases/hunt.md` doesn't explicitly state HUNT's transition when findings exist (only the clean-board -> ADD case is explicit) | `grep -n "transition\|PLAN\|SCOUT" saipen/phases/hunt.md` -> only the clean-board ADD transition appears; nothing for the findings case | OPEN -- the transition table documents `HUNT -> PLAN \| SCOUT` as a reasonable inference (ambiguous findings become tickets, normal Ticket DAG flow applies), explicitly flagged as inferred, not sourced from `hunt.md` itself. `hunt.md` is out of T-001's stated file scope (RFC.md § 1.6, CONFORMANCE.md only) -- logged here rather than touched silently. |
+| G-15 | The directive's own proposed T-001 transition table (in `SAIPEN_SPEC_DIRECTIVE.md`) had real inaccuracies, corrected before shipping, not copied blindly | `REVIEW -> SCOUT` claimed but not found anywhere in `review.md` (removed); `BLOCKED -> BUILD\|VERIFY\|REVIEW\|HUNT\|DONE` claimed but `blocked.md` only ever says "STATE -> PLAN or SCOUT" (narrowed); `ADD -> VERIFY\|DONE\|BLOCKED` claimed but `add.md` also explicitly transitions to `PLAN`, `SCOUT`, and `HUNT` (widened) | Every row in the shipped table was checked against the actual phase doc text before shipping, not assumed from the directive. |
 
 ## T-000 checklist (validator coverage)
 
