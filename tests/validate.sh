@@ -1,5 +1,7 @@
 #!/bin/bash
-# saipen conformance validator
+# saipen conformance validator -- FROZEN portable floor (v7.24.0).
+# Kept for hosts without Python; new checks land only in tools/validate.py
+# (the canonical validator). Don't extend this file.
 
 set -e
 

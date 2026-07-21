@@ -55,6 +55,12 @@ function Copy-Skill([string]$dst) {
   if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force $dst | Out-Null }
   Copy-Item (Join-Path $SkillHome "SKILL.md"),(Join-Path $SkillHome "RFC.md"),(Join-Path $SkillHome "UI.md"),(Join-Path $SkillHome "STYLE.md") $dst -Force
   Copy-Item (Join-Path $SkillHome "phases") $dst -Recurse -Force
+  # validate.py resolves the schema relative to itself (../extensions/schemas),
+  # so both must travel together for the skill copy to validate standalone.
+  $root = Split-Path $SkillHome
+  Copy-Item (Join-Path $root "tools") $dst -Recurse -Force
+  New-Item -ItemType Directory -Force (Join-Path $dst "extensions") | Out-Null
+  Copy-Item (Join-Path $root "extensions\schemas") (Join-Path $dst "extensions") -Recurse -Force
   return "copied (re-run after updates)"
 }
 

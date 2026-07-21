@@ -26,7 +26,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
     never assigned out of order.
   - `[parent: E-###]` is MAY (links the event graph; omit for a fresh root). When present, it MUST reference an `E-###` that already exists earlier in the file -- a dangling parent breaks the graph Recovery (§ 1.5) depends on.
   - `[T-###]` (ticket reference) is MAY -- omit for ticket-less events
-    (HUNT sweeps, SHIP, session-level DEC/RUN).
+    (HUNT sweeps, SHIP, session-level DEC/RUN), or write the literal
+    `[T-none]` to mark ticket-lessness explicitly (equally legal -- it
+    distinguishes "no ticket" from "forgot the field", and established
+    practice already used it; ratified v7.24.0). Any other non-numeric
+    value in this position is non-conformant.
   - `TAXONOMY` MUST be exactly one of: `RUN` (command executed, result),
     `DEC` (decision made, why), `H` (hypothesis, test, verdict). No other
     label is conformant -- a phase name is not a taxonomy value.

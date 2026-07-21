@@ -45,6 +45,12 @@ copy_skill() { # $1=dst
   mkdir -p "$1"
   cp "$SKILL_HOME/SKILL.md" "$SKILL_HOME/RFC.md" "$SKILL_HOME/UI.md" "$SKILL_HOME/STYLE.md" "$1/"
   cp -r "$SKILL_HOME/phases" "$1/"
+  # validate.py resolves the schema relative to itself (../extensions/schemas),
+  # so both must travel together for the skill copy to validate standalone.
+  local root; root="$(dirname "$SKILL_HOME")"
+  cp -r "$root/tools" "$1/"
+  mkdir -p "$1/extensions"
+  cp -r "$root/extensions/schemas" "$1/extensions/"
   echo "copied (re-run after updates)"
 }
 
