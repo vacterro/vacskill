@@ -7,7 +7,7 @@
 Welcome to SAIPEN! If you're a human developer looking to tame your AI agents, you're in the right place. 
 
 ## What is SAIPEN?
-When you have multiple agents (or even the same agent on different days) working on a codebase, they tend to forget decisions, step on each other's toes, or hallucinate capabilities. SAIPEN acts like a tiny `.git` folder specifically for the AI agent's working memory.
+When you switch agents (or use the same agent on different days) working on a codebase, they tend to forget decisions, step on each other's toes, or hallucinate capabilities. SAIPEN acts like a tiny `.git` folder specifically for the AI agent's working memory.
 
 ## How it works
 1. **Global Install:** You run `bootstrap/inject.ps1` (or `.sh`) once on your machine. This teaches Claude, Gemini, Aider, and Antigravity what SAIPEN is.

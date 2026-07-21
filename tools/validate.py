@@ -293,7 +293,7 @@ for tid, t in tickets.items():
 log_path = Path(".saipen/LOG.md")
 if log_path.is_file():
     # Date prefix optional to allow pre-STYLE.md history; new entries carry one.
-    # [agent: <id>] is a MAY field for multi-agent sessions (RFC § 1.2, v7.27.0).
+    # [agent: <id>] is a MAY field for writer identity (RFC § 1.2, v7.27.0).
     LOG_RE = re.compile(
         r"^- (?:\d{2}[./]\d{2}[./]\d{2} \d{2}:\d{2} )?"
         r"\[E-(\d+)\]"

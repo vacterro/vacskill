@@ -41,9 +41,9 @@ no-publish means git is missing and nearly every step here needs it.
    <reason>` (this exact text after the taxonomy) -- never claim success
    on a failed push. Commit/tag stay local. Then by failure class:
    - Transient (network, auth hiccup)? Retry once, then `BLOCKED`.
-   - **Non-fast-forward (someone pushed meanwhile) is ROUTINE, not a
-     blocker** -- for a protocol built around multiple agents and
-     surfaces touching one project, "the remote moved" is expected life,
+    - **Non-fast-forward (someone pushed meanwhile) is ROUTINE, not a
+      blocker** -- for a protocol built around multiple sessions
+      touching one project, "the remote moved" is expected life,
      not an anomaly: `git fetch`, inspect what landed (it touches
      `.saipen/` or files in this ship's own commits? -> read before
      acting; unrelated files? -> proceed), rebase the local commits onto
