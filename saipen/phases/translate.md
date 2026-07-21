@@ -9,8 +9,8 @@ Deep, isolated translation preparation system. This phase runs in a strictly qua
 
 2. **Core Translation Build:**
    - Establish a robust translation system infrastructure (e.g., JSON bundles, structured locales) inside `.saitranslate/`.
-   - You MUST translate the software strings into the following 22 languages, **prioritizing: English, Russian, Estonian, and Japanese**.
-   - The full list is: *English, Russian, Estonian, Japanese, Ukrainian, German, French, Spanish, Italian, Portuguese, Dutch, Polish, Swedish, Danish, Finnish, Norwegian, Chinese, Korean, Thai, Vietnamese, Arabic, Hebrew*.
+   - You MUST translate the software strings into the following 32 languages, **prioritizing: English, Russian, Estonian, and Japanese**.
+   - The full list is: *English, Russian, Estonian, Japanese, Ukrainian, German, French, Spanish, Italian, Portuguese, Dutch, Polish, Swedish, Danish, Finnish, Norwegian, Chinese, Korean, Thai, Vietnamese, Arabic, Hebrew, Turkish, Hindi, Indonesian, Greek, Czech, Romanian, Hungarian, Bulgarian, Slovak, Croatian*.
    - **UI Assets:** For each language, associate a flag icon and the config
      for live-switching in Settings. Unicode regional-indicator flag emoji
      (🇺🇸🇷🇺🇪🇪🇯🇵...) are the universal baseline every agent can produce
@@ -21,7 +21,7 @@ Deep, isolated translation preparation system. This phase runs in a strictly qua
 
 3. **Maintenance and Update:**
    - If the core translation system already exists, compare it against the latest main software strings.
-   - Update missing translations across all 22 languages and the bonus voice to ensure 100% coverage.
+   - Update missing translations across all 32 languages and the bonus voice to ensure 100% coverage.
 
 4. **Completion:**
    - Once the translation bundle is fully built, validated, and up-to-date,
