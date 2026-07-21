@@ -1,0 +1,10 @@
+{
+  "app.title": "SAIPEN Protocol",
+  "app.tagline": "Eén commando. Nul amnesie.",
+  "action.continue": "Werk hervatten",
+  "action.settings": "Instellingen",
+  "settings.language": "Taal",
+  "status.ready": "Gereed",
+  "status.done": "Klaar",
+  "status.hunting": "Fouten zoeken..."
+}

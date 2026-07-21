@@ -1,0 +1,10 @@
+{
+  "app.title": "SAIPEN Protokoll",
+  "app.tagline": "Üks käsk. Null amneesiat.",
+  "action.continue": "Jätka tööd",
+  "action.settings": "Seaded",
+  "settings.language": "Keel",
+  "status.ready": "Valmis",
+  "status.done": "Tehtud",
+  "status.hunting": "Vigade otsimine..."
+}
