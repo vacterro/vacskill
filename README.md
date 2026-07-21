@@ -6,16 +6,18 @@
 
 # SAIPEN
 
-**v7.30.1** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
+**Continuation protocol for AI coding agents.** Persistent project memory in
+plain markdown, so a cold agent with no chat history runs `/saipen continue`
+and resumes work in under a minute -- no rebriefing, any vendor, any day.
 
 **One command. Zero amnesia.**
 
-**Не объясняй ничего. Просто напиши saipen и продолжи работу над проектом как ни в чём не бывало, любым агентом.**
+**v7.30.1** | [Spec](SPEC.md) | [Guide](GUIDE.md) | plain markdown | zero deps | MIT
 
 [![Russian Guide](https://img.shields.io/badge/📖_ELI5_Guide-НА_РУССКОМ-red?style=for-the-badge)](GUIDE_RU.md)
 [![English Guide](https://img.shields.io/badge/📖_ELI5_Guide-IN_ENGLISH-blue?style=for-the-badge)](GUIDE_EN.md)
 
-A cold agent with zero chat history runs `/saipen continue` and resumes work in under a minute -- no rebriefing, any vendor, any day.
+**Не объясняй ничего. Просто напиши saipen и продолжи работу над проектом как ни в чём не бывало, любым агентом.**
 
 ```text
 User  ->  /saipen continue
