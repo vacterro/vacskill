@@ -2,7 +2,7 @@
   <img src="assets/SAIPEN_design1.png" alt="SAIPEN Guide Title" width="800"/>
 </p>
 
-# SAIPEN Guide (Explain Like I'm Five, Grandpa Edition)
+# SAIPEN Guide
 
 Listen here, rookie. The problem is simple: your AI agents have the memory of a goldfish. Yesterday you spent half a day explaining your architecture, and today you open a fresh chat and it starts building everything from scratch while asking stupid questions.
 
