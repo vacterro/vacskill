@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.31.0 -- 2026-07-21 -- user cleared the pre-advertising checklist, project goes public
+- `STATE.md` no longer lists pre-advertising to-dos (cold-run, goal-mode, multi-agent dry-run, fresh release). Plan was user's own reminder, they marked it done. Clean `next_action` now just says "Board empty -- bare saipen -> HUNT".
+
 ## 7.30.1 -- 2026-07-21 -- multi-agent pulled from the storefront until it's field-tested
 - User's call after the honest pre-advertising assessment: the multi-agent extension has zero live runs behind it, so it does not get advertised. README's Multi-Agent Coordination section removed; the `multi-agent` GitHub topic removed. The extension itself stays fully in the repo (`extensions/multi-agent/`), and every normative reference stays intact -- RFC § 1.4's concurrency boundary, § 1.9's extension discovery, SPEC's architecture tree all still point at it, because the protocol's logic needs the pointer regardless of what the storefront says. Advertising returns after a real Planner/Worker/Integrator field run.
 
