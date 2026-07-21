@@ -62,9 +62,7 @@ should take.
 ## What's out of scope
 
 - Turning SAIPEN into a distributed consensus system. See
-  `SPEC.md`'s Concurrency & Distribution Boundaries section --
-  `extensions/multi-agent/` is the intended extension point for
-  multi-agent coordination, not a Core/RFC change.
+  `SPEC.md`'s Concurrency & Distribution Boundaries section.
 - Machine-parseable LOG marker grammar beyond the existing skeleton.
   `LOG.md` stays prose around a fixed shape.
 - A `saipen doctor` command or similar redundant with `saipen validate` +

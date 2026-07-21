@@ -68,9 +68,6 @@ extensions/                 <- THE ADAPTIVE LAYER
   templates/                fresh .saipen/ boilerplate
   security/                 EXAMPLE hook to copy into a project (RFC § 1.9, attaches to VERIFY)
   performance/              EXAMPLE hook to copy into a project (RFC § 1.9, attaches to REVIEW)
-  multi-agent/              EXAMPLE Coordinator layer (RFC § 1.9, SPEC's own predicted
-                             extension point) -- Planner/Worker/Integrator roles, lanes.md,
-                             merge queue; whole-session scope, not one phase
 
 bootstrap/                  <- INSTALL/EXPORT/UNINSTALL, one machine at a time
   inject.ps1 / .sh          installs the SAIPEN block + skill copies (README Quick Start)
@@ -102,7 +99,7 @@ Transient event logs do not house permanent knowledge. SAIPEN mandates that stru
 ## Concurrency & Distribution Boundaries
 SAIPEN ensures state integrity via file-based claims (`owner`, `claim_time`) and sequential graphs (`LOG.md`). However, **SAIPEN is a state protocol, not a distributed consensus algorithm.**
 - **Local/Shared Filesystem**: Conflict resolution relies on atomic filesystem writes ("first commit wins").
-- **Networked/Distributed Environments**: If agents operate across disconnected machines without real-time file syncing, race conditions on `BOARD.md` claims will occur. In highly distributed setups, the SAIPEN on-disk protocol contract MUST remain stable -- project state itself still mutates constantly, through SAIPEN's own rules (§ 1.5 checkpointing), never the protocol shape those rules follow. A thin **Coordinator/Server Layer** SHOULD be built *on top* of SAIPEN to broker atomic locks before pushing state to the agents. `extensions/multi-agent/` is that layer made concrete for the same-machine, multiple-agent-instances case: git worktree isolation per ticket, a single Integrator as the only writer of `STATE`/`BOARD`/`LOG`, a merge queue in front of trunk.
+- **Networked/Distributed Environments**: If agents operate across disconnected machines without real-time file syncing, race conditions on `BOARD.md` claims will occur. In highly distributed setups, the SAIPEN on-disk protocol contract MUST remain stable -- project state itself still mutates constantly, through SAIPEN's own rules (§ 1.5 checkpointing), never the protocol shape those rules follow.
 
 
 <p align="center">
