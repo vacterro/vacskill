@@ -15,21 +15,29 @@ strip_block() {
 
 rm_skill() {
   if [ -d "$1" ] || [ -L "$1" ]; then
-    rm -rf "$1"
-    echo "skill removed"
+    if rm -rf "$1"; then
+      echo "skill removed"
+    else
+      echo "remove FAILED ($1)"
+    fi
   else
     echo "clean"
   fi
 }
 
 rm_aider() {
+  # Remove exactly the block the injector wrote: the comment line, the
+  # read: key that immediately follows it, and the consecutive saipen
+  # RFC/STYLE items -- never any other read: line the user owns.
   if [ -f "$1" ]; then
     if grep -q "# saipen protocol auto-loaded" "$1"; then
       cp "$1" "$1.uninstalled.bak"
-      sed -i.bak '/# saipen protocol auto-loaded/d' "$1" 2>/dev/null || sed -i '' '/# saipen protocol auto-loaded/d' "$1"
-      sed -i.bak '/read:/d' "$1" 2>/dev/null || sed -i '' '/read:/d' "$1"
-      sed -i.bak '\|saipen/RFC\.md|d' "$1" 2>/dev/null || sed -i '' '\|saipen/RFC\.md|d' "$1"
-      rm -f "$1.bak"
+      awk '
+        /^# saipen protocol auto-loaded$/ { inblk = 1; next }
+        inblk && /^read:$/ { next }
+        inblk && /^[[:space:]]*-[[:space:]].*saipen\/(RFC|STYLE)\.md$/ { next }
+        { inblk = 0; print }
+      ' "$1" > "$1.tmp" && mv "$1.tmp" "$1"
       echo "aider conf cleaned"
     elif grep -q "saipen/RFC.md" "$1"; then
       echo "manual aider conf (please remove manually)"

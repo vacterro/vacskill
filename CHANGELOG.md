@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.26.0 -- 2026-07-21 -- distribution integrity machine-checked; full HUNT sweep of the home repo
+- **The v7.22.3/v7.25.0 bug class is now a validator FAIL, not archaeology.** Three new home-repo checks in `tools/validate.py`: (A) every phase named in RFC.md's phase enum must have its `saipen/phases/<name>.md` doc, both directions (orphan docs warn); (B) a 10-file runtime manifest (SKILL/UI/STYLE, validator scripts, schema, templates) must exist in the home; (C) both injector scripts must actually reference every runtime dir they're supposed to distribute (`phases`/`tools`/`tests`/`schemas`/`templates`). Negative-tested for real -- temporarily hid `done.md`, watched the FAIL fire with exit 1, restored, green again. A sixth phases-class bug now costs one validator run to find instead of a review cycle.
+- **HUNT sweep of the home repo itself (all six hunt.md signal categories), findings fixed:**
+  - *Silent failures (cat. 4):* both injectors' `Copy-Skill`/`copy_skill` reported "copied" even if every single copy failed -- `$ErrorActionPreference = "Continue"` / no `set -e` swallowed errors while the report claimed success. Both now report `copy FAILED (<dst>)` on any failure. Same hardening for `Remove-Skill`/`rm_skill` in the uninstallers ("skill removed" over a failed `rm -rf` was the same lie).
+  - *Symmetry gaps (cat. 5):* the uninstallers' Aider cleanup still matched the OLD one-line conf format -- against v7.25.0's two-line block it would have stripped the `read:` key and RFC line but left the STYLE line orphaned as broken YAML. Worse, `uninstall.sh` ran `sed '/read:/d'` -- deleting EVERY line containing "read:" anywhere in the user's own conf. Both rewritten to remove exactly the injector's block (comment + read: + consecutive saipen items), nothing else, CRLF-tolerant on the PS side.
+  - *Dead code/orphans (cat. 6), dogfooding v7.23.0's own kitchen rule:* `.saipen/kitchen/`'s two evidence docs (PART2_CANONICAL_MAP, SAIPEN_GAP_MATRIX) met the new stale definition exactly -- owning work DONE and off the board, content fully folded into CHANGELOG entries. Deleted per the rule HUNT now carries. First real exercise of that rule since it shipped.
+  - Categories 1-3 (failing tests, unverified commits, stale TODOs) came back clean -- validators green, every ship logged, all TODO matches are protocol vocabulary, not stale markers.
+- `export.ps1`/`.sh` reviewed, already correct (no file lists to drift, explicit failure paths) -- untouched.
+
 ## 7.25.0 -- 2026-07-21 -- promised-but-never-wired sweep: four more phases-class bugs
 User asked whether more bugs of the v7.22.3 class exist ("the spec promises X, the wiring never delivers X"). Systematic sweep of every cross-file promise against what's actually distributed found four:
 

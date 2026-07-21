@@ -17,17 +17,25 @@ function Remove-Block([string]$file) {
 
 function Remove-Skill([string]$path) {
   if (Test-Path $path) {
-    Remove-Item -Recurse -Force $path
-    return "skill removed"
+    try {
+      Remove-Item -Recurse -Force $path -ErrorAction Stop
+      return "skill removed"
+    } catch {
+      return "remove FAILED ($path): $($_.Exception.Message)"
+    }
   }
   return "clean"
 }
 
 function Remove-Aider([string]$file) {
+  # Remove exactly the block the injector wrote (comment + read: key +
+  # consecutive saipen RFC/STYLE items), CRLF-tolerant -- never any other
+  # read: line the user owns.
   if (Test-Path $file) {
     $text = Get-Content $file -Raw -Encoding utf8
-    if ($text -match '# saipen protocol auto-loaded\nread:\n  - .*?saipen[\\/]RFC\.md\n') {
-      $clean = [regex]::Replace($text, '(?m)^# saipen protocol auto-loaded\nread:\n  - .*?saipen[\\/]RFC\.md\n', "")
+    $blockRe = '(?m)^# saipen protocol auto-loaded\r?\nread:\r?\n(?:[ \t]*-[ \t].*saipen[\\/](?:RFC|STYLE)\.md\r?\n?)+'
+    if ($text -match $blockRe) {
+      $clean = [regex]::Replace($text, $blockRe, "")
       Copy-Item $file "$file.uninstalled.bak" -Force
       [System.IO.File]::WriteAllText($file, $clean, $Utf8NoBom)
       return "aider conf cleaned"

@@ -370,6 +370,72 @@ if Path("saipen/RFC.md").is_file() and Path("VERSION").is_file() and Path("READM
     else:
         ok("README.md badge matches VERSION")
 
+    # Distribution integrity -- the v7.22.3/v7.25.0 bug class, machine-checked.
+    # Five separate times this repo promised a file in one place and never
+    # wired its delivery in another; each was found by archaeology. These
+    # three checks make the whole class a validator FAIL instead.
+
+    # A. RFC's phase enum <-> phases/ docs, both directions.
+    rfc_text = Path("saipen/RFC.md").read_text(encoding="utf-8-sig")
+    enum_line = next((l for l in rfc_text.splitlines()
+                      if l.startswith("**Phase enum**")), None)
+    if enum_line is None:
+        fail("RFC.md: '**Phase enum**' line not found -- the phase-docs "
+             "integrity check anchors on it")
+    else:
+        phase_names = [t for t in re.findall(r"`([A-Z-]+)`", enum_line)
+                       if re.fullmatch(r"[A-Z]+", t)]
+        enum_ok = True
+        for name in phase_names:
+            if not Path(f"saipen/phases/{name.lower()}.md").is_file():
+                fail(f"RFC.md phase enum names {name} but "
+                     f"saipen/phases/{name.lower()}.md doesn't exist -- "
+                     f"the state machine has a door drawn on the map with "
+                     f"no room behind it")
+                enum_ok = False
+        for doc in Path("saipen/phases").glob("*.md"):
+            if doc.stem.upper() not in phase_names:
+                warn("orphan-phase-doc", f"saipen/phases/{doc.name} has no "
+                     f"entry in RFC.md's phase enum -- dead doc or missing "
+                     f"enum value?")
+        if enum_ok:
+            ok(f"phase enum <-> phases/ docs in sync ({len(phase_names)} phases)")
+
+    # B. Every runtime file the protocol references must exist in the home.
+    manifest = [
+        "saipen/SKILL.md", "saipen/UI.md", "saipen/STYLE.md",
+        "tools/validate.py",
+        "tests/validate.sh", "tests/validate.ps1",
+        "extensions/schemas/state.schema.json",
+        "extensions/templates/STATE.md", "extensions/templates/BOARD.md",
+        "extensions/templates/LOG.md",
+    ]
+    manifest_missing = [f for f in manifest if not Path(f).is_file()]
+    for f in manifest_missing:
+        fail(f"runtime manifest file missing from the home: {f}")
+    if not manifest_missing:
+        ok(f"runtime manifest complete ({len(manifest)} files)")
+
+    # C. Both injector scripts must actually distribute every runtime dir.
+    dist_tokens = ["phases", "tools", "extensions/schemas",
+                   "extensions/templates", "tests"]
+    wiring_ok = True
+    for script in ("bootstrap/inject.ps1", "bootstrap/inject.sh"):
+        if not Path(script).is_file():
+            fail(f"{script} missing")
+            wiring_ok = False
+            continue
+        normalized = Path(script).read_text(encoding="utf-8-sig").replace("\\", "/")
+        for token in dist_tokens:
+            if token not in normalized:
+                fail(f"{script} never references {token} -- Copy-Skill "
+                     f"wiring broken, skill copies won't receive it "
+                     f"(the exact v7.22.3/v7.25.0 bug class)")
+                wiring_ok = False
+    if wiring_ok:
+        ok("injector distributes every runtime dir "
+           "(phases/tools/tests/schemas/templates, both scripts)")
+
 # ------------------------------------------------------------------- summary
 
 warn_total = sum(len(msgs) for msgs in warnings.values())

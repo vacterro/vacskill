@@ -42,20 +42,24 @@ add_block() { # $1=file
 }
 
 copy_skill() { # $1=dst
-  mkdir -p "$1"
-  cp "$SKILL_HOME/SKILL.md" "$SKILL_HOME/RFC.md" "$SKILL_HOME/UI.md" "$SKILL_HOME/STYLE.md" "$1/"
-  cp -r "$SKILL_HOME/phases" "$1/"
   # validate.py resolves the schema relative to itself (../extensions/schemas),
   # so both must travel together for the skill copy to validate standalone.
   # templates/ makes init.md's "copy, do NOT freehand" reachable; tests/ makes
   # validate.md's no-Python shell fallback reachable.
+  # Any cp failure must surface in the report -- a claimed "copied" over a
+  # half-copy is exactly the silent-failure class hunt.md exists to catch.
   local root; root="$(dirname "$SKILL_HOME")"
-  cp -r "$root/tools" "$1/"
-  mkdir -p "$1/extensions" "$1/tests"
-  cp -r "$root/extensions/schemas" "$1/extensions/"
-  cp -r "$root/extensions/templates" "$1/extensions/"
-  cp "$root/tests/validate.sh" "$root/tests/validate.ps1" "$1/tests/"
-  echo "copied (re-run after updates)"
+  if mkdir -p "$1" "$1/extensions" "$1/tests" \
+     && cp "$SKILL_HOME/SKILL.md" "$SKILL_HOME/RFC.md" "$SKILL_HOME/UI.md" "$SKILL_HOME/STYLE.md" "$1/" \
+     && cp -r "$SKILL_HOME/phases" "$1/" \
+     && cp -r "$root/tools" "$1/" \
+     && cp -r "$root/extensions/schemas" "$1/extensions/" \
+     && cp -r "$root/extensions/templates" "$1/extensions/" \
+     && cp "$root/tests/validate.sh" "$root/tests/validate.ps1" "$1/tests/"; then
+    echo "copied (re-run after updates)"
+  else
+    echo "copy FAILED ($1) -- fix and re-run"
+  fi
 }
 
 echo "saipen injector (source: $SKILL_HOME)"

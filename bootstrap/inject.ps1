@@ -52,21 +52,27 @@ function Add-Block([string]$file) {
 }
 
 function Copy-Skill([string]$dst) {
-  if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force $dst | Out-Null }
-  Copy-Item (Join-Path $SkillHome "SKILL.md"),(Join-Path $SkillHome "RFC.md"),(Join-Path $SkillHome "UI.md"),(Join-Path $SkillHome "STYLE.md") $dst -Force
-  Copy-Item (Join-Path $SkillHome "phases") $dst -Recurse -Force
   # validate.py resolves the schema relative to itself (../extensions/schemas),
   # so both must travel together for the skill copy to validate standalone.
   # templates/ makes init.md's "copy, do NOT freehand" reachable; tests/ makes
   # validate.md's no-Python shell fallback reachable.
-  $root = Split-Path $SkillHome
-  Copy-Item (Join-Path $root "tools") $dst -Recurse -Force
-  New-Item -ItemType Directory -Force (Join-Path $dst "extensions") | Out-Null
-  Copy-Item (Join-Path $root "extensions\schemas") (Join-Path $dst "extensions") -Recurse -Force
-  Copy-Item (Join-Path $root "extensions\templates") (Join-Path $dst "extensions") -Recurse -Force
-  New-Item -ItemType Directory -Force (Join-Path $dst "tests") | Out-Null
-  Copy-Item (Join-Path $root "tests\validate.sh"),(Join-Path $root "tests\validate.ps1") (Join-Path $dst "tests") -Force
-  return "copied (re-run after updates)"
+  # Any copy failure must surface in the report -- a claimed "copied" over a
+  # half-copy is exactly the silent-failure class hunt.md exists to catch.
+  try {
+    if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force $dst -ErrorAction Stop | Out-Null }
+    Copy-Item (Join-Path $SkillHome "SKILL.md"),(Join-Path $SkillHome "RFC.md"),(Join-Path $SkillHome "UI.md"),(Join-Path $SkillHome "STYLE.md") $dst -Force -ErrorAction Stop
+    Copy-Item (Join-Path $SkillHome "phases") $dst -Recurse -Force -ErrorAction Stop
+    $root = Split-Path $SkillHome
+    Copy-Item (Join-Path $root "tools") $dst -Recurse -Force -ErrorAction Stop
+    New-Item -ItemType Directory -Force (Join-Path $dst "extensions") -ErrorAction Stop | Out-Null
+    Copy-Item (Join-Path $root "extensions\schemas") (Join-Path $dst "extensions") -Recurse -Force -ErrorAction Stop
+    Copy-Item (Join-Path $root "extensions\templates") (Join-Path $dst "extensions") -Recurse -Force -ErrorAction Stop
+    New-Item -ItemType Directory -Force (Join-Path $dst "tests") -ErrorAction Stop | Out-Null
+    Copy-Item (Join-Path $root "tests\validate.sh"),(Join-Path $root "tests\validate.ps1") (Join-Path $dst "tests") -Force -ErrorAction Stop
+    return "copied (re-run after updates)"
+  } catch {
+    return "copy FAILED ($dst): $($_.Exception.Message)"
+  }
 }
 
 $h = $env:USERPROFILE
