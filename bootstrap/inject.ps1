@@ -54,6 +54,7 @@ function Add-Block([string]$file) {
 function Copy-Skill([string]$dst) {
   if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force $dst | Out-Null }
   Copy-Item (Join-Path $SkillHome "SKILL.md"),(Join-Path $SkillHome "RFC.md"),(Join-Path $SkillHome "UI.md"),(Join-Path $SkillHome "STYLE.md") $dst -Force
+  Copy-Item (Join-Path $SkillHome "phases") $dst -Recurse -Force
   return "copied (re-run after updates)"
 }
 

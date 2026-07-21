@@ -44,6 +44,7 @@ add_block() { # $1=file
 copy_skill() { # $1=dst
   mkdir -p "$1"
   cp "$SKILL_HOME/SKILL.md" "$SKILL_HOME/RFC.md" "$SKILL_HOME/UI.md" "$SKILL_HOME/STYLE.md" "$1/"
+  cp -r "$SKILL_HOME/phases" "$1/"
   echo "copied (re-run after updates)"
 }
 
