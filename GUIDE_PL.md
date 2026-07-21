@@ -6,9 +6,9 @@
 
 SAIPEN to notatnik pamięci w folderze `.saipen/` dla agentów AI.
 
-## Quick Start / Быстрый старт
+## Szybki Start
 
-1. **Install once per machine / Установить один раз:**
+1. **Zainstaluj raz na maszynę:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -16,21 +16,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Uruchom w projekcie:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Praca:**
 > `saipen`
 
-## Commands / Команды
+## Polecenia
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Polecenie | Akcja |\n|---|---|\n| `saipen set` | Zainicjuj folder pamięci `.saipen/` |\n| `saipen continue` | Wznów pracę z notatek |\n| `saipen stop` | Zapisz postęp i zatrzymaj |\n| `saipen status` | Odczytaj tablicę i status |\n| `saipen goal <text>` | Przejdź do nowego celu |\n| `saipen clean` | Głębokie czyszczenie repozytorium |\n| `saipen translate` | Izolowana kompilacja tłumaczeń w 22 językach |\n| `saipen ship` | Uruchom przepływ wydania |

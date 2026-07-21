@@ -6,9 +6,9 @@
 
 SAIPEN은 프로젝트 내 `.saipen/` 폴더에 위치한 AI 에이전트용 지속성 메모장입니다.
 
-## Quick Start / Быстрый старт
+## 빠른 시작
 
-1. **Install once per machine / Установить один раз:**
+1. **머신당 한 번 설치:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -16,21 +16,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **프로젝트 시작:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **작업:**
 > `saipen`
 
-## Commands / Команды
+## 명령어
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| 명령어 | 동작 |\n|---|---|\n| `saipen set` | 메모리 폴더 `.saipen/` 초기화 |\n| `saipen continue` | 노트에서 작업 재개 |\n| `saipen stop` | 진행 상황 저장 및 중지 |\n| `saipen status` | 보드 및 상태 읽기 |\n| `saipen goal <text>` | 새로운 목표로 전환 |\n| `saipen clean` | 저장소 딥 클린 |\n| `saipen translate` | 격리된 22개 언어 번역 빌드 |\n| `saipen ship` | 릴리스 플로우 트리거 |

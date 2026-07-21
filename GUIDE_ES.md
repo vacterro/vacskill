@@ -8,9 +8,9 @@ Escucha, novato. El problema es simple: tus agentes de IA tienen la memoria de u
 
 **SAIPEN** es un cuaderno resistente dentro de la carpeta `.saipen/` de tu proyecto.
 
-## Quick Start / Быстрый старт
+## Inicio Rápido
 
-1. **Install once per machine / Установить один раз:**
+1. **Instalar una vez por máquina:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -18,21 +18,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Iniciar proyecto:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Trabajar:**
 > `saipen`
 
-## Commands / Команды
+## Comandos
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Comando | Acción |\n|---|---|\n| `saipen set` | Inicializar carpeta de memoria `.saipen/` |\n| `saipen continue` | Reanudar trabajo desde notas |\n| `saipen stop` | Guardar progreso y detener |\n| `saipen status` | Leer tablero y estado |\n| `saipen goal <text>` | Pivotar hacia nuevo objetivo |\n| `saipen clean` | Limpieza profunda del repositorio |\n| `saipen translate` | Construcción aislada de traducción en 22 idiomas |\n| `saipen ship` | Desencadenar flujo de lanzamiento |

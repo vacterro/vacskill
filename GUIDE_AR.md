@@ -6,9 +6,9 @@
 
 SAIPEN هو دفتر ملاحظات في مجلد `.saipen/` لوكلاء الذكاء الاصطناعي.
 
-## Quick Start / Быстрый старт
+## البداية السريعة
 
-1. **Install once per machine / Установить один раз:**
+1. **التثبيت مرة واحدة لكل جهاز:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -16,21 +16,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **بدء المشروع:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **العمل:**
 > `saipen`
 
-## Commands / Команды
+## الأوامر
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| الأمر | الإجراء |\n|---|---|\n| `saipen set` | تهيئة مجلد الذاكرة `.saipen/` |\n| `saipen continue` | استئناف العمل من الملاحظات |\n| `saipen stop` | حفظ التقدم والتوقف |\n| `saipen status` | قراءة اللوحة والحالة |\n| `saipen goal <text>` | التحول إلى هدف جديد |\n| `saipen clean` | تنظيف عميق للمستودع |\n| `saipen translate` | بناء ترجمة معزول بـ 22 لغة |\n| `saipen ship` | بدء تدفق الإصدار |

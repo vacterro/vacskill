@@ -6,9 +6,9 @@
 
 SAIPEN הוא פנקס זיכרון בתיקייה `.saipen/` עבור סוכני AI.
 
-## Quick Start / Быстрый старт
+## התחלה מהירה
 
-1. **Install once per machine / Установить один раз:**
+1. **התקן פעם אחת לכל מחשב:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -16,21 +16,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **הפעל פרויקט:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **עבודה:**
 > `saipen`
 
-## Commands / Команды
+## פקודות
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| פקודה | פעולה |\n|---|---|\n| `saipen set` | אתחל תיקיית זיכרון `.saipen/` |\n| `saipen continue` | חדש עבודה מההערות |\n| `saipen stop` | שמור התקדמות ועצור |\n| `saipen status` | קרא את הלוח והמצב |\n| `saipen goal <text>` | עבור ליעד חדש |\n| `saipen clean` | ניקוי עמוק של המאגר |\n| `saipen translate` | בניית תרגום מבודדת ל-22 שפות |\n| `saipen ship` | הפעל תהליך שחרור |

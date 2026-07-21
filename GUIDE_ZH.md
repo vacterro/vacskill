@@ -8,9 +8,9 @@
 
 **SAIPEN** 就是一个放在项目 `.saipen/` 目录里的硬核笔记本。
 
-## Quick Start / Быстрый старт
+## 快速开始
 
-1. **Install once per machine / Установить один раз:**
+1. **每台机器安装一次:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -18,21 +18,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **在项目中启动:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **工作:**
 > `saipen`
 
-## Commands / Команды
+## 命令
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| 命令 | 操作 |\n|---|---|\n| `saipen set` | 初始化记忆文件夹 `.saipen/` |\n| `saipen continue` | 从笔记恢复工作 |\n| `saipen stop` | 保存进度并停止 |\n| `saipen status` | 读取看板和状态 |\n| `saipen goal <text>` | 转向新目标 |\n| `saipen clean` | 深度清理仓库 |\n| `saipen translate` | 隔离的22种语言翻译构建 |\n| `saipen ship` | 触发发布流程 |

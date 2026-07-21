@@ -8,9 +8,9 @@
 
 **SAIPEN** — це блокнот у папці `.saipen/` прямо в твоєму проекті.
 
-## Quick Start / Быстрый старт
+## Швидкий старт
 
-1. **Install once per machine / Установить один раз:**
+1. **Встановити один раз на машину:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -18,21 +18,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Запустити в проекті:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Працювати:**
 > `saipen`
 
-## Commands / Команды
+## Команди
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Команда | Дія |\n|---|---|\n| `saipen set` | Ініціалізувати папку пам'яті `.saipen/` |\n| `saipen continue` | Відновити роботу за нотатками |\n| `saipen stop` | Зберегти прогрес та зупинити |\n| `saipen status` | Прочитати дошку та статус |\n| `saipen goal <text>` | Перейти до нової мети |\n| `saipen clean` | Глибоке очищення репозиторію |\n| `saipen translate` | Ізольована збірка перекладів на 22 мови |\n| `saipen ship` | Запустити реліз |

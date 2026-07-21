@@ -6,9 +6,9 @@
 
 SAIPEN is een geheugennotitieblok in de map `.saipen/` voor AI-agente.
 
-## Quick Start / Быстрый старт
+## Snelstart
 
-1. **Install once per machine / Установить один раз:**
+1. **Eenmalig installeren per machine:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -16,21 +16,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Project starten:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Werken:**
 > `saipen`
 
-## Commands / Команды
+## Commando's
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Commando | Actie |\n|---|---|\n| `saipen set` | Geheugenmap `.saipen/` initialiseren |\n| `saipen continue` | Werk hervatten vanuit notities |\n| `saipen stop` | Voortgang opslaan & stoppen |\n| `saipen status` | Bord & status lezen |\n| `saipen goal <text>` | Draaien naar nieuw doel |\n| `saipen clean` | Diepe opschoning van repository |\n| `saipen translate` | Geïsoleerde vertaling build voor 22 talen |\n| `saipen ship` | Release flow activeren |

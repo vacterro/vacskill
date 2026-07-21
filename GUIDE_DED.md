@@ -8,9 +8,9 @@
 
 **SAIPEN** — это брезентовый планшет в папке `.saipen/` прямо у тебя в проекте.
 
-## Quick Start / Быстрый старт
+## Шевелись
 
-1. **Install once per machine / Установить один раз:**
+1. **Запихай правила в комп:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -18,21 +18,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Вруби в проекте:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Паши:**
 > `saipen`
 
-## Commands / Команды
+## Приказы
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Команда | Чо делает |\n|---|---|\n| `saipen set` | Создать папку `.saipen/` (мозги) |\n| `saipen continue` | Прочитать мозги и пахать |\n| `saipen stop` | Тормознуть и записать где стал |\n| `saipen status` | Глянуть че там по плану |\n| `saipen goal <text>` | Закинуть новую хотелку |\n| `saipen clean` | Вынести мусор |\n| `saipen translate` | Отправить батрака переводить |\n| `saipen ship` | Выкатить в прод |

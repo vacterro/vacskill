@@ -6,9 +6,9 @@
 
 SAIPEN er en hukommelsesnotesbog i mappen `.saipen/` til AI-agenter.
 
-## Quick Start / Быстрый старт
+## Hurtig Start
 
-1. **Install once per machine / Установить один раз:**
+1. **Installer én gang pr. maskine:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -16,21 +16,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Start projekt:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Arbejde:**
 > `saipen`
 
-## Commands / Команды
+## Kommandoer
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Kommando | Handling |\n|---|---|\n| `saipen set` | Initialiser hukommelsesmappe `.saipen/` |\n| `saipen continue` | Genoptag arbejde fra noter |\n| `saipen stop` | Gem fremskridt & stop |\n| `saipen status` | Læs tavle & status |\n| `saipen goal <text>` | Skift til nyt mål |\n| `saipen clean` | Dybdegående oprydning af repository |\n| `saipen translate` | Isoleret 22-sproget oversættelsesbyg |\n| `saipen ship` | Udløs udgivelsesflow |

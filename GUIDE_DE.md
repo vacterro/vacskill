@@ -8,9 +8,9 @@ Hör zu, Neuling. Das Problem ist einfach: Deine AI-Agenten haben das Gedächtni
 
 **SAIPEN** ist einfach ein Notizbuch im Ordner `.saipen/` direkt in deinem Projekt.
 
-## Quick Start / Быстрый старт
+## Schnellstart
 
-1. **Install once per machine / Установить один раз:**
+1. **Einmal pro Maschine installieren:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -18,21 +18,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Im Projekt starten:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Arbeiten:**
 > `saipen`
 
-## Commands / Команды
+## Befehle
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Befehl | Aktion |\n|---|---|\n| `saipen set` | Speicherordner `.saipen/` initialisieren |\n| `saipen continue` | Arbeit anhand von Notizen fortsetzen |\n| `saipen stop` | Fortschritt speichern & anhalten |\n| `saipen status` | Board & Status lesen |\n| `saipen goal <text>` | Zu neuem Ziel wechseln |\n| `saipen clean` | Tiefe Repository-Bereinigung |\n| `saipen translate` | Isolierter 22-Sprachen-Übersetzungs-Build |\n| `saipen ship` | Release-Flow auslösen |

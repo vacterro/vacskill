@@ -8,9 +8,9 @@
 
 **SAIPEN**はプロジェクト内の `.saipen/` フォルダに存在するノートだ。
 
-## Quick Start / Быстрый старт
+## クイックスタート
 
-1. **Install once per machine / Установить один раз:**
+1. **マシンごとに1回インストール:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -18,21 +18,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **プロジェクトで開始:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **作業:**
 > `saipen`
 
-## Commands / Команды
+## コマンド
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| コマンド | アクション |\n|---|---|\n| `saipen set` | メモリフォルダ `.saipen/` の初期化 |\n| `saipen continue` | ノートから作業を再開 |\n| `saipen stop` | 進捗を保存して停止 |\n| `saipen status` | ボードと状態を読み取る |\n| `saipen goal <text>` | 新しい目標へピボット |\n| `saipen clean` | リポジトリのディープクリーン |\n| `saipen translate` | 分離された22言語の翻訳ビルド |\n| `saipen ship` | リリースフローのトリガー |

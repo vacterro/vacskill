@@ -8,9 +8,9 @@ Kuula siia, algaja. Probleem on lihtne: sinu AI agentidel on kuldkala mälu. Eil
 
 **SAIPEN** on lihtsalt üks kuradi märkmik kaustas `.saipen/`.
 
-## Quick Start / Быстрый старт
+## Lühijuhend
 
-1. **Install once per machine / Установить один раз:**
+1. **Paigalda üks kord masina kohta:**
 ```bash
 git clone https://github.com/vacterro/saipen
 cd saipen
@@ -18,21 +18,12 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap\inject.ps1     # Windows
 bash bootstrap/inject.sh                                            # macOS / Linux
 ```
 
-2. **Start project / Запустить в проекте:**
+2. **Käivita projektis:**
 > `saipen set`
 
-3. **Work / Работать:**
+3. **Tööta:**
 > `saipen`
 
-## Commands / Команды
+## Käsud
 
-| Command | Action |
-|---|---|
-| `saipen set` | Initialize memory folder `.saipen/` |
-| `saipen continue` | Resume work from notes |
-| `saipen stop` | Save progress & stop |
-| `saipen status` | Read board & state |
-| `saipen goal <text>` | Pivot to new objective wave |
-| `saipen clean` | Deep repository cleanup |
-| `saipen translate` | Isolated 22-language translation build |
-| `saipen ship` | Trigger release flow |
+| Käsk | Tegevus |\n|---|---|\n| `saipen set` | Initsialiseeri mälukaust `.saipen/` |\n| `saipen continue` | Jätka tööd märkmete põhjal |\n| `saipen stop` | Salvesta progress ja peatu |\n| `saipen status` | Loe tahvlit ja olekut |\n| `saipen goal <text>` | Liigu uue eesmärgi juurde |\n| `saipen clean` | Puhasta repositoorium sügavalt |\n| `saipen translate` | Eraldatud 22-keelne tõlkeehitus |\n| `saipen ship` | Käivita väljalase |
