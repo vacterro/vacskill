@@ -1,5 +1,6 @@
 # Phase: SCOUT (mandatory before BUILD)
 
+0. **Claim the ticket**: If you haven't already, move the top workable ticket from `## TODO` to `## DOING`, change its checkbox to `[/]`, and set your `owner:` and `claim_time:` fields on it (RFC § 1.4).
 1. KNOWLEDGE/ first -- already know this? Skip re-reading.
 2. Ticket's files + ONE similar neighbor.
 3. Note: naming, error style, imports, utils, harness, build commands.
