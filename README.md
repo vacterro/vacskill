@@ -37,6 +37,9 @@ Memory lives in the project, not in a model's head. `Project -> Memory -> LLM` b
 - **Explicit Triggers**: `/saipen clean` (repo scrub), `/saipen translate` (isolated `.saitranslate/` factory), `/saipen validate` (conformance check), `/saipen goal` (autonomous wave execution).
 - **Strict Reliability**: Batch input parsing (surgical 1-by-1 tickets), dirty-tree adoption (never wipes uncommitted work), secret redaction (`sk-***`).
 
+## Projects Powered by SAIPEN
+- ⚡ **[FastPrompter](https://github.com/vacterro/fastprompter)** — High-performance prompt management tool natively integrated with SAIPEN memory protocol.
+
 ## Two Layers
 
 | Layer | Required | Purpose |
