@@ -1,4 +1,4 @@
-# Phase: HUNT (board empty/done)
+# Phase: HUNT (no TODO tickets remaining)
 
 Clean sweep. Skip only if LOG has `hunt -> clean @HASH` matching current HEAD.
 
