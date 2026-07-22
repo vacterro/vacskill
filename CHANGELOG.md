@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.33.3 -- 2026-07-22 -- extensions/subs/README.md: one-line reminder, read-only is policy not a wall
+Follow-up on a reviewer's comment about v7.33.0's design: `PROTOCOL.md` § 1 already says `mode: read-only` is procedural (no universal technical lock, same footing as RFC § 1.1's destructive-op rule) -- correct and already honest, nothing to fix there. What was missing: the Quick Start path (`README.md`, the file someone actually reads before spawning one) never said it. One line added where `saipen sub spawn` hands off to another agent -- if real isolation is wanted, run it in its own worktree or a directory-restricted session, not the same full-access agent on its honor. Single mention, not repeated elsewhere. Both validators green.
+
 ## 7.33.2 -- 2026-07-22 -- flagship guides mention subSaipen, clearly flagged experimental
 User's call: update the four flagship guides (`guides/GUIDE_EN.md`, `GUIDE_RU.md`, `GUIDE_EE.md`, `GUIDE_DED.md`) for `extensions/subs/`. Distinct from *advertising* it (README section, GitHub topic -- still withheld, same v7.30.1 policy): a GUIDE is read by someone already using the product, not pitched to a new visitor, so a short, clearly-flagged "experimental, zero battle scars yet" mention belongs there even while the front door stays quiet about it. Each guide got one paragraph in its own established voice -- `saipen sub spawn saihunt` as the one-liner (self-bootstraps per v7.33.1), what it gets you (isolated read-only agent, findings via its own OUTBOX, never touches real code), the two built-in subSaipen (saiwiki, saihunt), and the explicit "don't bet the farm on it yet" caveat. `GUIDE_DED.md`'s command cheat-sheet table also gained the `saipen sub spawn` row. Both validators green.
 

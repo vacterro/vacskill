@@ -46,6 +46,11 @@ Then open that folder in whichever agent you want running as `myagent`
 and point it at `extensions/subs/myagent/PROTOCOL.md`. It works its own
 board, writes findings to its own `kitchen/OUTBOX.md`.
 
+`mode: read-only` is a contract the subSaipen is told to follow, not a
+technical wall (`PROTOCOL.md` § 1) -- if you want a real one, run it in
+its own worktree or a directory-restricted session, not just the same
+full-access agent on its honor.
+
 Back in the main session:
 
 ```bash
