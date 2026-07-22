@@ -68,6 +68,9 @@ extensions/                 <- THE ADAPTIVE LAYER
   templates/                fresh .saipen/ boilerplate
   security/                 EXAMPLE hook to copy into a project (RFC § 1.9, attaches to VERIFY)
   performance/              EXAMPLE hook to copy into a project (RFC § 1.9, attaches to REVIEW)
+  subs/                     EXAMPLE read-only research subagents (RFC § 1.9) -- own
+                             STATE/BOARD/LOG per subagent, findings only via OUTBOX,
+                             never a second write-path into the project
 
 bootstrap/                  <- INSTALL/EXPORT/UNINSTALL, one machine at a time
   inject.ps1 / .sh          installs the SAIPEN block + skill copies (README Quick Start)
