@@ -57,6 +57,9 @@ python <saipen-clone>/tools/install_hook.py
 ```
 Installs a pre-commit hook. Broken board, malformed log line -- caught before the commit, not three sessions later when you're trying to figure out who broke what.
 
+**Experimental: spawn yourself some read-only researchers**
+`saipen sub spawn saihunt` -- one command, bootstraps `extensions/subs/` itself from the SAIPEN home if this project's never seen it, no manual copying. Gets you an isolated, read-only agent that pokes through your project and hands findings back through its own `OUTBOX.md` -- never touches your actual code. Two come built in: `saiwiki` (drafts your docs) and `saihunt` (hunts bugs). Brand new, zero battle scars yet -- kick the tires, don't bet the farm on it.
+
 Any questions? No? Then get back to work.
 
 ## All Commands & Use Scenarios (Cheat Sheet)
