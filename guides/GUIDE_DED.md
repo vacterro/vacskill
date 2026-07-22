@@ -43,4 +43,4 @@ bash bootstrap/inject.sh                                            # macOS / Li
 - Хочешь чтоб помнил серьёзное архитектурное решение -- пиши в `.saipen/KNOWLEDGE/`, файлом `decisions.md` или нумерованными `ADR-001.md`.
 - Гита нет, шелла нет -- не гадает, прямо говорит (`mode`, `WAIT: <вопрос>`).
 - Ссышь? `python <клон-saipen>/tools/install_hook.py` -- заслон перед каждым коммитом.
-- Хочешь батраков под себя -- `saipen sub spawn saihunt`, сам притащит `extensions/subs/` откуда надо. Свежак, не проверено в бою.
+- Хочешь батраков под себя -- `saipen sub spawn saihunt`, сам притащит `.saipen/extensions/subs/` откуда надо. Свежак, не проверено в бою.

@@ -58,7 +58,7 @@ python <saipen-clone>/tools/install_hook.py
 Installs a pre-commit hook. Broken board, malformed log line -- caught before the commit, not three sessions later when you're trying to figure out who broke what.
 
 **Experimental: spawn yourself some read-only researchers**
-`saipen sub spawn saihunt` -- one command, bootstraps `extensions/subs/` itself from the SAIPEN home if this project's never seen it, no manual copying. Gets you an isolated, read-only agent that pokes through your project and hands findings back through its own `OUTBOX.md` -- never touches your actual code. Two come built in: `saiwiki` (drafts your docs) and `saihunt` (hunts bugs). Brand new, zero battle scars yet -- kick the tires, don't bet the farm on it.
+`saipen sub spawn saihunt` -- one command, bootstraps `.saipen/extensions/subs/` itself from the SAIPEN home if this project's never seen it, no manual copying. Gets you an isolated, read-only agent that pokes through your project and hands findings back through its own `OUTBOX.md` -- never touches your actual code. Two come built in: `saiwiki` (drafts your docs) and `saihunt` (hunts bugs). Brand new, zero battle scars yet -- kick the tires, don't bet the farm on it.
 
 Any questions? No? Then get back to work.
 
@@ -77,7 +77,7 @@ Think of the agent as a smart dog. These are the commands you use to tell it wha
 | `saipen translate` | **The Interpreter.** Builds out a full translation bundle for the software (32 languages) in a sealed-off folder, never touching your actual source code while it works. | *Scenario:* You're shipping to a global audience and need every string translated without risking a stray edit to the real app. |
 | `saipen ship` | **The Launch Button.** Explicitly triggers a release -- version bump, changelog, git tag, push -- even outside the normal build-and-verify flow. | *Scenario:* Everything's already built and verified, you just want to cut the release right now. |
 | `saipen validate` | **The Inspector.** Runs the conformance checker against `.saipen/` and fixes whatever structural corruption it finds before you keep working. | *Scenario:* Something feels off about the board or log and you want the agent to sanity-check its own memory before trusting it. |
-| `saipen sub spawn <name>` | **The Spy.** Experimental -- spawns an isolated, read-only research agent (`extensions/subs/`) that pokes through your project and hands back findings, never edits anything itself. | *Scenario:* You want a second opinion hunting bugs or drafting docs, without letting anything near your actual code. |
+| `saipen sub spawn <name>` | **The Spy.** Experimental -- spawns an isolated, read-only research agent (`.saipen/extensions/subs/`) that pokes through your project and hands back findings, never edits anything itself. | *Scenario:* You want a second opinion hunting bugs or drafting docs, without letting anything near your actual code. |
 | `saipen` | **The Universal "Go" Button.** Acts exactly like `saipen continue` to resume work if there are tickets. If the board is totally empty, it switches to Auto-Pilot (HUNT/ADD) to find bugs or build new features. | *Scenario:* You are lazy and just want the agent to do whatever needs to be done next, whether that's finishing a task or finding new ones. |
 
 

@@ -1,4 +1,4 @@
 # SubSaipen Manifest
 
-- saiwiki -- extensions/subs/saiwiki/
-- saihunt -- extensions/subs/saihunt/
+- saiwiki -- .saipen/extensions/subs/saiwiki/
+- saihunt -- .saipen/extensions/subs/saihunt/

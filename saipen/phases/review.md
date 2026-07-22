@@ -2,7 +2,7 @@
 
 ## REVIEW -- is it well made?
 
-`extensions/performance/` present? Read it first -- its README states the
+`.saipen/extensions/performance/` (or legacy root `extensions/performance/`) present? Read it first -- its README states the
 benchmarks/thresholds this repo requires before SHIP (RFC § 1.9). Absent:
 skip, no overhead.
 

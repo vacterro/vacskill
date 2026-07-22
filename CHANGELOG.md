@@ -1,5 +1,16 @@
 # Changelog
 
+## 7.35.0 -- 2026-07-23 -- everything protocol-shaped lives under one .saipen/ roof
+User caught a real conformance bug in a different project (`FastPrompter`): another agent had spawned a subSaipen at root-level `subs/`, not `extensions/subs/` -- a deviation from spec. That surfaced the deeper question: why does a project carry `.saipen/`, `extensions/`, and `.saitranslate/` as three separate top-level entries at all? Weighed the tradeoff explicitly before touching anything this foundational (RFC's file model, referenced everywhere): consolidation cuts root-level clutter to one dot-folder; the cost is `.saipen/` (protocol-managed continuation state) absorbing `extensions/` (project-author-managed behavior hooks) into one bucket. Judged worth it -- confirmed with the user given the size of the change.
+
+**New attachment point for a consuming project**: `.saipen/extensions/<name>/` (was root-level `extensions/<name>/`) and `.saipen/saitranslate/` (was root-level `.saitranslate/`). **Unchanged**: the SAIPEN home's own top-level `extensions/` -- that's the shipped library the injector distributes and `saipen sub spawn` bootstraps from, a different thing from where a consuming project attaches its copy. **Legacy**: a project bootstrapped before this version MAY still carry the old root-level locations -- agents MUST recognize them as equivalent and MAY migrate at a convenient checkpoint, never maintain both at once.
+
+Every normative reference updated: RFC § 1.2 (secrets list, kitchen bullet), § 1.9 (extension discovery, with the legacy-recognition clause), § 2.1 (TRANSLATE). Phase docs: `verify.md`/`review.md` (security/performance hook lookup), `translate.md` (five `.saitranslate` mentions). The `extensions/subs/`, `extensions/security/`, `extensions/performance/` example docs themselves updated to describe the new attachment point for whoever copies them in. Found and fixed in passing: `extensions/subs/README.md` still name-checked `extensions/multi-agent/`, deleted back in v7.30.0 -- swapped for `extensions/performance/`.
+
+This repo's own dogfooding: `.saitranslate/` (genuinely this project's own output, no library role) moved via `git mv` to `.saipen/saitranslate/`. The home's own `extensions/` folder deliberately NOT moved -- it plays the library role here, not a consuming-project attachment.
+
+Both validators green.
+
 ## 7.34.1 -- 2026-07-22 -- TRANSLATE was fabricating content; scope fixed to the real surface
 User's clarifying question ("so it translates the software AND README AND guides AND wiki, everything translatable in the repo?") led to checking what the phase actually produces -- and it isn't that. Read this repo's own `.saitranslate/` bundle (built by an earlier session, "23/23 locales" logged as a success): every locale file contains `app.title`, `action.continue`, `settings.language`, `status.hunting` -- fabricated UI strings for a settings screen and buttons that don't exist anywhere in SAIPEN. The phase doc's "translate the software strings" instruction assumed every project has real in-app UI copy to translate; for a protocol/CLI/docs-first project it does not, and the agent invented plausible-sounding placeholder keys instead of recognizing there was nothing real to translate.
 

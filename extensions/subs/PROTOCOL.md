@@ -7,10 +7,10 @@ SAIPEN home on its own behalf, and it never relaxes what Core requires.
 
 ## 0. Root path
 
-Single root: **`extensions/subs/`**, relative to the project root.
+Single root: **`.saipen/extensions/subs/`**, inside the project's `.saipen/` (v7.35.0; a project bootstrapped before then MAY still carry this at root-level `extensions/subs/` -- equivalent, migrate when convenient).
 
 ```
-extensions/subs/
+.saipen/extensions/subs/
 ├── MANIFEST.md            # list of active subSaipen names
 ├── PROTOCOL.md             # this file
 ├── _shared/
@@ -39,7 +39,7 @@ in its own folder instead of the project's `.saipen/`, permanently locked to
 already defines exactly the behavior wanted here -- "the agent MAY still
 read, analyze, and report; it advises, it does not act" -- MUST NOT
 transition to `BUILD`/`SHIP`/`CLEAN`/`TRANSLATE`, MUST NOT touch any file
-outside its own `extensions/subs/<name>/`. This is a *policy* use of the
+outside its own `.saipen/extensions/subs/<name>/`. This is a *policy* use of the
 same `mode: read-only` value Core defines for a *capability* gap (missing
 filesystem write) -- the behavioral contract is identical either way, so
 the value is reused deliberately, not coincidentally.
@@ -48,7 +48,7 @@ the value is reused deliberately, not coincidentally.
 rule** -- there is no universal technical lock. The subSaipen's own
 instructions (this file) are the contract; if the platform running it
 offers real isolation (a separate working directory, a git worktree scoped
-to `extensions/subs/<name>/`), use it. Don't claim automated enforcement
+to `.saipen/extensions/subs/<name>/`), use it. Don't claim automated enforcement
 that isn't there.
 
 ## 2. OUTBOX format
@@ -112,15 +112,15 @@ invoked agent, not a daemon; nothing here needs liveness detection.
 
 ## 5. MANIFEST.md
 
-File: `extensions/subs/MANIFEST.md`. Just the list of subSaipen the main
+File: `.saipen/extensions/subs/MANIFEST.md`. Just the list of subSaipen the main
 agent should remember to check -- their own `STATE.md` already carries
 `phase`/`task`/`next_action`, no need to duplicate it here.
 
 ```markdown
 # SubSaipen Manifest
 
-- saiwiki -- extensions/subs/saiwiki/
-- saihunt -- extensions/subs/saihunt/
+- saiwiki -- .saipen/extensions/subs/saiwiki/
+- saihunt -- .saipen/extensions/subs/saihunt/
 ```
 
 Add a line on `spawn`, remove it on `clean`. That's the whole lifecycle.
@@ -134,14 +134,14 @@ staleness machinery needed here.
 
 ## 7. `saipen sub` commands (extension-defined, RFC § 1.9)
 
-Legal only while `extensions/subs/` exists in the project.
+Legal only while `.saipen/extensions/subs/` (or legacy root `extensions/subs/`) exists in the project.
 
 | Command | Does |
 |---|---|
 | `saipen sub list` | Read `MANIFEST.md`; for each entry, read its `STATE.md` and report `phase`/`task`. |
-| `saipen sub spawn <name>` | **First-run bootstrap, then spawn.** If this project has no `extensions/subs/` yet: copy `PROTOCOL.md`, `README.md`, `TEMPLATE/`, and an empty `_shared/inbox.md` from `<saipen_home>/extensions/subs/` (the path is already in `STATE.md`'s `saipen_home` field, RFC § 1.7 -- no manual copy needed, this IS the explicit ask that makes copying it in appropriate, unlike `saipen set`'s general no-auto-populate rule in RFC § 1.9). Then, every run: copy `TEMPLATE/` to `extensions/subs/<name>/`, set `agent: <name>` in its `STATE.md`, add a line to `MANIFEST.md` (creating it first if this was also the bootstrap run). |
+| `saipen sub spawn <name>` | **First-run bootstrap, then spawn.** If this project has no `.saipen/extensions/subs/` yet: copy `PROTOCOL.md`, `README.md`, `TEMPLATE/`, and an empty `_shared/inbox.md` from `<saipen_home>/extensions/subs/` (the SAIPEN home's own copy of this extension -- unaffected by where a consuming project attaches it; the home path is already in `STATE.md`'s `saipen_home` field, RFC § 1.7 -- no manual copy needed, this IS the explicit ask that makes copying it in appropriate, unlike `saipen set`'s general no-auto-populate rule in RFC § 1.9). Then, every run: copy `TEMPLATE/` to `.saipen/extensions/subs/<name>/`, set `agent: <name>` in its `STATE.md`, add a line to `MANIFEST.md` (creating it first if this was also the bootstrap run). |
 | `saipen sub collect` | Run the Handoff procedure (§ 4) against every active subSaipen. |
-| `saipen sub clean <name>` | Remove the `MANIFEST.md` line and the `extensions/subs/<name>/` folder -- only once its `BOARD.md` is empty and its `OUTBOX.md` has nothing `ready` left unreviewed. |
+| `saipen sub clean <name>` | Remove the `MANIFEST.md` line and the `.saipen/extensions/subs/<name>/` folder -- only once its `BOARD.md` is empty and its `OUTBOX.md` has nothing `ready` left unreviewed. |
 
 First `saipen sub spawn` in a project no `saipen_home` was ever recorded for (state written before v7.25.0, or a manual/degraded bootstrap)? Ask once -- `WAIT: path to the saipen clone to bootstrap subs from` -- never guess a path.
 

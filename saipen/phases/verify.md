@@ -2,7 +2,7 @@
 
 ## VERIFY -- does it work?
 
-`extensions/security/` present? Read it first -- its README states the
+`.saipen/extensions/security/` (or legacy root `extensions/security/`) present? Read it first -- its README states the
 scanners/constraints this repo requires before REVIEW (RFC § 1.9). Absent:
 skip, no overhead.
 

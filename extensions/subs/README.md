@@ -2,8 +2,8 @@
 
 Isolated, read-only research agents that run alongside the main agent on
 the same project -- they find things and propose things, they never edit
-the project themselves. Same role as `extensions/multi-agent/`,
-`extensions/security/`: a reference example under RFC § 1.9, not
+the project themselves. Same role as `extensions/security/`,
+`extensions/performance/`: a reference example under RFC § 1.9, not
 something the SAIPEN home reads on its own behalf.
 
 **Not yet field-tested.** Design is sound, nothing has run for real. Same
@@ -20,7 +20,7 @@ Findings leave through kitchen/OUTBOX.md -- the only door out.
 ## Structure
 
 ```
-extensions/subs/
+.saipen/extensions/subs/
 ├── MANIFEST.md         # which subSaipen exist
 ├── PROTOCOL.md          # the actual rules -- read this first
 ├── _shared/inbox.md     # non-critical findings, next round
@@ -28,22 +28,26 @@ extensions/subs/
 └── <name>/              # saiwiki, saihunt, ...
 ```
 
+Everything protocol-shaped a project carries lives under one `.saipen/`
+roof (v7.35.0). A project bootstrapped earlier may still carry this at
+root-level `extensions/subs/` -- equivalent, migrate when convenient.
+
 ## Quick start
 
 No manual copying -- one command, even in a project that has never seen
-`extensions/subs/` before:
+`.saipen/extensions/subs/` before:
 
 ```bash
 saipen sub spawn myagent
-# first time in this project: bootstraps extensions/subs/ itself from
+# first time in this project: bootstraps .saipen/extensions/subs/ itself from
 # saipen_home (STATE.md, RFC § 1.7) -- PROTOCOL.md, TEMPLATE/, MANIFEST.md
-# every time: extensions/subs/myagent/ created from TEMPLATE/, added to MANIFEST.md
+# every time: .saipen/extensions/subs/myagent/ created from TEMPLATE/, added to MANIFEST.md
 # open its STATE.md, set next_action; open BOARD.md, write first tickets
 ```
 
 Then open that folder in whichever agent you want running as `myagent`
 (Claude, Antigravity, Codex, OpenCode -- the protocol doesn't care which)
-and point it at `extensions/subs/myagent/PROTOCOL.md`. It works its own
+and point it at `.saipen/extensions/subs/myagent/PROTOCOL.md`. It works its own
 board, writes findings to its own `kitchen/OUTBOX.md`.
 
 `mode: read-only` is a contract the subSaipen is told to follow, not a
