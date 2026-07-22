@@ -532,3 +532,6 @@
 - 22.07.26 10:20 [E-530] [parent: E-529] [T-none] H: user -- перенеси гайды в отдельную папку, обнови ссылки, запушь
 - 22.07.26 10:25 [E-531] [parent: E-530] [T-none] RUN: git mv всех 33 GUIDE_XX.md (+ GUIDE_DED.md) в guides/, история сохранена; поправил ссылки в GUIDE.md (33-строчная таблица) и README.md (5 бейджей + таблица); grep на dangling GUIDE_XX.md старых путей -> 0
 - 22.07.26 10:28 [E-532] [parent: E-531] [T-none] RUN: STATE.md всё ещё antigravity-gemini live WAIT -- не трогаю, та же логика что E-529; оба валидатора PASS; ship -> 7.32.0
+- 22.07.26 10:35 [E-533] [parent: E-532] [T-none] H: user притащил reddit-комментарий -- "не вижу проблемы амнезии, у меня свой Obsidian vault + provenance logging"; попросил выжать зерно истины
+- 22.07.26 10:40 [E-534] [parent: E-533] [T-none] RUN: разбор -- он не опровергает проблему, он другая персона (уже решил её вручную дисциплиной). Реальный гэп: не сказано что .saipen/KNOWLEDGE/ уже Obsidian-совместим (голый markdown, нулевые доп-фичи нужны) -- добавил секцию в GUIDE.md; provenance logging уже покрыт DEC-таксономией, новую taxonomy НЕ завожу (closed enum, тот же барьер что весь сезон)
+- 22.07.26 10:42 [E-535] [parent: E-534] [T-none] RUN: CHANGELOG heading опечатка (# Changelog улетел вниз) поймана и починена до коммита; оба валидатора PASS; ship -> 7.32.1

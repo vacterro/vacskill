@@ -61,6 +61,11 @@ If you (or a previous agent session) left uncommitted changes sitting in the pro
 ## Recording decisions, not just rules
 `.saipen/KNOWLEDGE/` isn't only for "always use tabs" -- it's also the right place for actual architecture decisions, so they outlive any single agent's memory. Two accepted shapes: one running `decisions.md` you keep appending to, or numbered `ADR-001.md`, `ADR-002.md`... files, one immutable record per decision. Use whichever already fits how your team documents things.
 
+## Already keep an Obsidian vault or your own notes?
+SAIPEN doesn't compete with your existing system -- `.saipen/` is plain markdown by construction, so it's already Obsidian-compatible with zero setup. Open your project root as a vault and `.saipen/KNOWLEDGE/` shows up as a normal part of your graph: `[[wikilinks]]`, backlinks, your own frontmatter properties -- none of that is something the protocol polices, KNOWLEDGE/'s only real rule is "durable truth, not an event log." Don't want `.saipen/kitchen/` or `LOG.md`'s event stream cluttering search/graph view? Exclude them in Obsidian's settings -- KNOWLEDGE/ is the one folder actually meant to live in your notes.
+
+If your real project tracking already lives in your head and your own vault, that's fine -- SAIPEN's board/ticket machinery exists for what the *agent* needs to stay oriented session to session. It doesn't ask you to replace whatever discipline already works for you; it just means the agent stops being the one part of the system with no memory of its own.
+
 ## When the agent genuinely can't do something
 Before doing any work, the agent checks what the host actually supports -- is git installed, is there a shell, can it write files at all -- and records that as `mode` in `STATE.md`. No git: it won't attempt a push, it'll say so. No shell: it'll hand you the exact command to run yourself and wait for your report. That's also why you'll sometimes see `next_action: WAIT: <a specific question>` -- it's not stalling, it's asking the one thing only you can answer. Answer it in chat and it proceeds immediately.
 

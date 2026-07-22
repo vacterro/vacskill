@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.32.1 -- 2026-07-22 -- GUIDE.md: Obsidian/PKM compatibility made explicit (Reddit feedback)
+A user reported not seeing the "agent amnesia" problem at all -- they run a personal Obsidian vault with provenance logging and re-orient the agent from their own notes every session. Not a bug report, but a real signal: for engineers who already have PKM discipline, the unstated question is whether SAIPEN competes with that system or fits inside it.
+- It already fits with zero code changes -- `.saipen/KNOWLEDGE/` is plain markdown, so opening the project root as an Obsidian vault makes it a normal part of the graph (wikilinks, backlinks, frontmatter properties all untouched by the protocol; KNOWLEDGE/'s only real rule is "durable truth, not an event log"). That fact was simply never stated anywhere. New GUIDE.md section spells it out, plus how to exclude `kitchen/`/`LOG.md` from a vault's index if the event-stream noise isn't wanted.
+- Their "data provenance logging" is already covered by the existing `DEC` taxonomy (a decision entry is expected to carry its own "why") -- no new LOG taxonomy value added; RFC's RUN/DEC/H set stays closed, consistent with this session's standing bar for touching it.
+- Both validators green.
+
 ## 7.32.0 -- 2026-07-22 -- all 33 language guides moved into guides/
 - User's call: root directory had 33 `GUIDE_XX.md` files cluttering it alongside README/SPEC/LICENSE. Moved all of them (`GUIDE_AR.md` through `GUIDE_ZH.md`, plus `GUIDE_DED.md`) into a new `guides/` folder via `git mv`, preserving file history. `GUIDE.md` itself (the neutral hub, referenced directly by README and SPEC) stays at root.
 - Updated every link: `GUIDE.md`'s 33-entry language table and `README.md`'s 5 badge links + language table now all point at `guides/GUIDE_XX.md`. Grepped for dangling `](GUIDE_XX.md)` references after the move -- none found.
