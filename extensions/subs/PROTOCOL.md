@@ -139,9 +139,11 @@ Legal only while `extensions/subs/` exists in the project.
 | Command | Does |
 |---|---|
 | `saipen sub list` | Read `MANIFEST.md`; for each entry, read its `STATE.md` and report `phase`/`task`. |
-| `saipen sub spawn <name>` | Copy `TEMPLATE/` to `extensions/subs/<name>/`, set `agent: <name>` in its `STATE.md`, add a line to `MANIFEST.md`. |
+| `saipen sub spawn <name>` | **First-run bootstrap, then spawn.** If this project has no `extensions/subs/` yet: copy `PROTOCOL.md`, `README.md`, `TEMPLATE/`, and an empty `_shared/inbox.md` from `<saipen_home>/extensions/subs/` (the path is already in `STATE.md`'s `saipen_home` field, RFC § 1.7 -- no manual copy needed, this IS the explicit ask that makes copying it in appropriate, unlike `saipen set`'s general no-auto-populate rule in RFC § 1.9). Then, every run: copy `TEMPLATE/` to `extensions/subs/<name>/`, set `agent: <name>` in its `STATE.md`, add a line to `MANIFEST.md` (creating it first if this was also the bootstrap run). |
 | `saipen sub collect` | Run the Handoff procedure (§ 4) against every active subSaipen. |
 | `saipen sub clean <name>` | Remove the `MANIFEST.md` line and the `extensions/subs/<name>/` folder -- only once its `BOARD.md` is empty and its `OUTBOX.md` has nothing `ready` left unreviewed. |
+
+First `saipen sub spawn` in a project no `saipen_home` was ever recorded for (state written before v7.25.0, or a manual/degraded bootstrap)? Ask once -- `WAIT: path to the saipen clone to bootstrap subs from` -- never guess a path.
 
 ## 8. File shape for a subSaipen
 

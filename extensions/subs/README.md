@@ -30,9 +30,14 @@ extensions/subs/
 
 ## Quick start
 
+No manual copying -- one command, even in a project that has never seen
+`extensions/subs/` before:
+
 ```bash
 saipen sub spawn myagent
-# -> extensions/subs/myagent/ created from TEMPLATE/, added to MANIFEST.md
+# first time in this project: bootstraps extensions/subs/ itself from
+# saipen_home (STATE.md, RFC § 1.7) -- PROTOCOL.md, TEMPLATE/, MANIFEST.md
+# every time: extensions/subs/myagent/ created from TEMPLATE/, added to MANIFEST.md
 # open its STATE.md, set next_action; open BOARD.md, write first tickets
 ```
 

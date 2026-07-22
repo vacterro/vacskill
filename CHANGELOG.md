@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.33.1 -- 2026-07-22 -- saipen sub spawn bootstraps itself, no manual copy
+User asked whether spawning a subSaipen in a new project requires manually copying `extensions/subs/` in first. It did -- real friction, easily closed: the agent already knows `saipen_home` (`STATE.md`, RFC § 1.7). `saipen sub spawn <name>` now bootstraps `extensions/subs/` from there on first use in a project (copies `PROTOCOL.md`/`README.md`/`TEMPLATE/`/`_shared/inbox.md`), then spawns the named subSaipen -- one command from a cold project, same command either way. Explicitly not a violation of RFC § 1.9's "don't auto-populate extensions/" rule -- that rule is about *silent* population `saipen set` never does; this is the *explicit* ask a user makes by typing `spawn` in the first place. No `saipen_home` recorded yet (pre-v7.25.0 state, or degraded bootstrap)? Ask once for the clone path, never guess.
+
 ## 7.33.0 -- 2026-07-22 -- extensions/subs/: read-only research subagents (design pass + build)
 User handed over a same-day draft (`PLAN.md`/`PROTOCOL.md`/`README.md`/`TEMPLATE/`) for a new extension: isolated, read-only "subSaipen" agents that research the main project in parallel and hand back structured findings. Reviewed it like every other new-protocol-surface proposal this session -- verified against RFC before building, not transcribed:
 
