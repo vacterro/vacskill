@@ -1,7 +1,7 @@
 ---
 phase: PLAN
 task: none
-next_action: "read the main project's README/SPEC/RFC/GUIDE, plan wiki pages on BOARD.md"
+next_action: "crew adopt (crew.md): take the top ## TODO wiki ticket -> draft the page into kitchen/ from the main project READ-ONLY -> hand off page-ready content via kitchen/OUTBOX.md -> next. Never write the main tree."
 blocker: none
 agent: saiwiki
 saipen_version: 7

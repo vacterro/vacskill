@@ -84,5 +84,23 @@ saipen sub collect
 | `saipen sub spawn <name>` | Create a new subSaipen from `TEMPLATE/`. |
 | `saipen sub collect` | Process every subSaipen's `OUTBOX.md`. |
 | `saipen sub clean <name>` | Remove a finished subSaipen. |
+| `<subname>` (bare, e.g. `saihunt`) | Adopt that role and start working -- one word (crew, `crew.md`). |
+| `saipen crew` | Show the 3-window crew layout + the one command per window. |
+
+## Crew -- run three at once (`crew.md`)
+
+You dig the tunnel (the Core agent); two workers set the beams behind you
+(saihunt finds bugs, saipython fixes tails). One command per window:
+
+```
+window 1:  saipen continue      # Core, the writer
+window 2:  saihunt              # sensor -- spawns+adopts, hunts on loop
+window 3:  saipython            # fixer -- spawns+adopts, patches via OUTBOX
+```
+
+One-click launcher: `bootstrap/saipen_crew.bat` (Windows) /
+`bootstrap/saipen_crew.sh` (Unix) opens all three. Collect the workers from
+the Core window any time with `saipen sub collect`. Full contract, roles,
+pitfall->mechanism table, and the zone/handoff conventions: **`crew.md`**.
 
 Full rules, OUTBOX format, ticket namespace -- `PROTOCOL.md`.

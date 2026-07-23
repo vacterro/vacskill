@@ -2,6 +2,19 @@
 
 > Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md) -- this file keeps the most recent ~10.
 
+## 7.56.0 -- 2026-07-24 -- saicrew: run a 3-agent crew with one command each (bonus, zero Core change)
+
+Read the operator's `thoughts/` on running subSaipens as real-time workers and built exactly that -- as a pure bonus layer. Not one RFC rule, phase doc, `validate.py` field, or schema was touched: the crew is assembled entirely from mechanisms Core already ships (subSaipens, OUTBOX, claim locks, the safety valve, `saipen sub` commands).
+
+The picture: you dig the tunnel (the Core agent, `mode: full`, the only writer of real code), and two workers set the beams behind you -- **saihunt** (the sensor, finds bugs) and **saipython** (the fixer, clears the tail from its `pen/`). Both read-only toward the project; their only door out is the OUTBOX; Core pulls through `saipen sub collect`.
+
+- **`extensions/subs/crew.md`** -- the squad contract: three roles + zones, the one-command-per-window flow, the auto-collect gate, graceful degradation, and a pitfall->mechanism table mapping every classic multi-agent failure (amnesia, two agents on one ticket, zombie tickets, fake green, runaway autonomy, dirty-tree panic, stale patches, valve pile-up) to the Core mechanism that already kills it. Zone/done_by/delegation ride as **description tags** (`[zone: src/auth/**]`), never new `|` pipe-fields -- keeping `validate.py`'s `KNOWN_FIELDS` and Core untouched.
+- **One-command role adoption** (`extensions/subs/PROTOCOL.md` § 7) -- a bare subSaipen name (`saihunt`, `saipython`, `saiwiki`) spawns-if-needed, *becomes* that sub (reads its own STATE/BOARD, never the main project's), and starts its loop. Type one word -> the agent is that worker and working. `saipen crew` prints the layout.
+- **`bootstrap/saipen_crew.bat` / `saipen_crew.sh`** -- one click opens three terminals, each with its command pre-typed.
+- The three example subs' `STATE.md` `next_action` now auto-start their own cycle on adoption; crew registered in MANIFEST, subs README, and the injector's global block.
+
+Possible without touching Core because the subSaipen extension (§ 1.9) was built for exactly this -- it layers on top, it never relaxes what Core requires. `tools/validate.py` green (16 phases, 13 manifest files, 3 subs -- all unchanged).
+
 ## 7.55.0 -- 2026-07-23 -- ergonomics batch: BOOT kernel, human-digest, human_note, guide pointers
 
 The "10 seconds per session" pass -- everything here cuts what a human or a cold agent has to read.
@@ -107,33 +120,6 @@ Continued triaging `tofix/saipen_audit2.md`/`saipen_audit3.md`. All five confirm
 - **The version guard (§ 1.2) was unimplementable as written** -- it compares a project's `saipen_version` against "what this agent's own copy of RFC.md defines as current," but RFC.md never states a version number anywhere. Clarified: `saipen_version` is the major-version integer only (the `X` in the `VERSION` file's `X.Y.Z`, e.g. `7` for `7.47.0`), and "current" means whatever that file reads right now -- RFC.md deliberately carries no version of its own.
 - **`done.md` repeated the exact bug class v7.18.0 already fixed once**: `saipen SYMPTOM` was taught as if it were literal command syntax, but it was never in § 1.10 and never will be -- pure informal shorthand ("describe a bug") that drifted into looking like a real command, the identical failure mode `saipen (hunt)`/`saipen (add)` had. Rewritten to describe the actual mechanism: a bug description is free text for `saipen goal <text>`.
 - **`done.md`'s "`saipen goal <text>` sets phase to PLAN" was incomplete**, not wrong -- `PLAN` is the transient first step, RFC § 2.4 has the agent proceed straight into `SCOUT` for the first ticket without stopping. Could read as "ends up in `PLAN`, stays there." Clarified in the same line.
-
-Both validators green.
-
-## 7.46.0 -- 2026-07-23 -- VERIFY/REVIEW's SCOUT|BUILD targets explained, a false alarm laid to rest
-User brought two more external audits (`tofix/saipen_audit2.md`, 28 findings; `tofix/saipen_audit3.md`, a raw 120-observation reasoning dump that cut off mid-write). Triaged both against the live files rather than trusting either at face value -- most overlapped what v7.43.0-v7.45.0 already closed or what's already tracked in `BOARD.md`'s `## BLOCKED` (`T-127` covers the undocumented `DONE -> ADD` / `ADD -> HUNT` rows both audits also flagged).
-
-One claim was repeated independently by both audits: the transition table's `VERIFY -> REVIEW | SCOUT | BUILD | BLOCKED` row supposedly contradicts `CHANGELOG` v7.18.0's own record of narrowing that exact row to `REVIEW | BLOCKED` -- read as either a regression or a lying changelog. Checked v7.18.0's entry verbatim and the live `phases/verify.md`: not a regression. v7.18.0 removed a real bug (a failing ticket bouncing back to `BUILD`/`SCOUT` for a retry instead of hitting the hypothesis/fix-cycle cap). `verify.md`'s current `SCOUT`/`BUILD` targets serve a completely different, later-added purpose -- after the cap trips and the failing ticket moves to `## BLOCKED`, the agent picks up a *different* workable ticket, landing in `SCOUT` or `BUILD` for that one. Both audits saw only the table row, never `verify.md`'s actual text, and drew the wrong conclusion from a real but incomplete observation.
-
-Since two independent runs tripped on the identical misreading, added a permanent clarification directly at the transition table (`RFC.md` § 1.6) explaining what those targets actually mean and citing v7.18.0 by name, so the next audit -- human, model, or MARKHUNT -- doesn't have to rediscover this from scratch.
-
-Both validators green.
-
-## 7.45.0 -- 2026-07-23 -- MARKHUNT's own self-contradiction fixed at the root
-Continued the MARKHUNT backlog triage: the remaining two P0 findings, plus one that turned out to hit this session's own recent work directly.
-
-- **A genuine self-contradiction in `markhunt.md` itself.** It claimed completion "always halts one turn for the user, even mid-`goal_mode`" -- but transitioning to `DONE` with `goal_mode: true` would let `done.md`'s existing Goal-Mode-Empty-Board step auto-proceed straight to `HUNT` regardless, exactly the silent continuation MARKHUNT was supposed to prevent. Fixed at the root, not by patching the assertion: `done.md`'s own step now has an explicit exception -- any `[MARKHUNT]`-tagged ticket sitting in `## BLOCKED` blocks the auto-`HUNT` cascade until triaged out. `markhunt.md`'s text now points at this real mechanism instead of just asserting the halt happens.
-- **`BLOCKED`'s dual meaning** (`## BLOCKED` on `BOARD.md` vs session-level `STATE.phase: BLOCKED`) is real, but the audit's own suggested fix -- rename one of the two -- was disproportionate: a full rename ripples through the phase enum, both validators, the schema, every phase doc, templates, fixtures, and any project's own already-existing `STATE.md` files. Applied a lighter fix: the transition table's own intro now states explicitly, right where the ambiguous bare word first appears, that `BLOCKED` there is always the session-level state.
-- **MARKHUNT's own thoroughness self-test (lacking a hash-match-style hard verification the way HUNT has one) was deliberately deferred**, not rushed -- it needs real design (what a completeness manifest would actually record, what `VALIDATE` would cross-check it against) rather than a quick doc-sync patch. Left in `## BLOCKED` with an explicit "needs real design" note.
-- Cleaned up a duplicate ticket ID a concurrent edit introduced (the ongoing translate session finishing its final waves happened to resurrect an already-superseded, already-buggy copy of `T-115` back into `## TODO`) -- removed only the stale duplicate, left the legitimate concurrent work untouched.
-
-Both validators green.
-
-## 7.44.0 -- 2026-07-23 -- "BOARD.md is empty" unified to "no open TODO tickets" everywhere
-Continued triaging the MARKHUNT backlog (`BOARD.md`'s `## BLOCKED`), picking up the remaining P0 and its closest relatives.
-
-- **RFC § 2.1's own preamble contradicted its own HUNT bullet two lines down.** The section's opening line and its ZERO-PROMPT AUTO-TRANSITION bullet both said "`BOARD.md` is empty" -- but the HUNT bullet right below already correctly said "no open `TODO` tickets without blockers" (fixed in `done.md`/`hunt.md` back in v7.40.0, never back-ported to § 2.1's own preamble). `DONE`/`BLOCKED` tickets sitting on the board don't block Maintenance; only open `TODO` does -- an agent reading only the preamble could reasonably conclude otherwise. Unified both to the precise phrasing. README's two "Board empty?" mentions softened to match, same meaning, lighter touch for prose that was never meant to be normative-precise anyway.
-- **RFC § 1.2's `WAIT:` list didn't cover `BLOCKED`'s own documented use of it.** Five legal categories were listed (manual-verify, destructive-op, first-publish, user brake, INIT bootstrap) -- but `phases/blocked.md` has always instructed asking the user via `next_action: WAIT: <question>` when the session is stuck on a credential or decision, a sixth category RFC never actually listed. A cold agent reading § 1.2 in isolation had no textual basis for `blocked.md`'s own instruction. Added it as the sixth legal category, same "concrete question, not a vague one" constraint as the other five.
 
 Both validators green.
 

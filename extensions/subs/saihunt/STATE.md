@@ -1,7 +1,7 @@
 ---
 phase: PLAN
 task: none
-next_action: "read the main project, plan bug-hunt categories on BOARD.md"
+next_action: "crew adopt (crew.md): take the top ## TODO HUNT-### -> scan the main project READ-ONLY for that signal -> write findings to kitchen/OUTBOX.md (critical: true|false) -> next ticket. Never write the main tree."
 blocker: none
 agent: saihunt
 saipen_version: 7

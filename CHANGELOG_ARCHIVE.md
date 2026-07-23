@@ -2,6 +2,34 @@
 
 Older entries sealed from CHANGELOG.md (newest kept there). Append-only history, newest-top.
 
+## 7.46.0 -- 2026-07-23 -- VERIFY/REVIEW's SCOUT|BUILD targets explained, a false alarm laid to rest
+User brought two more external audits (`tofix/saipen_audit2.md`, 28 findings; `tofix/saipen_audit3.md`, a raw 120-observation reasoning dump that cut off mid-write). Triaged both against the live files rather than trusting either at face value -- most overlapped what v7.43.0-v7.45.0 already closed or what's already tracked in `BOARD.md`'s `## BLOCKED` (`T-127` covers the undocumented `DONE -> ADD` / `ADD -> HUNT` rows both audits also flagged).
+
+One claim was repeated independently by both audits: the transition table's `VERIFY -> REVIEW | SCOUT | BUILD | BLOCKED` row supposedly contradicts `CHANGELOG` v7.18.0's own record of narrowing that exact row to `REVIEW | BLOCKED` -- read as either a regression or a lying changelog. Checked v7.18.0's entry verbatim and the live `phases/verify.md`: not a regression. v7.18.0 removed a real bug (a failing ticket bouncing back to `BUILD`/`SCOUT` for a retry instead of hitting the hypothesis/fix-cycle cap). `verify.md`'s current `SCOUT`/`BUILD` targets serve a completely different, later-added purpose -- after the cap trips and the failing ticket moves to `## BLOCKED`, the agent picks up a *different* workable ticket, landing in `SCOUT` or `BUILD` for that one. Both audits saw only the table row, never `verify.md`'s actual text, and drew the wrong conclusion from a real but incomplete observation.
+
+Since two independent runs tripped on the identical misreading, added a permanent clarification directly at the transition table (`RFC.md` § 1.6) explaining what those targets actually mean and citing v7.18.0 by name, so the next audit -- human, model, or MARKHUNT -- doesn't have to rediscover this from scratch.
+
+Both validators green.
+
+## 7.45.0 -- 2026-07-23 -- MARKHUNT's own self-contradiction fixed at the root
+Continued the MARKHUNT backlog triage: the remaining two P0 findings, plus one that turned out to hit this session's own recent work directly.
+
+- **A genuine self-contradiction in `markhunt.md` itself.** It claimed completion "always halts one turn for the user, even mid-`goal_mode`" -- but transitioning to `DONE` with `goal_mode: true` would let `done.md`'s existing Goal-Mode-Empty-Board step auto-proceed straight to `HUNT` regardless, exactly the silent continuation MARKHUNT was supposed to prevent. Fixed at the root, not by patching the assertion: `done.md`'s own step now has an explicit exception -- any `[MARKHUNT]`-tagged ticket sitting in `## BLOCKED` blocks the auto-`HUNT` cascade until triaged out. `markhunt.md`'s text now points at this real mechanism instead of just asserting the halt happens.
+- **`BLOCKED`'s dual meaning** (`## BLOCKED` on `BOARD.md` vs session-level `STATE.phase: BLOCKED`) is real, but the audit's own suggested fix -- rename one of the two -- was disproportionate: a full rename ripples through the phase enum, both validators, the schema, every phase doc, templates, fixtures, and any project's own already-existing `STATE.md` files. Applied a lighter fix: the transition table's own intro now states explicitly, right where the ambiguous bare word first appears, that `BLOCKED` there is always the session-level state.
+- **MARKHUNT's own thoroughness self-test (lacking a hash-match-style hard verification the way HUNT has one) was deliberately deferred**, not rushed -- it needs real design (what a completeness manifest would actually record, what `VALIDATE` would cross-check it against) rather than a quick doc-sync patch. Left in `## BLOCKED` with an explicit "needs real design" note.
+- Cleaned up a duplicate ticket ID a concurrent edit introduced (the ongoing translate session finishing its final waves happened to resurrect an already-superseded, already-buggy copy of `T-115` back into `## TODO`) -- removed only the stale duplicate, left the legitimate concurrent work untouched.
+
+Both validators green.
+
+## 7.44.0 -- 2026-07-23 -- "BOARD.md is empty" unified to "no open TODO tickets" everywhere
+Continued triaging the MARKHUNT backlog (`BOARD.md`'s `## BLOCKED`), picking up the remaining P0 and its closest relatives.
+
+- **RFC § 2.1's own preamble contradicted its own HUNT bullet two lines down.** The section's opening line and its ZERO-PROMPT AUTO-TRANSITION bullet both said "`BOARD.md` is empty" -- but the HUNT bullet right below already correctly said "no open `TODO` tickets without blockers" (fixed in `done.md`/`hunt.md` back in v7.40.0, never back-ported to § 2.1's own preamble). `DONE`/`BLOCKED` tickets sitting on the board don't block Maintenance; only open `TODO` does -- an agent reading only the preamble could reasonably conclude otherwise. Unified both to the precise phrasing. README's two "Board empty?" mentions softened to match, same meaning, lighter touch for prose that was never meant to be normative-precise anyway.
+- **RFC § 1.2's `WAIT:` list didn't cover `BLOCKED`'s own documented use of it.** Five legal categories were listed (manual-verify, destructive-op, first-publish, user brake, INIT bootstrap) -- but `phases/blocked.md` has always instructed asking the user via `next_action: WAIT: <question>` when the session is stuck on a credential or decision, a sixth category RFC never actually listed. A cold agent reading § 1.2 in isolation had no textual basis for `blocked.md`'s own instruction. Added it as the sixth legal category, same "concrete question, not a vague one" constraint as the other five.
+
+Both validators green.
+
+
 ## 7.43.0 -- 2026-07-23 -- ADD's stale RFC pseudocode fixed; MARKHUNT's first real run triaged
 User brought an external audit (`tofix/saipen_audit1.md`) and asked to work through it starting with its biggest finding. Confirmed against the live files, not just the audit's claims:
 
