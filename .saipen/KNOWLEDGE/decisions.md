@@ -57,3 +57,12 @@
   stall -- the same evidence bar `goal_exit` must clear. (Legit grain taken:
   keep each phase doc individually tight; that is a size discipline, never a
   merge.)
+- Phase-collapse audits BARRED BY DEFAULT -- user ratification at v7.54.0
+  ("подобные аудиты на фазы воспрещаются, цельно всё"). The phase factoring
+  is settled: an incoming "collapse the phases" audit is rejected on sight
+  and the reviewer is pointed here, not handed a fresh analysis each time.
+  The one escape stays open on purpose -- a real trace showing the *current*
+  count actually costs tokens or causes a stall reopens it, nothing weaker.
+  Default-reject is discipline; a no-evidence-ever ban would be the same
+  rigidity the protocol rejects everywhere else. Treat everything else in
+  such an audit as noise.
