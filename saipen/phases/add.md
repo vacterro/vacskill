@@ -58,7 +58,11 @@ Activate this mode to systematically expand the software's capabilities. SAIPEN 
      implementation.
    - `goal_mode: true` and this wasn't the mature-exit case above? Either
      branch still completes this HUNT->ADD cycle -- increment
-     `goal_waves` by 1 and checkpoint STATE (RFC § 2.4). Hits the
+     `goal_waves` by 1 and checkpoint STATE (RFC § 2.4). This is the ONE
+     place this cycle's wave gets counted: if this branch was `RETURN PLAN`,
+     the `PLAN` run that follows MUST NOT increment `goal_waves` again for
+     the same cycle (`phases/plan.md`'s own carve-out) -- otherwise one
+     `HUNT`->`ADD`->`PLAN` chain double-counts. Hits the
      3-`goal_waves`/20-`goal_tickets` cap? STOP here instead of
      continuing -- full BOARD/STATE checkpoint, report progress, wait for
      the user to re-invoke `saipen goal`.

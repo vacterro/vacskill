@@ -1,5 +1,16 @@
 # Changelog
 
+## 7.51.0 -- 2026-07-23 -- audit5: four real RFC/phase-doc fixes, eight ghost findings verified already-closed
+
+Processed a fresh external audit (`tofix/saipen_audit5.md`, 13 findings). Most were written against an older snapshot -- eight were verified already-closed against the live files (grep, not memory): MARKHUNT's `## BLOCKED` (not TODO) recording, done.md's TODO-before-goal-HUNT ordering, the `saipen SYMPTOM` phantom command, VERIFY hysteresis, HUNT's `## BLOCKED` dedupe, translate.md's 32-language count, plan.md's size-gate "no correctness gate skipped" wording, and blocked.md's `-> DONE` path. Five were real; four fixed here, one ticketed.
+
+- **#6 stop vs bare `saipen goal` counter contradiction (RFC §1.10)** -- the real bug. §1.10 said any resume after `stop` continues "precisely as if the stop had never happened," lumping all three resume commands together, but §2.4 Entry has bare `saipen goal` reset `goal_waves`/`goal_tickets` to 0. Split explicitly: `saipen continue`/bare `saipen` preserve the counters; bare `saipen goal` deliberately resets them for a fresh safety-valve budget (that reset is the whole point of re-invoking it past a tripped valve). "As if the stop never happened" now scopes to the continue paths only.
+- **#5 read-only coverage of audit/validate phases (RFC §1.3)** -- MARKHUNT/PREPARE/VALIDATE quietly write (BOARD tickets, kitchen/handoff, structural repair). read-only now reaches them only in report-only form: run and report in chat, write nothing.
+- **#7 goal_waves double-count via ADD -> PLAN (RFC §2.4, plan.md, add.md)** -- ADD increments `goal_waves` at its RETURN; when that RETURN was `PLAN`, the following PLAN run incremented again for the same HUNT->ADD cycle. plan.md now skips its increment when entered directly from ADD's RETURN; add.md and §2.4 carry the matching note. Failed safe (over-counted, tripped early) but real.
+- **#8 version guard with no VERSION file (RFC §1.2)** -- previously undefined. Missing/unreadable/unparseable `VERSION` now degrades to `mode: read-only`, same as the stale-RFC end of the guard, instead of writing a guessed `saipen_version`.
+
+CONFORMANCE rows 30-32 added with matching `tests/scenarios/` READMEs. #13 (guide command-drift -- validate/plan/status/goal/stop/ship missing across the 33 guide files) is real onboarding debt but a 33-file chore -- ticketed T-153, not bundled here. `tools/validate.py` green.
+
 ## 7.50.0 -- 2026-07-23 -- T-148: markhunt/prepare synced across all 33 guide translations
 Closed out the two tickets this session opened on itself (T-147 shipped as part of v7.49.0's own batch is separate; this is T-148, the concrete follow-through T-124 pointed at).
 
