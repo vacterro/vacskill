@@ -5,7 +5,7 @@
   "properties": {
     "phase": {
       "type": "string",
-      "enum": ["INIT", "PLAN", "SCOUT", "BUILD", "VERIFY", "REVIEW", "SHIP", "DONE", "BLOCKED", "VALIDATE", "HUNT", "ADD", "CLEAN", "TRANSLATE"]
+      "enum": ["INIT", "PLAN", "SCOUT", "BUILD", "VERIFY", "REVIEW", "SHIP", "DONE", "BLOCKED", "VALIDATE", "HUNT", "MARKHUNT", "ADD", "CLEAN", "TRANSLATE", "PREPARE"]
     },
     "task": {
       "type": "string"

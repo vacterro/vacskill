@@ -20,7 +20,7 @@ if (-not (Test-Path ".saipen\STATE.md")) {
     exit 1
 }
 $stateContent = Get-Content ".saipen\STATE.md" -Raw
-Assert-Format ($stateContent -match "phase:\s+(INIT|PLAN|SCOUT|BUILD|VERIFY|REVIEW|SHIP|DONE|BLOCKED|VALIDATE|HUNT|ADD|CLEAN|TRANSLATE)") "STATE.md missing valid phase"
+Assert-Format ($stateContent -match "phase:\s+(INIT|PLAN|SCOUT|BUILD|VERIFY|REVIEW|SHIP|DONE|BLOCKED|VALIDATE|HUNT|MARKHUNT|ADD|CLEAN|TRANSLATE|PREPARE)") "STATE.md missing valid phase"
 Assert-Format ($stateContent -match "task:") "STATE.md missing task"
 Assert-Format ($stateContent -match "next_action:") "STATE.md missing next_action"
 Assert-Format ($stateContent -match "blocker:") "STATE.md missing blocker"

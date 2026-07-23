@@ -29,7 +29,12 @@ Activate this mode to systematically expand the software's capabilities. SAIPEN 
 
    Two implementation paths come out of this -- never a third:
    1. **Direct minimal implementation**: satisfies both `minimal_delta`
-      and `existing_design_language` -> ticket it, place in `TODO`, and `RETURN BUILD` (skip planning and scouting, just build it now).
+      and `existing_design_language` -> ticket it, then claim it immediately
+      (`TODO` -> `DOING`, checkbox `[/]`, `owner:`/`claim_time:` set, same
+      as `phases/scout.md`'s own claim step) before `RETURN BUILD` -- skip
+      planning and scouting, just build it now, but never leave the ticket
+      sitting unclaimed in `TODO` while `STATE.phase` has already moved to
+      `BUILD`.
    2. **Planned implementation**: a real gap exists but isn't obviously
       minimal or isn't obviously in the existing design language ->
       ticket it, `RETURN PLAN` or `SCOUT` (step 3 below), never build
@@ -71,4 +76,4 @@ Activate this mode to systematically expand the software's capabilities. SAIPEN 
    - *No Hardcoding*: prefer user-editable configuration (keybinds,
      controls, templates) over values baked into code.
 
-6. Every addition MUST pass full `VERIFY` before another `HUNT` begins. Only if `HUNT` is clean may another `ADD` begin.
+6. Tickets ADD creates follow the normal Core flow from here -- `BUILD -> VERIFY -> REVIEW -> SHIP -> DONE` (RFC § 1.6) -- ADD itself never implements anything directly or short-circuits past `BUILD`. `ADD` does not run on a fixed per-ticket cadence: it begins again only after a clean `HUNT` (RFC § 2.1), whenever that next occurs.

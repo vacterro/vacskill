@@ -139,6 +139,7 @@ The complete set of recognized user-facing commands. Phase-affecting ones are de
 - `saipen clean` -- explicit CLEAN trigger (`phases/clean.md`).
 - `saipen translate` -- isolated translation build (`phases/translate.md`).
 - `saipen markhunt` -- dry exhaustive audit, records findings to BOARD.md, never fixes anything (`phases/markhunt.md`).
+- `saipen prepare` -- package the current work (or a subSaipen's) for handoff to the next agent: freshness-check it against current HEAD, format the result, write injection instructions (`phases/prepare.md`).
 - `saipen ship` -- explicit SHIP trigger (`phases/ship.md`); SHIP also fires implicitly per that phase's other stated conditions.
 - `saipen validate` -- explicit VALIDATE trigger (`phases/validate.md`): run the conformance script, fix structural corruption if found (shape only -- a malformed line, missing frontmatter field, wrong heading; never a rewrite of `LOG.md`'s historical event content or any other file's real content), transition to `PLAN` or `SCOUT` per that phase's own rules.
 - `saipen status` -- MUST read `BOARD.md` and `STATE.md` and report current phase, the in-flight ticket, and what's queued next. MUST NOT write to any file or perform any work -- read-only, no exceptions, regardless of `goal_mode`.
@@ -173,10 +174,12 @@ When the Core state machine reaches a halt (no pending tickets), the Maintenance
   ]:
     IF exists(priority):
       IF priority == "bugfix":
-        RETURN HUNT
+        TICKET(priority)
+        RETURN SCOUT
       IF satisfies(minimal_delta) AND satisfies(existing_design_language):
-        IMPLEMENT(priority)
-        RETURN VERIFY
+        TICKET(priority)
+        CLAIM(ticket)
+        RETURN BUILD
       ELSE:
         TICKET(priority)
         RETURN PLAN_or_SCOUT
@@ -184,7 +187,16 @@ When the Core state machine reaches a halt (no pending tickets), the Maintenance
   RETURN DONE
   ```
   
-  After every ADD implementation, agent MUST transition to VERIFY, then HUNT. Only if HUNT is clean may another ADD begin.
+  `bugfix -> TICKET; RETURN SCOUT`, not `RETURN HUNT` -- ADD does not
+  improvise a fix inline, but bouncing back to HUNT is illegal too: if
+  HUNT's own 6 mechanical signals (`phases/hunt.md`) didn't already catch
+  this bug, sending ADD back to HUNT just re-derives the same "no new
+  signal" result and loops forever. ADD tickets it and claims it itself.
+  ADD-created tickets follow the normal Core flow from there:
+  `BUILD -> VERIFY -> REVIEW -> SHIP -> DONE` (§ 1.6) -- ADD itself never
+  implements anything directly or short-circuits to `VERIFY`. `ADD` may
+  begin again only after a clean `HUNT` (§ 2.1); it does not run on a
+  fixed cadence after every ticket.
 
 ### 2.3 The Industrial Completion Rule
 When the user requests one step of a well-known user workflow, the agent SHOULD evaluate whether the remaining steps are expected by modern software conventions -- this evaluation is a judgment call, not mechanical. If the evaluation concludes yes, the agent MUST implement the minimal coherent set rather than the isolated feature -- once triggered, this is a discipline requirement, not optional.

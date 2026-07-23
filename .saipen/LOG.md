@@ -619,3 +619,32 @@
 - 23.07.26 10:17 [E-616] [parent: E-615] [T-none] RUN: translate -> done @ea1de80
 - 23.07.26 10:28 [E-617] [parent: E-616] [T-none] DEC: saipen markhunt and saipen prepare phases injected into RFC, CONFORMANCE, and GUIDE per kitchen plan.
 - 23.07.26 10:28 [E-618] [parent: E-617] [T-none] RUN: ship v7.42.0 -> MARKHUNT and PREPARE phases released
+- 23.07.26 10:31 [E-619] [parent: E-618] [T-none] RUN: markhunt -> findings=3 blocked=3 dupes=0 cursor=done
+- 23.07.26 10:35 [E-620] [parent: E-619] [T-117] RUN: translate -> done
+- 23.07.26 10:37 [E-621] [parent: E-620] [T-none] RUN: translate -> done
+- 23.07.26 10:38 [E-622] [parent: E-621] [T-none] RUN: hunt -> clean @00c7557
+- 23.07.26 10:40 [E-623] [parent: E-622] [T-none] RUN: goal_mode -> mature exit
+
+- 23.07.26 10:41 [E-624] [parent: E-623] [T-none] RUN: markhunt -> findings=12 blocked=12 dup_skip=3 cursor=done source=tofix/saipen_audit1.md
+
+- 23.07.26 10:42 [E-625] [parent: E-624] [T-none] RUN: markhunt -> ai-agent logical analysis: findings=6 blocked=6 cursor=done source=deep-read
+
+- 23.07.26 10:43 [E-626] [parent: E-625] [T-none] RUN: markhunt -> pass-3 cross-validation: findings=1 blocked=1 dupes=0 cursor=done
+
+- 23.07.26 10:44 [E-627] [parent: E-626] [T-none] RUN: markhunt -> code-level scan: tests/validate.sh and .ps1 reject MARKHUNT/PREPARE phases (stale hardcoded list): findings=1 blocked=1 cursor=done
+
+- 23.07.26 10:45 [E-628] [parent: E-627] [T-none] RUN: markhunt -> extensions/ scan: state.schema.json phase enum missing MARKHUNT/PREPARE, also RFC §1.10 missing saipen prepare command: findings=1 blocked=1 cursor=done
+
+- 23.07.26 10:47 [E-629] [parent: E-628] [T-none] RUN: markhunt -> state desync detected: STATE.md stale vs BOARD.md, T-143 created: findings=1 blocked=1 cursor=done
+
+- 23.07.26 10:48 [E-630] [parent: E-629] [T-none] RUN: markhunt -> clean: no new findings: findings=0 cursor=done
+
+- 23.07.26 10:49 [E-631] [parent: E-630] [T-none] RUN: markhunt -> clean: no new findings: findings=0 cursor=done
+- 23.07.26 12:00 [E-632] [parent: E-631] [T-none] H: юзер принёс внешний аудит (tofix/saipen_audit1.md, Qwen), попросил разобрать по одному начиная с первого
+- 23.07.26 12:10 [E-633] [parent: E-632] [T-none] DEC: находка #1 (RFC §2.2 ADD псевдокод застрял до v7.40.0, до сих пор bugfix->RETURN HUNT/minimal_delta->IMPLEMENT->VERIFY) подтверждена по живому RFC.md:164-187. Находка #9 (ADD создаёт тикет в TODO, сразу RETURN BUILD, без claim) тоже подтверждена в add.md
+- 23.07.26 12:15 [E-634] [parent: E-633] [T-none] H: юзер признался что сам подшаманил пока я был в лимите -- добавил PREPARE фазу и довшил MARKHUNT в RFC (enum 16, table, §1.10, §2.1, CONFORMANCE row 27, GUIDE)
+- 23.07.26 12:20 [E-635] [parent: E-634] [T-none] RUN: перечитал RFC.md целиком заново, не по кэшу. MARKHUNT-вайринг юзера чистый и рабочий. Нашёл один пропуск в том же заходе: saipen prepare упомянут в §2.1/§1.10-преамбуле но своей строчки-команды в §1.10 и строчки в GUIDE не получил
+- 23.07.26 12:30 [E-636] [parent: E-635] [T-none] RUN: RFC §2.2 псевдокод синхронизирован с add.md (bugfix->TICKET;RETURN SCOUT, minimal_delta->TICKET;CLAIM;RETURN BUILD), "VERIFY then HUNT" заменено на настоящий BUILD->VERIFY->REVIEW->SHIP->DONE flow; add.md's minimal_delta ветка получила явный claim-шаг; saipen prepare добавлен в RFC §1.10 и GUIDE.md
+- 23.07.26 12:35 [E-637] [parent: E-636] [T-none] H: обнаружил что BOARD.md уже содержит 22 [MARKHUNT] BLOCKED тикета (T-122..T-143) -- реальный MARKHUNT прогон уже случился, проглотил весь Qwen-аудит плюс нашёл дополнительное (T-134..T-143)
+- 23.07.26 12:40 [E-638] [parent: E-637] [T-none] RUN: проверил T-141/T-142 (валидаторы и schema не знают MARKHUNT/PREPARE) -- подтверждено реальным grep, оба критичны (STATE.phase на эти фазы падал бы валидацию); починил tests/validate.sh, validate.ps1, extensions/schemas/state.schema.json. Проверил T-143 (STATE рассинхрон с BOARD) -- уже само разрешилось прогрессом перевода (task: T-119 совпадает с текущим DOING)
+- 23.07.26 12:45 [E-639] [parent: E-638] [T-none] RUN: словил свой же баг при закрытии тикетов -- необрамленный `|` в описании ловился валидатором как поле; переписал 6 DONE-строк без ведущего pipe. T-115/T-122/T-128/T-141/T-142/T-143 -> DONE; оба валидатора PASS; ship -> 7.43.0
