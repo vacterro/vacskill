@@ -94,14 +94,14 @@ keeps them unambiguous once folded into the main board.
 `## TODO`. The subSaipen reads its own board, picks the next ticket, same
 Pick Rule as Core (RFC § 1.6).
 
-**SubSaipen -> main agent**: finishes a ticket, writes the result into
-`kitchen/OUTBOX.md` as `status: ready`, moves the ticket to its own
-`## DONE`. Whenever the main agent chooses to check (during `HUNT`, at
-the top of `saipen continue`, or via `saipen sub collect`):
+**SubSaipen -> main agent**: finishes a ticket, and runs `saipen prepare` to package the result. `PREPARE` instructs the subSaipen to:
+1. Re-verify the findings against current HEAD (freshness).
+2. Write comprehensive injection instructions for the main agent.
+3. Write the combined result into `kitchen/OUTBOX.md` as `status: ready`, and move the ticket to its own `## DONE`.
+
+Whenever the main agent chooses to check (during `HUNT`, at the top of `saipen continue`, or via `saipen sub collect`):
 1. Read every active subSaipen's `OUTBOX.md`.
-2. For each `ready` entry: `critical: true` -> ticket on the main
-   `BOARD.md` immediately; `critical: false` -> append to
-   `_shared/inbox.md` for the next planning round.
+2. For each `ready` entry: `critical: true` -> ticket on the main `BOARD.md` immediately; `critical: false` -> append to `_shared/inbox.md` for the next planning round.
 3. Clear the entry from `OUTBOX.md` (or mark it reviewed) and append one
    `RUN:` line to the *main* `LOG.md` naming what happened to it --
    folding a subSaipen's finding into the project is exactly the kind of

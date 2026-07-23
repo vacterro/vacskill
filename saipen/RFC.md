@@ -83,7 +83,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 - **MANUAL-VERIFY**: If `mode: manual-verify`, `VERIFY` MUST block and await human confirmation. Agent MUST NOT auto-transition to `REVIEW`.
 - **DONE**: A ticket MUST NOT be marked `DONE` without a successful `VERIFY` (or human `MANUAL-VERIFY`).
 
-**Phase enum** (every legal `STATE.md phase:` value): `INIT`, `PLAN`, `SCOUT`, `BUILD`, `VERIFY`, `REVIEW`, `SHIP`, `DONE`, `BLOCKED`, `VALIDATE`, `HUNT`, `ADD`, `CLEAN`, `TRANSLATE`.
+**Phase enum**: `INIT`, `PLAN`, `SCOUT`, `BUILD`, `VERIFY`, `REVIEW`, `SHIP`, `DONE`, `VALIDATE`, `HUNT`, `ADD`, `CLEAN`, `TRANSLATE`, `PREPARE`, `BLOCKED`.
 
 **Transition table** -- a quick-reference index, not a second source of truth. Each phase's own `phases/*.md` is authoritative; if this table and a phase doc ever disagree, the phase doc wins and this table is the one that's wrong:
 
@@ -101,10 +101,11 @@ HUNT      -> ADD | PLAN | SCOUT | BLOCKED
 ADD       -> BUILD | PLAN | SCOUT | HUNT | DONE | BLOCKED
 CLEAN     -> DONE | BLOCKED
 TRANSLATE -> DONE | BLOCKED
+PREPARE   -> DONE | BLOCKED
 BLOCKED   -> PLAN | SCOUT | DONE
 ```
 
-- `CLEAN`, `TRANSLATE`, and `VALIDATE` are entered by explicit user command (`saipen clean` / `saipen translate` / `saipen validate`, § 1.10) from ANY phase -- they are not chain-specific like the rows above, the same way `saipen stop` isn't. Once entered, their own row above governs what they can transition to next.
+- `CLEAN`, `TRANSLATE`, `PREPARE`, and `VALIDATE` are entered by explicit user command (`saipen clean` / `saipen translate` / `saipen prepare` / `saipen validate`, § 1.10) from ANY phase -- they are not chain-specific like the rows above, the same way `saipen stop` isn't. Once entered, their own row above governs what they can transition to next.
 - `HUNT -> PLAN | SCOUT` (the findings case, distinct from the clean-board case which always goes to `ADD`) is stated explicitly in `phases/hunt.md` itself: findings that get ticketed go to `PLAN`, or straight to `SCOUT` for a small/obvious one.
 - `saipen status` MUST NOT change `phase` -- it is read-only (§ 1.10).
 - `saipen stop` checkpoints and halts; it is not itself a phase transition (§ 1.10).
