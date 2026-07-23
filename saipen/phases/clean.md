@@ -42,6 +42,14 @@ when it actually finished safely, not by default.
    - Delete temporary files, caches, and scaffold leftovers (e.g., `__pycache__`, `.tmp`, outdated `.bak` files).
    - Clear out empty directories.
    - **DO NOT** delete files in `.saipen/kitchen/` unless they are stale or the project is fully completed. Stale, concretely: the file's owning ticket is `DONE` and no longer on `BOARD.md` (its reasoning already folded into `LOG.md`/`CHANGELOG.md`), or its content is fully superseded by what those now record. `phases/hunt.md` checks this same definition every autonomous pass, not just when a user explicitly runs `saipen clean` -- kitchen/ MUST NOT wait indefinitely for a manual trigger to stop growing.
+   - **Seal an oversized `LOG.md`** (RFC § 1.2 segmentation): if the active
+     `.saipen/LOG.md` has grown past the soft cap (~300 lines / ~64 KB),
+     move its content verbatim into the next `.saipen/logs/LOG-<NNN>.md` and
+     start a fresh active `LOG.md` continuing the same `E-###` sequence.
+     Whole lines only, never a rewrite -- history is relocated, not edited.
+     This keeps the file agents actually read small enough to open and parse
+     on weak hardware; `tools/validate.py` reads the sealed segments + the
+     active tail as one sequence, so nothing about the graph checks changes.
 
 5. **Freshness Check:**
    - Ensure the repository is up to date with correct paths.

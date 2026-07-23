@@ -19,6 +19,7 @@ Activate this mode to systematically expand the software's capabilities. SAIPEN 
          RETURN SCOUT
        IF satisfies(minimal_delta) AND satisfies(existing_design_language):
          TICKET(priority)
+         CLAIM(ticket)
          RETURN BUILD
        ELSE:
          TICKET(priority)
@@ -53,9 +54,12 @@ Activate this mode to systematically expand the software's capabilities. SAIPEN 
      false`, clear `goal_waves`/`goal_tickets`, write the final report
      (tickets done/verified/shipped vs blocked, pre-existing backlog vs
      found along the way), then STATE -> `DONE`.
-   - Otherwise, create a `TODO` ticket in `BOARD.md` describing the
-     feature. Transition to `PLAN` or `SCOUT` phase to begin immediate
-     implementation.
+   - Otherwise, ticket it and proceed by the two implementation paths
+     above -- not `PLAN`/`SCOUT` unconditionally: a minimal-delta ticket in
+     the existing design language is claimed (`[/]`, `owner:`/`claim_time:`,
+     `TODO` -> `DOING`) and goes straight to `BUILD`; anything else goes to
+     `PLAN` or `SCOUT`. Never leave a ticket unclaimed in `TODO` while
+     `STATE.phase` has already moved to `BUILD`.
    - `goal_mode: true` and this wasn't the mature-exit case above? Either
      branch still completes this HUNT->ADD cycle -- increment
      `goal_waves` by 1 and checkpoint STATE (RFC § 2.4). This is the ONE

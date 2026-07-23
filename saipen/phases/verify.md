@@ -13,7 +13,12 @@ command>' and report pass or fail`. Proceed only once they confirm.
 
 Repo's own harness only (never invent one). Strongest available:
 parse -> import -> unit -> repro -> smoke.
-`verify:` is the minimum. LOG every result.
+`verify:` is the minimum -- a ticket's own `| verify:` field (RFC § 1.2,
+set at `phases/plan.md` time) is the concrete check this phase runs for it:
+a shell command -> execute it and LOG the result; a criterion in prose (no
+runnable command) -> satisfy it by the strongest harness available above and
+LOG how. Under `mode: manual-verify` the `verify:` command is exactly what
+you ask the user to run (the `WAIT:` above). LOG every result.
 New nontrivial logic -> repo-style test.
 Fixed bug -> regression test that failed pre-fix.
 GUI/env unverifiable -> LOG `MANUAL-VERIFY STEPS + EXPECTED`, never fake.

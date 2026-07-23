@@ -324,8 +324,15 @@ for tid, t in tickets.items():
 
 # ----------------------------------------------------------------------- LOG
 
-log_path = Path(".saipen/LOG.md")
-if log_path.is_file():
+# Segmented, append-only (RFC § 1.2): sealed older segments live in
+# .saipen/logs/LOG-NNN.md, the active tail in .saipen/LOG.md. Checks run over
+# the whole sequence in NNN order (segments first, active last) so E-### stays
+# globally monotonic and [parent: E-###] resolves across segment boundaries.
+log_seg_dir = Path(".saipen/logs")
+log_segments = sorted(log_seg_dir.glob("LOG-*.md")) if log_seg_dir.is_dir() else []
+active_log = Path(".saipen/LOG.md")
+log_files = [p for p in (log_segments + [active_log]) if p.is_file()]
+if log_files:
     # Date prefix optional to allow pre-STYLE.md history; new entries carry one.
     # [agent: <id>] is a MAY field for writer identity (RFC § 1.2, v7.27.0).
     LOG_RE = re.compile(
@@ -338,44 +345,47 @@ if log_path.is_file():
     seen_ids = {}
     prev_id = 0
     log_ok = True
-    for line_no, line in enumerate(log_path.read_text(encoding="utf-8-sig").splitlines(), 1):
-        if not line.strip() or line.startswith("#"):
-            continue
-        m = LOG_RE.match(line)
-        if not m:
-            fail(f"LOG.md:{line_no} violates the Event Graph skeleton "
-                 f"(RFC § 1.2): {line[:100]!r}")
-            log_ok = False
-            continue
-        eid, parent, ticket, taxonomy, content = m.groups()
-        eid = int(eid)
-        if eid in seen_ids:
-            fail(f"LOG.md:{line_no} E-{eid:03d} reused (first at line "
-                 f"{seen_ids[eid]}) -- Event IDs MUST be unique (RFC § 1.2)")
-            log_ok = False
-        elif eid < prev_id:
-            fail(f"LOG.md:{line_no} E-{eid:03d} after E-{prev_id:03d} -- IDs MUST "
-                 f"increase monotonically (RFC § 1.2)")
-            log_ok = False
-        seen_ids[eid] = line_no
-        prev_id = max(prev_id, eid)
-        if parent is not None and int(parent) not in seen_ids:
-            fail(f"LOG.md:{line_no} parent E-{int(parent):03d} doesn't exist "
-                 f"earlier in the file -- dangling parent breaks the graph "
-                 f"Recovery depends on (RFC § 1.2)")
-            log_ok = False
-        # History is append-only and immutable -- style drift in old lines
-        # can't be fixed without rewriting history, so it warns, not fails.
-        if taxonomy not in ("RUN", "DEC", "H"):
-            warn("log-taxonomy", f"LOG.md:{line_no} taxonomy {taxonomy!r} isn't "
-                 f"RUN/DEC/H -- non-conformant for new entries (RFC § 1.2)")
-        # T-none is a legal explicit no-ticket marker (RFC § 1.2, v7.24.0).
-        if ticket is not None and ticket != "T-none" \
-                and not re.fullmatch(r"T-\d+", ticket):
-            warn("log-ticket-ref", f"LOG.md:{line_no} ticket ref [{ticket}] "
-                 f"isn't numeric T-### or the literal T-none (RFC § 1.2)")
+    for lf in log_files:
+        for line_no, line in enumerate(lf.read_text(encoding="utf-8-sig").splitlines(), 1):
+            if not line.strip() or line.startswith("#"):
+                continue
+            loc = f"{lf.as_posix()}:{line_no}"
+            m = LOG_RE.match(line)
+            if not m:
+                fail(f"{loc} violates the Event Graph skeleton "
+                     f"(RFC § 1.2): {line[:100]!r}")
+                log_ok = False
+                continue
+            eid, parent, ticket, taxonomy, content = m.groups()
+            eid = int(eid)
+            if eid in seen_ids:
+                fail(f"{loc} E-{eid:03d} reused (first at "
+                     f"{seen_ids[eid]}) -- Event IDs MUST be unique (RFC § 1.2)")
+                log_ok = False
+            elif eid < prev_id:
+                fail(f"{loc} E-{eid:03d} after E-{prev_id:03d} -- IDs MUST "
+                     f"increase monotonically across segments (RFC § 1.2)")
+                log_ok = False
+            seen_ids[eid] = loc
+            prev_id = max(prev_id, eid)
+            if parent is not None and int(parent) not in seen_ids:
+                fail(f"{loc} parent E-{int(parent):03d} doesn't exist "
+                     f"earlier in the sequence -- dangling parent breaks the graph "
+                     f"Recovery depends on (RFC § 1.2)")
+                log_ok = False
+            # History is append-only and immutable -- style drift in old lines
+            # can't be fixed without rewriting history, so it warns, not fails.
+            if taxonomy not in ("RUN", "DEC", "H"):
+                warn("log-taxonomy", f"{loc} taxonomy {taxonomy!r} isn't "
+                     f"RUN/DEC/H -- non-conformant for new entries (RFC § 1.2)")
+            # T-none is a legal explicit no-ticket marker (RFC § 1.2, v7.24.0).
+            if ticket is not None and ticket != "T-none" \
+                    and not re.fullmatch(r"T-\d+", ticket):
+                warn("log-ticket-ref", f"{loc} ticket ref [{ticket}] "
+                     f"isn't numeric T-### or the literal T-none (RFC § 1.2)")
     if log_ok:
-        ok("LOG.md format valid (skeleton, E-### unique + monotonic, parents resolve)")
+        ok(f"LOG.md format valid (skeleton, E-### unique + monotonic, parents "
+           f"resolve; {len(log_files)} segment(s))")
 
 # ----------------------------------------------------------------- KNOWLEDGE
 

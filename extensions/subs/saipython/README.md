@@ -78,6 +78,34 @@ the whole footprint you are allowed.
   string-built SQL, `shell=True`, `eval`, or a hardcoded secret while
   "just fixing" something nearby.
 
+### Cheap by default -- CPU / RAM / disk friendly (non-negotiable)
+
+Assume the code runs on a potato -- an old Pentium, a cheap VPS, a phone.
+Every fix you ship MUST be at least as light as what it replaced, never
+heavier. This is a hard rule, not a nice-to-have:
+
+- **Never regress cost.** Measure or reason about the CPU, memory, and disk
+  cost of the line you touch. A "cleaner" fix that doubles allocations, adds
+  a quadratic loop, or reads a whole file into RAM to change one line is a
+  worse fix, not a better one -- reject it.
+- **Stream, don't slurp.** Iterate lazily (generators, `for line in f:`)
+  instead of loading whole files/collections into memory. Bounded memory
+  beats convenient memory.
+- **No accidental O(n^2).** Watch for nested scans, repeated `in` on a list
+  (use a `set`/`dict`), rebuilding a structure inside a loop. The tail bug
+  you fix must not smuggle in a hot-path blowup.
+- **Don't let data grow unbounded.** Logs, caches, temp files, in-memory
+  accumulators -- anything that grows forever is a bug even if it "works"
+  today. Cap it, rotate it, or stream it. (The protocol itself now segments
+  its own `LOG.md` for exactly this reason, RFC § 1.2 -- hold your fixes to
+  the same standard.)
+- **Small diffs are cheap diffs.** A minimal patch is easier to review, less
+  disk churn, faster to apply. Bloat is a cost too.
+
+If a correctness fix genuinely must cost more, say so plainly in the OUTBOX
+`details` with the numbers -- never sneak a regression in under "just
+fixing it."
+
 ---
 
 ## The teacher's charge: do it exactly, then exceed

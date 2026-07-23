@@ -5,7 +5,11 @@ Clean sweep. Skip ONLY if `.saipen/LOG.md`'s tail literally contains
 `git rev-parse --short HEAD` run right now -- compute the hash first,
 then grep for that exact string. Anything else -- no match, an older
 hash, no `hunt -> clean` line at all -- run the full sweep below. No
-exceptions, no substitute heuristic.
+exceptions, no substitute heuristic. **No git** (`mode: no-publish`, § 1.3,
+or no repo at all)? `git rev-parse` can't produce a hash, so the exact skip
+string can never be formed or matched -- which resolves the right way by
+construction: no match means never skip, always run the full sweep. That is
+the safe default, not a gap; a no-git host simply hunts every pass.
 
 **A real incident**: a weaker model, finding the prior hunt line stale,
 independently invented its own skip condition -- "no source files

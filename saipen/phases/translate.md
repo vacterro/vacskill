@@ -33,6 +33,14 @@ Deep, isolated translation preparation system. This phase runs in a strictly qua
      [parent: E-###] RUN: translate -> done @SHORT-HASH` (this exact text
      after the taxonomy, not a free-text summary) -- then transition the
      phase back to `DONE`.
+   - **Parallel dedicated instance (§ 1) only**: on completion, delete your
+     own `.saipen/saitranslate/STATE.md` -- it is transient run-state, not
+     the persistent bundle. The bundle in `.saipen/saitranslate/kitchen/`
+     stays (a future `ADD`/`PLAN` integrates it); the STATE cursor does not,
+     and no other phase reaps it, so leaving it strands a stale STATE the
+     next `saipen sub list`/scan trips over. A same-agent phase switch never
+     wrote a separate one (it uses the main `.saipen/STATE.md`), so this step
+     is a no-op there.
    - TRANSLATE completion does NOT integrate the bundle into the main
      software -- the bundle sits safely in `.saipen/saitranslate/kitchen/` until
      a future `ADD`/`PLAN` ticket formally integrates it, through the
