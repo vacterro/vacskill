@@ -1,5 +1,17 @@
 # Changelog
 
+## 7.50.0 -- 2026-07-23 -- T-148: markhunt/prepare synced across all 33 guide translations
+Closed out the two tickets this session opened on itself (T-147 shipped as part of v7.49.0's own batch is separate; this is T-148, the concrete follow-through T-124 pointed at).
+
+Checked all 33 `guides/GUIDE_XX.md` files individually rather than assuming uniformity -- turned out to matter: 29 had a plain 8-row table (set/continue/stop/status/goal/clean/translate/ship) with neither `saipen markhunt` nor `saipen prepare`; 4 (EN, RU, EE, DED -- the bonus "Дед" voice) already carried `markhunt` from an earlier manual pass but still lacked `prepare`. Added whichever was missing to each file:
+
+- The 29 plain files each gained both rows, inserted between `translate` and `ship`, in a short phrase matching that file's existing terseness.
+- EN/RU (rich 3-column persona-named tables) and EE/DED (simpler description-only) each gained a `prepare` row matching their own established style and row order -- RU's own markhunt-before-translate ordering was kept as-is rather than forced into GUIDE.md's canonical order.
+
+Deliberately did not backfill `validate`/`plan`/`status`/`goal` gaps noticed in several files along the way -- those predate this session's own markhunt/prepare additions to GUIDE.md and are a separate, pre-existing scope, not what T-124/T-148 were tracking.
+
+Both validators green.
+
 ## 7.49.0 -- 2026-07-23 -- last 11 MARKHUNT tickets closed + a fresh 26-finding subSaipen audit distilled
 Drove the MARKHUNT backlog to zero and processed a brand-new external audit (`tofix/SAIPEN_SUBSAIPEN_AUDIT.md`, 26 findings against `extensions/subs/PROTOCOL.md`) in the same pass. Both tofix/ audit files deleted once fully extracted, per standing permission.
 

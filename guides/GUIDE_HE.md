@@ -33,6 +33,8 @@ bash bootstrap/inject.sh                                            # macOS / Li
 | `saipen goal <text>` | עבור ליעד חדש |
 | `saipen clean` | ניקוי עמוק של המאגר |
 | `saipen translate` | בניית תרגום מבודדת ל-32 שפות |
+| `saipen markhunt` | ביקורת עמוקה וללא הגבלה -- רק מתעד ממצאים |
+| `saipen prepare` | אורז את העבודה למסירה לסוכן הבא |
 | `saipen ship` | הפעל תהליך שחרור |
 
 ## טוב לדעת

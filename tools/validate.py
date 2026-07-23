@@ -184,6 +184,40 @@ if state.get("goal_mode") is True:
     if not missing_counters:
         ok("goal_mode counters present")
 
+# ------------------------------------------------------------------ SUBSAIPEN
+
+# extensions/subs/PROTOCOL.md § 8: a subSaipen's STATE.md is the identical
+# shape to Core's own, checked against the same schema -- never a separate
+# restricted copy (that would relax Core's single source of truth for no
+# real gain; see PROTOCOL.md § 1's own "procedural, not technical lock"
+# stance on subSaipen enforcement generally).
+subs_root = Path(".saipen/extensions/subs")
+if not subs_root.is_dir():
+    subs_root = Path("extensions/subs")  # legacy root-level location (RFC § 1.9)
+
+if subs_root.is_dir():
+    sub_state_files = sorted(
+        p for p in subs_root.glob("*/STATE.md") if p.parent.name != "TEMPLATE")
+    subs_ok = True
+    for sp in sub_state_files:
+        sub_state, err = parse_frontmatter(sp.read_text(encoding="utf-8-sig"))
+        if sub_state is None:
+            fail(f"{sp} frontmatter: {err}")
+            subs_ok = False
+            continue
+        before_sub = len(failures)
+        check_against_schema(sub_state, schema, str(sp))
+        if sub_state.get("mode") != "read-only":
+            fail(f"{sp} mode is {sub_state.get('mode')!r}, MUST be read-only "
+                 f"(extensions/subs/PROTOCOL.md § 1)")
+        if sub_state.get("phase") in ("BUILD", "SHIP", "CLEAN", "TRANSLATE"):
+            fail(f"{sp} phase {sub_state.get('phase')} is unreachable under "
+                 f"mode: read-only (RFC § 1.3) -- a subSaipen MUST NOT enter it")
+        if len(failures) > before_sub:
+            subs_ok = False
+    if sub_state_files and subs_ok:
+        ok(f"subSaipen STATE.md shape valid ({len(sub_state_files)} active)")
+
 # --------------------------------------------------------------------- BOARD
 
 board_path = Path(".saipen/BOARD.md")

@@ -33,6 +33,8 @@ bash bootstrap/inject.sh                                            # macOS / Li
 | `saipen goal <text>` | Chuyển sang mục tiêu mới |
 | `saipen clean` | Dọn dẹp sâu kho lưu trữ |
 | `saipen translate` | Xây dựng bản dịch 32 ngôn ngữ cô lập |
+| `saipen markhunt` | Kiểm tra sâu, không giới hạn -- chỉ ghi nhận, không sửa |
+| `saipen prepare` | Đóng gói công việc để bàn giao cho agent tiếp theo |
 | `saipen ship` | Kích hoạt quy trình phát hành |
 
 ## Điều nên biết

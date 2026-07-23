@@ -34,6 +34,7 @@ bash bootstrap/inject.sh                                            # macOS / Li
 | `saipen clean` | Sunnib agenti tööruumi puhastama, vanu lõpetatud pileteid eemaldama, orbfaile kustutama, katkisi teid parandama ja kõike uuendama. |
 | `saipen translate` | Loob/uuendab 32-keelset tõlkepaketti isoleeritud kaustas `.saipen/saitranslate/`, puutumata teie lähtekoodi. |
 | `saipen markhunt` | Teostab projekti sügava auditi ja salvestab leiud BOARD.md faili ilma midagi parandamata. |
+| `saipen prepare` | Pakendab praeguse töö üleandmiseks järgmisele agendile, kontrollides selle värskust HEAD-i vastu. |
 | `saipen ship` | Käivitab otseselt väljalaske (versiooni uuendamine, muudatuste logi, silt, üleslaadimine) isegi väljaspool tavalist piletivoogu. |
 
 ## Kasulik teada

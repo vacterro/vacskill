@@ -35,6 +35,8 @@ bash bootstrap/inject.sh                                            # macOS / Li
 | `saipen goal <text>` | 转向新目标 |
 | `saipen clean` | 深度清理仓库 |
 | `saipen translate` | 隔离的32种语言翻译构建 |
+| `saipen markhunt` | 深度无上限审计 -- 只记录发现，不修复 |
+| `saipen prepare` | 打包工作，交接给下一个代理 |
 | `saipen ship` | 触发发布流程 |
 
 ## 须知

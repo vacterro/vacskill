@@ -35,6 +35,8 @@ bash bootstrap/inject.sh                                            # macOS / Li
 | `saipen goal <text>` | Yeni hedefe geç |
 | `saipen clean` | Depoyu temizle |
 | `saipen translate` | İzole 32 dilde çeviri derlemesi |
+| `saipen markhunt` | Derin, sınırsız denetim -- sadece bulguları kaydeder |
+| `saipen prepare` | İşi bir sonraki ajana devretmek için paketler |
 | `saipen ship` | Yayın akışını tetikle |
 
 ## Bilmekte fayda var

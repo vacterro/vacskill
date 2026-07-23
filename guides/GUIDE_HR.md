@@ -35,6 +35,8 @@ bash bootstrap/inject.sh                                            # macOS / Li
 | `saipen goal <text>` | Prebaci na novi cilj |
 | `saipen clean` | Očisti repozitorij |
 | `saipen translate` | Izolirana izrada prijevoda na 32 jezika |
+| `saipen markhunt` | Duboka, neograničena revizija -- samo bilježi nalaze |
+| `saipen prepare` | Pakira rad za predaju sljedećem agentu |
 | `saipen ship` | Pokreni tok izdanja |
 
 ## Dobro je znati
