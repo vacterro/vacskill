@@ -2,11 +2,9 @@
 ## DOING
 
 ## TODO
-
+- [ ] T-168 [P1] saitranslate README/doc drift: bundle has TWO systems -- flat README_XX (v7.55) + subdirs XX/{README,RFC,SPEC,STYLE,CONTRIBUTING,...} (full doc-set, RFC_XX 72KB heavily drifted). Re-scan exact drift, update canonical system for 32 langs + Дед, priority EN/RU/EE/JA -- fabricate nothing (translate.md §2/§3). RUN AS A DEDICATED/PARALLEL saitranslate INSTANCE, not the main agent under limits | verify: 32+Дед current and spot-checked
+- [ ] T-169 [P2] saitranslate reconcile: pick the canonical structure (flat README_XX vs the fuller subdirs XX/) and remove the other -- a real quality call, done inside the T-168 dedicated run | needs: T-168 | verify: single consistent structure in saitranslate/kitchen
 ## DONE
-- [x] T-163 extensions/subs/crew.md -- squad blueprint (3 roles + zones + pitfall->mechanism table + auto-collect gate + graceful degradation; zone/done_by as description-tags, never pipe-fields)
-- [x] T-164 bootstrap/saipen_crew.bat + saipen_crew.sh -- one-click 3-window launcher, command pre-typed per window
-- [x] T-165 subs/PROTOCOL.md §7 bare <subname> role-adoption + `saipen crew` (§1.9 vocab); saihunt/saipython/saiwiki STATE.md auto-start next_action
-- [x] T-166 crew registered: MANIFEST + subs/README + both injector global-blocks (bare-name adoption + saipen crew)
+- [x] T-136 CLOSED (was P3 design-debt, 8 versions): MARKHUNT got a manifest-driven closure self-test in markhunt.md (vectors 5/5, cursor:done, head_end==HEAD, findings==[MARKHUNT] tickets) before DONE + enriched auditable completion line; CONFORMANCE row 37 + stub. No validate.py change (self-enforced, no ceremony)
+- [x] T-167 saitranslate carve-out fix: removed 28 flat GUIDE_XX (duplicated hand-maintained guides/)
 ## BLOCKED
-- [ ] T-136 [P3] design-debt: MARKHUNT has no external completeness self-test | blocker: needs real design, not a rush -- HUNT has a hash-match skip check, MARKHUNT's progress file is self-reported; not blocking anything, P3 design-debt | verify: design a manifest-driven closure check before implementing

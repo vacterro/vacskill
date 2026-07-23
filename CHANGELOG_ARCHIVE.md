@@ -2,6 +2,18 @@
 
 Older entries sealed from CHANGELOG.md (newest kept there). Append-only history, newest-top.
 
+## 7.47.0 -- 2026-07-23 -- five more audit2/3 findings closed, each smaller than it first read
+Continued triaging `tofix/saipen_audit2.md`/`saipen_audit3.md`. All five confirmed real by direct grep against the live files, but each turned out narrower than the audit's own framing:
+
+- **`claim_time` never said UTC**, even though § 1.4 already requires it (`<ISO8601 UTC>`) for the exact same cross-timezone staleness-comparison reason `STATE.md`'s `updated` field states explicitly. § 1.2's own ticket-shape definition just didn't repeat it. Unified.
+- **§ 1.9's "schemas explicitly not read by any agent today" is false for `state.schema.json` specifically** -- `tools/validate.py` reads it directly, and `CONFORMANCE.md` § 1 already documented this. `board.schema.json`/`log.schema.json` remain accurately described as reference-only; added the one-file exception instead of weakening the blanket statement for all three.
+- **The version guard (§ 1.2) was unimplementable as written** -- it compares a project's `saipen_version` against "what this agent's own copy of RFC.md defines as current," but RFC.md never states a version number anywhere. Clarified: `saipen_version` is the major-version integer only (the `X` in the `VERSION` file's `X.Y.Z`, e.g. `7` for `7.47.0`), and "current" means whatever that file reads right now -- RFC.md deliberately carries no version of its own.
+- **`done.md` repeated the exact bug class v7.18.0 already fixed once**: `saipen SYMPTOM` was taught as if it were literal command syntax, but it was never in § 1.10 and never will be -- pure informal shorthand ("describe a bug") that drifted into looking like a real command, the identical failure mode `saipen (hunt)`/`saipen (add)` had. Rewritten to describe the actual mechanism: a bug description is free text for `saipen goal <text>`.
+- **`done.md`'s "`saipen goal <text>` sets phase to PLAN" was incomplete**, not wrong -- `PLAN` is the transient first step, RFC § 2.4 has the agent proceed straight into `SCOUT` for the first ticket without stopping. Could read as "ends up in `PLAN`, stays there." Clarified in the same line.
+
+Both validators green.
+
+
 ## 7.46.0 -- 2026-07-23 -- VERIFY/REVIEW's SCOUT|BUILD targets explained, a false alarm laid to rest
 User brought two more external audits (`tofix/saipen_audit2.md`, 28 findings; `tofix/saipen_audit3.md`, a raw 120-observation reasoning dump that cut off mid-write). Triaged both against the live files rather than trusting either at face value -- most overlapped what v7.43.0-v7.45.0 already closed or what's already tracked in `BOARD.md`'s `## BLOCKED` (`T-127` covers the undocumented `DONE -> ADD` / `ADD -> HUNT` rows both audits also flagged).
 

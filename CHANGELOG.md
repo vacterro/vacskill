@@ -2,6 +2,16 @@
 
 > Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md) -- this file keeps the most recent ~10.
 
+## 7.57.0 -- 2026-07-24 -- T-136 closed: MARKHUNT gets a manifest-driven closure self-test
+
+The last open Core ticket -- deferred as design-debt for eight versions because it needed real design, not a rush. MARKHUNT could sweep the surface and declare itself done on pure self-report; HUNT has an exact hash-match skip as a hard closure check, MARKHUNT had nothing analogous. Now it does.
+
+- `.saipen/kitchen/markhunt_progress.md` is now a **manifest**, not a vague note: `vectors:` (which of the 5 scope categories are done), `surface:` (dirs/globs swept), `findings:` (count), `cursor:`, and `head_start:`/`head_end:` (short HEAD hashes).
+- **Closure self-test** before `DONE`: `cursor: done`, all 5 vectors present, `head_end` == current HEAD (HEAD moved mid-pass = stale coverage, re-run the moved part), and `findings:` == the `[MARKHUNT]` tickets actually written. Any mismatch = not done, resolve it, never round up.
+- The completion line is enriched -- `markhunt -> N findings, V/5 vectors, @head` -- so coverage stays auditable from permanent `LOG.md` after `kitchen/` is swept; a human or VALIDATE cross-checks `N` against the board's `[MARKHUNT]` tickets and that `V` is 5. No `validate.py` change -- the closure is self-enforced and LOG-recorded, no busywork ceremony (exactly what the ticket cautioned against).
+
+CONFORMANCE row 37 + scenario stub. The board now holds only the two saitranslate tickets (T-168/T-169), both correctly deferred to a dedicated/parallel TRANSLATE run rather than fabricated under limits. `tools/validate.py` green.
+
 ## 7.56.0 -- 2026-07-24 -- saicrew: run a 3-agent crew with one command each (bonus, zero Core change)
 
 Read the operator's `thoughts/` on running subSaipens as real-time workers and built exactly that -- as a pure bonus layer. Not one RFC rule, phase doc, `validate.py` field, or schema was touched: the crew is assembled entirely from mechanisms Core already ships (subSaipens, OUTBOX, claim locks, the safety valve, `saipen sub` commands).
@@ -109,17 +119,6 @@ A fourth external audit (`tofix/saipen_audit3_aboutPhases.md`, cleaner and bette
 
 - Two false alarms: an "enum prose says 14-value but lists 15" off-by-one -- no such string exists anywhere in the live file; and a claim that duplicate `hunt(1).md`/`scout(1).md` files exist on disk -- they don't.
 - Two real, both simple missing scaffolding every *other* phase doc already has: `prepare.md` never required a completion `LOG` line (every other terminal phase -- `hunt.md`, `clean.md`, `translate.md`, `markhunt.md`, `ship.md` -- does); added, plus an explicit `BLOCKED` path for a failed preparation. `build.md` never mentioned `BLOCKED` at all despite RFC's own transition table listing `BUILD -> VERIFY | BLOCKED` -- added a one-line branch for an unrecoverable build error.
-
-Both validators green.
-
-## 7.47.0 -- 2026-07-23 -- five more audit2/3 findings closed, each smaller than it first read
-Continued triaging `tofix/saipen_audit2.md`/`saipen_audit3.md`. All five confirmed real by direct grep against the live files, but each turned out narrower than the audit's own framing:
-
-- **`claim_time` never said UTC**, even though § 1.4 already requires it (`<ISO8601 UTC>`) for the exact same cross-timezone staleness-comparison reason `STATE.md`'s `updated` field states explicitly. § 1.2's own ticket-shape definition just didn't repeat it. Unified.
-- **§ 1.9's "schemas explicitly not read by any agent today" is false for `state.schema.json` specifically** -- `tools/validate.py` reads it directly, and `CONFORMANCE.md` § 1 already documented this. `board.schema.json`/`log.schema.json` remain accurately described as reference-only; added the one-file exception instead of weakening the blanket statement for all three.
-- **The version guard (§ 1.2) was unimplementable as written** -- it compares a project's `saipen_version` against "what this agent's own copy of RFC.md defines as current," but RFC.md never states a version number anywhere. Clarified: `saipen_version` is the major-version integer only (the `X` in the `VERSION` file's `X.Y.Z`, e.g. `7` for `7.47.0`), and "current" means whatever that file reads right now -- RFC.md deliberately carries no version of its own.
-- **`done.md` repeated the exact bug class v7.18.0 already fixed once**: `saipen SYMPTOM` was taught as if it were literal command syntax, but it was never in § 1.10 and never will be -- pure informal shorthand ("describe a bug") that drifted into looking like a real command, the identical failure mode `saipen (hunt)`/`saipen (add)` had. Rewritten to describe the actual mechanism: a bug description is free text for `saipen goal <text>`.
-- **`done.md`'s "`saipen goal <text>` sets phase to PLAN" was incomplete**, not wrong -- `PLAN` is the transient first step, RFC § 2.4 has the agent proceed straight into `SCOUT` for the first ticket without stopping. Could read as "ends up in `PLAN`, stays there." Clarified in the same line.
 
 Both validators green.
 

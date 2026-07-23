@@ -77,17 +77,37 @@ out.
 **Long-running, so checkpoint like one.** An exhaustive, uncapped pass
 can outlast a single context window. Before that happens (a context
 budget warning, or after finishing each scope category above), overwrite
-`.saipen/kitchen/markhunt_progress.md` with what's scanned, what's left,
-and the running finding count -- overwrite, never append, it's a
-cursor, not a history (history is `LOG.md`, as always). Hitting a
+`.saipen/kitchen/markhunt_progress.md` -- and make it a **manifest**, not a
+vague note, because this file is MARKHUNT's own closure check (the thing
+HUNT gets from its exact hash-match skip and MARKHUNT historically lacked,
+leaving completeness pure self-report). It MUST carry: `vectors:` (which of
+the scope categories 1-5 above are actually done), `surface:` (the
+dirs/globs swept, so "what was in scope" is a recorded fact, not a feeling),
+`findings:` (running count), `cursor: partial | done`, and
+`head_start:`/`head_end:` (the `git rev-parse --short HEAD` at the pass's
+start and its end). Overwrite, never append -- it's a cursor, not a history
+(history is `LOG.md`, as always). Hitting a
 budget risk mid-pass: LOG a partial-completion line, leave
 `STATE.phase: MARKHUNT` (not `DONE`), `next_action: "saipen markhunt"`
 -- a successor resumes from the progress file's cursor instead of
 restarting the whole surface from zero.
 
-**Completion**: LOG one Event Graph line per RFC § 1.2 -- `- DATE
-[E-###] [parent: E-###] RUN: markhunt -> N findings recorded` -- then
-transition to `DONE`. `DONE`'s own existing priority logic
+**Completion -- the closure self-test (never declare done without it).**
+Before transitioning to `DONE`, verify the manifest actually closes:
+`cursor: done`; every scope category 1-5 present in `vectors:` (a missing
+vector means the surface is NOT exhausted -- keep going, don't round up);
+`head_end` equals the current `git rev-parse --short HEAD` (HEAD moved
+mid-pass -> the coverage is against a stale tree, re-run the moved part);
+and `findings:` equals the number of `[MARKHUNT]` tickets this pass actually
+wrote to `## BLOCKED`. Any mismatch means the pass isn't done -- resolve it,
+never paper over it. This is the manifest-driven closure HUNT gets for free
+from its hash line; MARKHUNT earns it by checking its own manifest. Only
+then LOG the completion, carrying the manifest summary into that permanent
+line so coverage stays auditable after `kitchen/` is swept: `- DATE [E-###]
+[parent: E-###] RUN: markhunt -> N findings, V/5 vectors, @head_end` (this
+enriched form, not a bare count). A later `VALIDATE` or a human cross-checks
+it trivially -- the line's `N` must match the `[MARKHUNT]` tickets on the
+board and `V` must be `5`. Then transition to `DONE`. `DONE`'s own existing priority logic
 (`phases/done.md`) takes over from there for whatever's actually in
 `## TODO` -- MARKHUNT's own `## BLOCKED` findings sit untouched until a
 human triages them. MARKHUNT never decides what gets worked next; it
