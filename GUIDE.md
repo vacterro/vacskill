@@ -10,7 +10,7 @@ Welcome to SAIPEN! If you're a human developer looking to tame your AI agents, y
 When you switch agents (or use the same agent on different days) working on a codebase, they tend to forget decisions, step on each other's toes, or hallucinate capabilities. SAIPEN acts like a tiny `.git` folder specifically for the AI agent's working memory.
 
 ## How it works
-1. **Global Install:** You run `bootstrap/inject.ps1` (or `.sh`) once on your machine. This teaches Claude, Gemini, Aider, and Antigravity what SAIPEN is.
+1. **Global Install:** You run `bootstrap/inject.ps1` (or `.sh`) once on your machine. This teaches Claude Code, Codex, Gemini, OpenCode, Aider, Antigravity, and any generic `~/.agents/skills` reader (FreeBuff, etc.) what SAIPEN is.
 2. **Project Init:** You open an agent in your project folder and type `saipen set` (or `saipen init`). The agent reads its global rules and creates a `.saipen/` directory in your current project.
 3. **Working Memory:** From now on, the agent stores its current task, progress board, and logs in `.saipen/STATE.md` and `.saipen/BOARD.md`.
 4. **Resuming:** You close your laptop, wait a week, open a completely different agent, and type `/saipen continue`. The new agent reads the `.saipen/` folder and resumes exactly where the old one left off.
@@ -32,6 +32,8 @@ While agents interact with the file system directly, you just type normal chat m
 | `saipen prepare` | Packages the current work (or a subSaipen's) for handoff -- freshness-checks it against HEAD, formats the result, writes injection instructions for the next agent. |
 | `saipen ship` | Explicitly triggers a release (version bump, changelog, tag, push) even outside the normal ticket flow. |
 | `saipen validate` | Runs the conformance check on `.saipen/` and fixes any structural corruption it finds. |
+
+**In development -- running a multi-agent crew.** `extensions/subs/` lets you spawn read-only helper agents (`saihunt` finds bugs, `saipython` fixes small ones) alongside your main agent, each in its own window, reporting back through an `OUTBOX.md`. Under active live testing right now, not yet verified end-to-end -- see `extensions/subs/crew.md` if you want to try it early.
 
 ## Multilingual Guides / Руководства на разных языках
 

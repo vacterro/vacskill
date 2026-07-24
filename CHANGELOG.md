@@ -2,6 +2,16 @@
 
 > Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md) -- this file keeps the most recent ~10.
 
+## 7.60.0 -- 2026-07-24 -- README/GUIDE freshness pass: platform list + honest saicrew mention
+
+User asked "is README current?" -- checked every claim against live RFC (core loop, HUNT/ADD, 3-wave/20-ticket cap, `sk-***` redaction) and all came back accurate. The gaps were in what's missing, not what's wrong:
+
+- **Platform list undercounted.** README and GUIDE.md both said the injector "teaches Claude Code, Gemini, OpenCode, Aider, Antigravity" -- five. `bootstrap/inject.ps1`/`.sh` actually cover seven: missing **Codex CLI** and the generic `~/.agents/skills` reader (**FreeBuff**, etc.). Both docs corrected.
+- **saicrew was invisible.** A fully-shipped feature set (v7.52.0-7.58.0: saipython, the crew bonus layer, BOOT.md) had zero mention anywhere in README or the GUIDE.md hub. Added one honest line to each, framed as **in development / under active live testing, not yet verified end-to-end** -- not oversold as finished. The four guides that already described the spawn mechanism in detail (DED/EE/EN/RU) were checked and already carried the right cautious tone ("brand new, zero battle scars yet") -- left untouched.
+- **Closure bar recorded on T-170**: the user set it explicitly -- this agent must personally run and verify the full 3-role mechanism end-to-end before the "in development" framing (in docs or on the board) upgrades to anything stronger. Recorded verbatim on the ticket so it survives any future checkpoint.
+
+`tools/validate.py` green.
+
 ## 7.59.0 -- 2026-07-24 -- no default haiku (again -- it snuck back in)
 
 Turns out this protocol killed a closing-haiku requirement once before (pre-v7: "Removed haiku requirement completely... Haiku deleted", CHANGELOG_ARCHIVE.md). It quietly came back anyway -- not as a rule, just as an unrecorded habit -- and ended up baked into a real shipped file: `extensions/subs/crew.md`'s closing verse, paid for on every load.
