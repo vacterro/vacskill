@@ -2,6 +2,26 @@
 
 > Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md) -- this file keeps the most recent ~10.
 
+## 7.62.0 -- 2026-07-24 -- `saipen sub sync` + mechanical extension discovery (T-170 b+c)
+
+Two of T-170's three remaining verify items, closed with real mechanisms rather than left as open questions.
+
+- **`saipen sub sync`** (PROTOCOL.md § 7): a project that spawned `extensions/subs/` before the SAIPEN home gained new shared vocabulary (the exact class of drift that broke bare-name recognition in a pre-v7.56.0 project) can now refresh just the shared reference files -- `PROTOCOL.md`/`README.md`/`crew.md`/`TEMPLATE/` -- from `saipen_home`, same freshness check `spawn` already does. It never touches a `<name>/` subSaipen's own `STATE.md`/`BOARD.md`/`LOG.md`/`kitchen/` -- by construction it never looks inside a `<name>/` folder at all, so live per-agent history stays exactly as protected as `spawn`'s own "refuse if already exists" rule already makes it.
+- **`BOOT.md`** -- loaded on every cold start, Core-only, zero crew-coupling -- now tells an agent facing an unrecognized single word (not a known § 1.10 command) to check `.saipen/extensions/*/PROTOCOL.md`/`README.md` for an RFC § 1.9 extension defining it, *before* guessing (FreeBuff's earlier "saipen"+"python" portmanteau) or declining outright (OpenCode's earlier flat refusal). This is the cheapest point in the whole read order to close that inferential gap -- the file every session reads first, generic enough to name §1.9's mechanism without naming crew specifically.
+
+Both re-deployed live via a second authorized injector run and verified by diff against the actual installed `~/.config/opencode/skills/saipen/` and `~/.agents/skills/saipen/` (FreeBuff's own read path) folders -- not just source-committed.
+
+T-170's third item (test against weak/free-tier models specifically) still needs an actual live re-test once FreeBuff's own uptime allows -- the user's closure bar (this agent personally verifies end-to-end before "in development" language changes) still governs. `tools/validate.py` green.
+
+## 7.61.0 -- 2026-07-24 -- worktree-aware `.saipen/` resolution + injector fix deployed live (T-170)
+
+A fresh OpenCode session reported "No `.saipen/` at project root, not initialized here" for a FastPrompter checkout that plainly has one. Root cause traced live, not guessed: `.saipen/` is gitignored by design (RFC's own local-only working-memory rule), and the platform (confirmed via `git worktree list`: FreeBuff creates `.freebuff/worktrees/<id>/` per thread) spawns each session into a **linked git worktree** -- which only receives tracked content, so `.saipen/` never arrives even though the main worktree has one. Verified directly: `git rev-parse --git-common-dir` from inside the linked worktree resolves to the main repo's real `.git`, and `.saipen/` is confirmed absent there, present at the real root. This is likely the actual explanation behind an earlier FreeBuff "No read access" report too, reframed -- not a permission block, a genuinely absent path.
+
+- **`RFC.md` § 1.1 and `BOOT.md`** now instruct checking `--git-common-dir` for a linked-worktree signal (a path ending `/.git`, not a bare `.git`) before concluding "not initialized" -- resolve the main worktree's root and look there instead of defaulting to `saipen set`, which would have silently created a second, disconnected `.saipen/` and orphaned the real continuation memory.
+- **Injector re-run, authorized and executed.** `bootstrap/inject.ps1` run against this machine and verified by diff (not trust): `extensions/subs/PROTOCOL.md` § 7 + `crew.md` are now byte-identical between source and the live `~/.claude/skills/saipen/`, `~/.config/opencode/skills/saipen/`, `~/.agents/skills/saipen/` folders; the new worktree-resolution text confirmed present in all three. The "global skill never carried extensions/subs/" failure from v7.58.0 is now actually closed on this machine, not just source-fixed.
+
+T-170 stays open -- live crew re-verification is still paused pending FreeBuff's own uptime, and the user's explicit closure bar (this agent must personally run and verify the full 3-role mechanism end-to-end) still governs when "in development" framing in the docs may change. `tools/validate.py` green.
+
 ## 7.60.0 -- 2026-07-24 -- README/GUIDE freshness pass: platform list + honest saicrew mention
 
 User asked "is README current?" -- checked every claim against live RFC (core loop, HUNT/ADD, 3-wave/20-ticket cap, `sk-***` redaction) and all came back accurate. The gaps were in what's missing, not what's wrong:
