@@ -129,9 +129,3 @@ parks itself `BLOCKED`, PROTOCOL.md § 2).
   by design. The OUTBOX + freshness check is the sync; Core's
   VERIFY/REVIEW/SHIP is the gate. That is the safety, not a limitation to
   paper over.
-
----
-
-*Three windows burn in the night --*
-*each one digs its own stretch,*
-*the tunnel is already glowing.*

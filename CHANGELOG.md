@@ -2,6 +2,15 @@
 
 > Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md) -- this file keeps the most recent ~10.
 
+## 7.59.0 -- 2026-07-24 -- no default haiku (again -- it snuck back in)
+
+Turns out this protocol killed a closing-haiku requirement once before (pre-v7: "Removed haiku requirement completely... Haiku deleted", CHANGELOG_ARCHIVE.md). It quietly came back anyway -- not as a rule, just as an unrecorded habit -- and ended up baked into a real shipped file: `extensions/subs/crew.md`'s closing verse, paid for on every load.
+
+- Removed the verse from `crew.md`.
+- Added an explicit `STYLE.md` line (next to the existing no-multi-language-garnish rule, same reasoning) so it doesn't quietly grow back a third time: no default closing haiku/verse in chat or in any shipped file, opt-in only when the user asks for one in the moment.
+
+`tools/validate.py` green (no structural surface touched).
+
 ## 7.58.0 -- 2026-07-24 -- crew dogfooding: three real spec gaps found and fixed live (T-170)
 
 Running an actual 3-agent crew test on FastPrompter (two free-tier weak models: FreeBuff/OpenCode Zen both on DeepSeek V4 Flash) surfaced real gaps no amount of internal review had caught. Each is fixed at the source, not patched around.
