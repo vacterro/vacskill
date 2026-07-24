@@ -2,6 +2,18 @@
 
 > Older entries live in [CHANGELOG_ARCHIVE.md](CHANGELOG_ARCHIVE.md) -- this file keeps the most recent ~10.
 
+## 7.64.0 -- 2026-07-24 -- T-169 closed: saitranslate structure unified, mechanically, zero fabrication
+
+`.saipen/saitranslate/kitchen/` carried two competing systems for a while -- 30 flat `README_XX.md` files and 32 per-language subdirectories with a fuller doc set. Reconciled with evidence, not a coin flip, and executed carefully since most of it is untracked by git (irreversible if botched).
+
+- Backed up the whole 3.2MB `kitchen/` to `.saipen/recovery/` before touching anything.
+- Subdirs won on scope: 5 real top-level docs per language (CODE_OF_CONDUCT/CONTRIBUTING/README/SECURITY/SPEC) vs flat's README-only, and correct coverage of `cs`/`hi`/`id` that flat lacked. But every sampled language's flat `README_XX.md` was fresher (v7.55.0) than its subdir counterpart (v7.41-42.0) -- so content came from flat, structure from subdirs.
+- Fixed a real bug found along the way: Estonian's subdir was named `ee` (the *country* code) instead of `et` (the correct *language* code) -- verified both copies were genuinely Estonian content before renaming the directory and all 7 files' suffixes, then replacing the stale README with flat's fresher one.
+- Deleted 64 out-of-scope files (`RFC_XX.md`/`STYLE_XX.md` per language -- neither lives at repo root, outside `translate.md`'s own defined scope) and the stale `README_en.md` mirror (English needs no translation).
+- Verified independently after the script ran, not trusting its own report: zero loose files at `kitchen/` root, all 32 subdirs match the exact 5-file shape, zero `RFC_`/`STYLE_` files left anywhere.
+
+Content itself is now one version behind current (`v7.55` vs `v7.63`) -- that refresh is T-168's job, reserved for a dedicated/parallel `saipen translate` run, never fabricated under the main session. `tools/validate.py` green (no Core surface touched).
+
 ## 7.63.0 -- 2026-07-24 -- BUILD gained its own LOG instruction (misdiagnosed as "RUN is ambiguous", it wasn't)
 
 A live FastPrompter session kept forgetting to LOG, got called out, and self-diagnosed: "RUN is semantically vague, I read it as 'whole session' not 'each discrete act,' AGENTS.md states the rule but has no enforcing mechanism" -- and proposed a new `DISCIPLINE.md` file to fix it.
